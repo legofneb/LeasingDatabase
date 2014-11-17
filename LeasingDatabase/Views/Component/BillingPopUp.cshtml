@@ -1,0 +1,228 @@
+﻿@{
+    ViewBag.Title = "PopUp";
+}
+
+@section extras{
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>	
+	<link href="~/Content/Dashboard/bootstrap-table.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="~/Content/Dashboard/site.css">
+	<script type="text/javascript">
+		$().ready(function () {
+			$(".navbar").remove();
+			$('body').css('padding-left', '0px');
+			$('body').css('padding-right', '0px');
+		});
+	</script>
+}
+
+@{ LeasingDatabase.Models.OrderModel Order = (LeasingDatabase.Models.OrderModel)ViewData["Order"];}
+
+<div class="container">	
+	<div class="row">
+		<div class="span6">
+			<div class="widget stacked widget-table action-table">
+					
+				<div class="widget-header">
+					<i class="icon-list"></i>
+					<h3>Full System Details</h3>
+				</div> <!-- /widget-header -->
+				
+				<div class="widget-content">
+					<table class="table table-condensed table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>Field</th>
+								<th>Information</th>
+							</tr>
+						</thead>
+						<tbody>
+                            <tr>
+                                <td>Term</td>
+                                <td>@ViewBag.Term</td>
+                            </tr>
+							<tr>
+								<td>Component 1</td>
+								<td>@ViewBag.Component1</td>
+							</tr>
+							<tr>
+								<td>Monthly Charge</td>
+								<td>@ViewBag.MonthlyCharge1</td>
+							</tr>
+							<tr>
+								<td>Component Cost</td>
+								<td>@ViewBag.ComponentCost1</td>
+							</tr>
+							<tr>
+								<td>Insurance Cost</td>
+								<td>@ViewBag.InsuranceCost1</td>
+							</tr>
+                            <tr>
+								<td>Warranty Cost</td>
+								<td>@ViewBag.WarrantyCost1</td>
+							</tr>
+                            <tr>
+								<td>Shipping Cost</td>
+								<td>@ViewBag.ShippingCost1</td>
+							</tr>
+                            <tr>
+								<td>Leasing Rate</td>
+								<td>@ViewBag.LeasingRate1</td>
+							</tr>
+                            <tr>
+								<td>Charged Rate</td>
+								<td>@ViewBag.ChargedRate1</td>
+							</tr>
+                            <tr>
+								<td>Tax</td>
+								<td>@ViewBag.Tax1</td>
+							</tr>
+                            <tr>
+								<td>IGF Rate</td>
+								<td>@ViewBag.IGFRate1</td>
+							</tr>
+                            <tr>
+								<td>IGF Insurance Rate</td>
+								<td>@ViewBag.IGFInsuranceRate1</td>
+							</tr>
+                            <tr>
+								<td>Insurance Rate</td>
+								<td>@ViewBag.InsuranceRate1</td>
+							</tr>
+                            <tr>
+								<td>Shipping Rate</td>
+								<td>@ViewBag.ShippingRate1</td>
+							</tr>
+                            <tr>
+								<td>Warranty Rate</td>
+								<td>@ViewBag.WarrantyRate1</td>
+							</tr>
+                            <tr>
+								<td></td>
+								<td></td>
+							</tr>
+
+                            <tr>
+								<td>Component 2</td>
+								<td>@ViewBag.Component2</td>
+							</tr>
+							<tr>
+								<td>Monthly Charge</td>
+								<td>@ViewBag.MonthlyCharge2</td>
+							</tr>
+							<tr>
+								<td>Component Cost</td>
+								<td>@ViewBag.ComponentCost2</td>
+							</tr>
+							<tr>
+								<td>Insurance Cost</td>
+								<td>@ViewBag.InsuranceCost2</td>
+							</tr>
+                            <tr>
+								<td>Warranty Cost</td>
+								<td>@ViewBag.WarrantyCost2</td>
+							</tr>
+                            <tr>
+								<td>Shipping Cost</td>
+								<td>@ViewBag.ShippingCost2</td>
+							</tr>
+                            <tr>
+								<td>Leasing Rate</td>
+								<td>@ViewBag.LeasingRate2</td>
+							</tr>
+                            <tr>
+								<td>Charged Rate</td>
+								<td>@ViewBag.ChargedRate2</td>
+							</tr>
+                            <tr>
+								<td>Tax</td>
+								<td>@ViewBag.Tax2</td>
+							</tr>
+                            <tr>
+								<td>IGF Rate</td>
+								<td>@ViewBag.IGFRate2</td>
+							</tr>
+                            <tr>
+								<td>IGF Insurance Rate</td>
+								<td>@ViewBag.IGFInsuranceRate2</td>
+							</tr>
+                            <tr>
+								<td>Insurance Rate</td>
+								<td>@ViewBag.InsuranceRate2</td>
+							</tr>
+                            <tr>
+								<td>Shipping Rate</td>
+								<td>@ViewBag.ShippingRate2</td>
+							</tr>
+                            <tr>
+								<td>Warranty Rate</td>
+								<td>@ViewBag.WarrantyRate2</td>
+							</tr>
+                            <tr>
+								<td></td>
+								<td></td>
+							</tr>
+
+                            <tr>
+								<td>Component 3</td>
+								<td>@ViewBag.Component3</td>
+							</tr>
+							<tr>
+								<td>Monthly Charge</td>
+								<td>@ViewBag.MonthlyCharge3</td>
+							</tr>
+							<tr>
+								<td>Component Cost</td>
+								<td>@ViewBag.ComponentCost3</td>
+							</tr>
+							<tr>
+								<td>Insurance Cost</td>
+								<td>@ViewBag.InsuranceCost3</td>
+							</tr>
+                            <tr>
+								<td>Warranty Cost</td>
+								<td>@ViewBag.WarrantyCost3</td>
+							</tr>
+                            <tr>
+								<td>Shipping Cost</td>
+								<td>@ViewBag.ShippingCost3</td>
+							</tr>
+                            <tr>
+								<td>Leasing Rate</td>
+								<td>@ViewBag.LeasingRate3</td>
+							</tr>
+                            <tr>
+								<td>Charged Rate</td>
+								<td>@ViewBag.ChargedRate3</td>
+							</tr>
+                            <tr>
+								<td>Tax</td>
+								<td>@ViewBag.Tax3</td>
+							</tr>
+                            <tr>
+								<td>IGF Rate</td>
+								<td>@ViewBag.IGFRate3</td>
+							</tr>
+                            <tr>
+								<td>IGF Insurance Rate</td>
+								<td>@ViewBag.IGFInsuranceRate3</td>
+							</tr>
+                            <tr>
+								<td>Insurance Rate</td>
+								<td>@ViewBag.InsuranceRate3</td>
+							</tr>
+                            <tr>
+								<td>Shipping Rate</td>
+								<td>@ViewBag.ShippingRate3</td>
+							</tr>
+                            <tr>
+								<td>Warranty Rate</td>
+								<td>@ViewBag.WarrantyRate3</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+</div>

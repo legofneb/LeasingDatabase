@@ -1,0 +1,8 @@
+﻿@model LeasingDatabase.Models.Grid.BillingCoordinatorJqGridModel
+@using Trirand.Web.Mvc
+
+@{
+    ViewBag.Title = "FOP";
+}
+
+@Html.Trirand().JQGrid(Model.OrdersGrid, "JQGrid1")

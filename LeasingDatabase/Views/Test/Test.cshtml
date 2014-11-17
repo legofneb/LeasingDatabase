@@ -1,0 +1,12 @@
+﻿@using aulease.Entities;
+@{
+    ViewBag.Title = "Test";
+}
+
+<h2>Test</h2>
+@{
+  foreach (Component comp in ViewBag.Comps)
+  {
+    @Html.Raw("<h3>" + comp.SerialNumber + "-" + comp.ReturnDate + "---- " + comp.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().EndDate + "</h3>");
+  }
+}

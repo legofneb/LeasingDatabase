@@ -1,0 +1,281 @@
+div {
+	display: block;
+}
+
+/*------------------------------------------------------------------
+[ Widget / .widget ]
+*/
+.widget {
+  position: relative;
+  clear: both;
+  width: auto;
+  margin-bottom: 2em;
+}
+.widget .widget-header {
+  position: relative;
+  height: 40px;
+  line-height: 40px;
+  background: #E9E9E9;
+  background: -moz-linear-gradient(top, #fafafa 0%, #e9e9e9 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fafafa), color-stop(100%, #e9e9e9));
+  background: -webkit-linear-gradient(top, #fafafa 0%, #e9e9e9 100%);
+  background: -o-linear-gradient(top, #fafafa 0%, #e9e9e9 100%);
+  background: -ms-linear-gradient(top, #fafafa 0%, #e9e9e9 100%);
+  background: linear-gradient(top, #fafafa 0%, #e9e9e9 100%);
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FAFAFA', endColorstr='#E9E9E9');
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#FAFAFA', endColorstr='#E9E9E9')";
+  border: 1px solid #D5D5D5;
+  -webkit-border-top-left-radius: 4px;
+  -webkit-border-top-right-radius: 4px;
+  -moz-border-radius-topleft: 4px;
+  -moz-border-radius-topright: 4px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  -webkit-background-clip: padding-box;
+}
+.widget .widget-header h3 {
+  top: 2px;
+  position: relative;
+  left: 10px;
+  display: inline-block;
+  margin-right: 3em;
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+  line-height: 18px;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+.widget .widget-header [class^="icon-"],
+.widget .widget-header [class*=" icon-"] {
+  display: inline-block;
+  margin-left: 13px;
+  margin-right: -2px;
+  font-size: 16px;
+  color: #555;
+  vertical-align: middle;
+}
+.widget .widget-content {
+  padding: 20px 15px 15px;
+  background: #FFF;
+  border: 1px solid #D5D5D5;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+.widget .widget-header + .widget-content {
+  border-top: none;
+  -webkit-border-top-left-radius: 0;
+  -webkit-border-top-right-radius: 0;
+  -moz-border-radius-topleft: 0;
+  -moz-border-radius-topright: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.widget.widget-nopad .widget-content {
+  padding: 0;
+}
+.widget .widget-content {
+  *zoom: 1;
+}
+.widget .widget-content:before,
+.widget .widget-content:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.widget .widget-content:after {
+  clear: both;
+}
+.widget.widget-table .widget-content {
+  padding: 0;
+}
+.widget.widget-table .table {
+  margin-bottom: 0;
+  border: none;
+}
+.widget.widget-table .table tr td:first-child,
+.widget.widget-table .table tr th:first-child {
+  border-left: none;
+}
+.widget.widget-plain {
+  background: transparent;
+  border: none;
+}
+.widget.widget-plain .widget-content {
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+.widget.widget-box .widget-content {
+  background: #E3E3E3;
+  background: #FFF;
+}
+
+.stacked {
+  position: relative;
+}
+.stacked:after,
+.stacked:before {
+  content: '';
+  position: absolute;
+  display: block;
+  height: 1px;
+  bottom: -2px;
+  left: 3px;
+  right: 3px;
+  background-color: #ffffff;
+  -webkit-border-radius: 0 0 3px 3px;
+  -moz-border-radius: 0 0 3px 3px;
+  border-radius: 0 0 3px 3px;
+  border: 1px solid #d3d3d3;
+  border-top: 0;
+}
+.stacked:before {
+  bottom: -4px;
+  left: 6px;
+  right: 6px;
+}
+
+.stats {
+	width: 100%;
+	display: table;
+	padding: 0 0 0 10px;
+	margin-top: .5em;
+	margin-bottom: 1.9em;
+}
+
+.stats .stat {
+	display: table-cell;
+	width: 28%;
+	vertical-align: top;
+	
+	font-size: 11px;
+	font-weight: bold;
+	color: #999;
+}
+
+.stat-value {
+	display: block;
+	margin-bottom: .55em;
+	
+	font-size: 30px;
+	font-weight: bold;
+	letter-spacing: -2px;
+	color: #444;
+}
+
+.shortcuts {
+  text-align: center;
+}
+.shortcuts .shortcut {
+  width: 110px;
+  display: inline-block;
+  padding: 12px 0;
+  margin: 0 5px 1em;
+  vertical-align: top;
+  text-decoration: none;
+  background: #F3F3F3;
+  background-color: #f8f8f8;
+  background-image: -moz-linear-gradient(top, #ffffff, #eeeeee);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#eeeeee));
+  background-image: -webkit-linear-gradient(top, #ffffff, #eeeeee);
+  background-image: -o-linear-gradient(top, #ffffff, #eeeeee);
+  background-image: linear-gradient(to bottom, #ffffff, #eeeeee);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffeeeeee', GradientType=0);
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+.shortcuts .shortcut .shortcut-icon {
+  width: 100%;
+  margin-top: .25em;
+  margin-bottom: .35em;
+  font-size: 32px;
+  color: #555;
+}
+.shortcuts .shortcut:hover {
+  background: #E8E8E8;
+  background-color: #f0f0f0;
+  background-image: -moz-linear-gradient(top, #fafafa, #e1e1e1);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fafafa), to(#e1e1e1));
+  background-image: -webkit-linear-gradient(top, #fafafa, #e1e1e1);
+  background-image: -o-linear-gradient(top, #fafafa, #e1e1e1);
+  background-image: linear-gradient(to bottom, #fafafa, #e1e1e1);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffafafa', endColorstr='#ffe1e1e1', GradientType=0);
+}
+.shortcuts .shortcut:hover .shortcut-icon {
+  color: #666;
+}
+.shortcuts .shortcut-label {
+  display: block;
+  font-weight: 400;
+  color: #666;
+}
+
+
+.news-items {
+	margin: 1em 0 0;
+}
+
+.news-items li {
+	display: table;
+	padding: 0 2em 0 1.5em;
+	padding-bottom: 1em;
+	margin-bottom: 1em;
+	
+	border-bottom: 1px dotted #CCC;
+}
+
+.news-items li:last-child { padding-bottom: 0; border: none; }
+
+.news-item-date {
+	display: table-cell;
+}
+
+.news-item-detail {
+	display: table-cell;
+}
+
+.news-item-title {
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.news-item-date {
+	width: 75px;
+	vertical-align: middle;
+	
+	text-align: right;
+}
+
+.news-item-day {
+	display: block;
+	margin-bottom: .25em;
+	
+	font-size: 24px;
+	color: #888;
+}
+
+.news-item-preview {
+	margin-bottom: 0;
+	
+	color: #777;
+}
+
+.news-item-month {
+	display: block;
+	padding-right: 1px;	
+	
+	font-size: 12px;
+	font-weight: 600;
+	color: #888;
+}
+
+.center {
+     float: none;
+     margin-left: auto;
+     margin-right: auto;
+}

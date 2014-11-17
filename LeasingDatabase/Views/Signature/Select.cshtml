@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Select appropriate Components";
+}
+
+@section extras {
+	<link href="~/Content/bootstrap-forms.css" rel="stylesheet" />
+	<link href="~/Content/Dashboard/bootstrap-button.css" rel="stylesheet" />
+}
+
+<div class="container">
+    @foreach (var group in ViewBag.Groups as List<aulease.Entities.SystemGroup>)
+    {
+        <div class="span3 well">
+            <h4>@group.Leases.OrderByDescending(n => n.Component.TypeId).First().StatementName</h4>
+            <ul>
+                <li>@group.Leases.OrderByDescending(n => n.Component.TypeId).First().Component.LeaseTag</li>
+                @if (group.Leases.Count > 1) { <li>@group.Leases.OrderByDescending(n => n.Component.TypeId).Skip(1).First().Component.LeaseTag</li> }
+                @if (group.Leases.Count > 2) { <li>@group.Leases.OrderByDescending(n => n.Component.TypeId).Skip(2).First().Component.LeaseTag</li> }
+            </ul>
+            <button class="btn btn-large btn-primary" data-toggle="button" value="@group.Id">Select</button>
+        </div>
+    }
+</div>
+<div class="container">
+    <div class="span3 well">
+<button class="btn btn-large btn-block btn-success" id="next">Next</button>
+        </div>
+    </div>
+
+@section scripts {
+    <script type="text/javascript">
+        $("#next").click(function () {
+            var array = $(".active");
+            var query = "";
+            var secondRun = false;
+            array.each(function (i, element) {
+                if (secondRun) {
+                    query = query + "&";
+                }
+
+                query = query + "Id=" + element.value;
+
+                secondRun = true;
+            });
+
+            location.href = "Sign?" + query;
+        });
+
+        //$("button").click(function () {
+        //    $("button").addClass("btn-primary");
+        //    $("button.active").removeClass("btn-primary");
+        //});
+    </script>
+}

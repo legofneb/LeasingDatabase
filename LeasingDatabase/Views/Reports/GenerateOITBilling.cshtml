@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "GenerateOITBilling";
+}
+
+<h2>GenerateOITBilling</h2>
+
+@using (Html.BeginForm("GenerateOITBilling", "Reports", FormMethod.Post))
+{ 
+	@Html.DropDownList("Date", new SelectList(ViewBag.dates, "Value", "Text"))
+	<input id="FOP" name="FOP" value="101002-155301-7000" type="text" />
+	<button type="submit">Submit</button>
+}

@@ -1,0 +1,567 @@
+﻿@model LeasingDatabase.Models.Grid.OrdersJqGridModel
+@using Trirand.Web.Mvc
+
+@{
+    ViewBag.Title = "Orders";
+}
+
+@Html.Trirand().JQGrid(Model.OrdersGrid, "JQGrid1")
+
+<div class="contextMenu" id="myMenu1" style="display: none">
+	<ul style="width: 270px">
+		<li id="add">
+			<span class="ui-icon ui-icon-plus" style="float: left"></span>
+			<span style="font-size: 80%; font-family: Verdana">Add Row</span>
+		</li>
+
+		<li id="edit">
+			<span class="ui-icon ui-icon-pencil" style="float: left"></span>
+			<span style="font-size: 80%; font-family: Verdana">Edit Row</span>
+		</li>
+
+		<li id="del">
+			<span class="ui-icon ui-icon-trash" style="float: left"></span>
+			<span style="font-size: 80%; font-family: Verdana">Delete Row</span>
+		</li>
+
+		<li id="detail">
+			<span class="ui-icon ui-icon-info" style="float: left"></span>
+			<span style="font-size: 80%; font-family: Verdana">More Detail</span>
+		</li>
+
+        <li id="group">
+            <span class="ui-icon ui-icon-link" style="float: left"></span>
+			<span style="font-size: 80%; font-family: Verdana">SR Actions</span>
+        </li>
+
+        <li id="form">
+            <span class="ui-icon ui-icon-print" style="float: left"></span>
+			<span style="font-size: 80%; font-family: Verdana">Print Form</span>
+        </li>
+	</ul>
+</div>
+
+<!-- Modal -->
+<div id="groupModal" class="modal hide fade" tabindex="-1">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3></h3>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="groupAction">Group Action</label>
+            <div class="controls">
+                <select id="groupAction">
+                    <option>---Select an option---</option>
+                    <option>SR Number</option>
+                    <option>Order Number</option>
+                    <option>Duplicate Record</option>
+                    @*<option>Change Phone</option>*@
+                </select>
+            </div>
+        </div>
+
+        <div id="groupContainer">
+
+        </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal">Close</button>
+    <button class="btn btn-primary" id="saveGroupActions">Save changes</button>
+  </div>
+</div>
+
+@section scripts {
+
+	<script type="text/javascript">
+
+		function BeforeAddDialog() {
+			$("#OrderDate").prop("disabled", true);
+			$("#SerialNumber").prop("disabled", true);
+			$("#LeaseTag").prop("disabled", true);
+			$("#tr_Status").hide();
+			$("#tr_LeaseTag2").hide();
+			$("#tr_SerialNumber3").hide();
+			$("#tr_LeaseTag3").hide();
+		}
+
+		function BeforeEdit() {
+			var grid = jQuery("#JQGrid1");
+			var rowKey = grid.getGridParam("selrow");
+			
+			$("#sData").before('<a href="Javascript:void(0);" id="fData" class="fm-button ui-state-default ui-corner-all fm-button-icon-left">Finalize<span class="ui-icon ui-icon-transfer-e-w"></span></a>');
+			
+		}
+
+		function AfterEdit() {
+		    $(".DataTD > input[type='text']").width(200);
+		    $(".DataTD > textarea").width(204);
+		    $(".DataTD > select").width(210);
+
+		    var grid = jQuery("#JQGrid1");
+		    var rowKey = grid.getGridParam("selrow");
+		    var Fund = grid.getCell(rowKey, 'Fund');
+		    var Org = grid.getCell(rowKey, 'Org');
+		    var Program = grid.getCell(rowKey, 'Program');
+
+		    $("#tr_OrderDate td:nth-child(3)").append('<li id="getOrderNotes" class="ui-state-default ui-button pull-right ui-corner-all"><span class="ui-icon ui-icon-clipboard"></span></li>');
+
+		    $("#tr_Make2 td:nth-child(4)").append('<li id="getSerial1" class="ui-state-default ui-button pull-right ui-corner-all"><span class="ui-icon ui-icon-search"></span></li>');
+		    $("#tr_Model2 td:nth-child(4)").append('<li id="getSerial2" class="ui-state-default ui-button pull-right ui-corner-all"><span class="ui-icon ui-icon-search"></span></li>');
+		    $("#tr_SerialNumber2 td:nth-child(4)").append('<li id="getSerial3" class="ui-state-default ui-button pull-right ui-corner-all"><span class="ui-icon ui-icon-search"></span></li>');
+
+		    $("#getOrderNotes").click(function () {
+		        $.ajax({
+		            type: "POST",
+		            url: "Orders/CopyOrderNotes?Id=" + rowKey,
+		            async: true,
+		            data: "{}",
+		            contentType: "application/json; charset=utf-8",
+		            dataType: "json",
+		            success: function (response) { $("#Note").val(response); }
+		        });
+		    });
+
+		    $("#getSerial1").click(function () {
+		        var tag = prompt("Please enter a Lease Tag");
+
+		        $.ajax({
+		            type: "POST",
+		            url: "Orders/SerialFromLeaseTag?LeaseTag=" + tag,
+		            async: true,
+		            data: "{}",
+		            contentType: "application/json; charset=utf-8",
+		            dataType: "json",
+		            success: function (response) { $("#EOLComponent").val(response); }
+		        });
+		    });
+
+		    $("#getSerial2").click(function () {
+		        var tag = prompt("Please enter a Lease Tag");
+
+		        $.ajax({
+		            type: "POST",
+		            url: "Orders/SerialFromLeaseTag?LeaseTag=" + tag,
+		            async: true,
+		            data: "{}",
+		            contentType: "application/json; charset=utf-8",
+		            dataType: "json",
+		            success: function (response) { $("#EOLComponent2").val(response); }
+		        });
+		    });
+
+		    $("#getSerial3").click(function () {
+		        var tag = prompt("Please enter a Lease Tag");
+
+		        $.ajax({
+		            type: "POST",
+		            url: "Orders/SerialFromLeaseTag?LeaseTag=" + tag,
+		            async: true,
+		            data: "{}",
+		            contentType: "application/json; charset=utf-8",
+		            dataType: "json",
+		            success: function (response) { $("#EOLComponent3").val(response); }
+		        });
+		    });
+
+		    $.ajax({
+		        type: "POST",
+		        url: "Orders/FOPCheck?Fund=" + Fund + "&Org=" + Org + "&Program=" + Program,
+		        async: true,
+		        data: "{}",
+		        contentType: "application/json; charset=utf-8",
+		        dataType: "json",
+		        success: function (response) { $("#tr_Program").append(response); }
+		    });
+
+		    $("#fData").click(finalizeOrder);
+            
+		}
+
+		function isBlank(str) {
+		    return (!str || /^\s*$/.test(str));
+		}
+
+		function isMonitor(str) {
+		    return (str.toUpperCase() == "MONITOR");
+		}
+
+		function changeMonth(date, months) {
+		    var timeStamp = Date.parse(date);
+		    var d = new Date(timeStamp);
+		    var newDate = new Date(new Date(d).setMonth(+d.getMonth() + +1 + +months, 0));
+		    return newDate;
+		}
+
+		function changeToFirstOfMonth(date, months) {
+		    var timeStamp = Date.parse(date);
+		    var d = new Date(timeStamp);
+		    var newDate = d.setMonth(d.getMonth() + months);
+		    return newDate;
+		}
+
+		function finalizeOrder() {
+			var grid = jQuery("#JQGrid1");
+			var rowKey = grid.getGridParam("selrow");
+			var term = grid.getCell(rowKey, 'Term');
+			var Component = grid.getCell(rowKey, 'ComponentType');
+			var Component2 = grid.getCell(rowKey, 'ComponentType2');
+			var Component3 = grid.getCell(rowKey, 'ComponentType3');
+			var Term = grid.getCell(rowKey, 'Term');
+			$("#sData").hide();
+			$("#fData").hide();
+
+			$("#fData").before('<a href="Javascript\:void(0);" id="ffData" class="fm-button ui-state-default ui-corner-all fm-button-icon-left">Finalize<span class="ui-icon ui-icon-transfer-e-w"></span></a>'); //Using ffData so I can use a different event handler with finalize
+
+			$("#TblGrid_JQGrid1 > tbody").empty(); // Clear the form
+
+			$("#TblGrid_JQGrid1 > tbody").append('<tr rowpos="1" class="FormData"><td class="CaptionTD">Term</td><td class="DataTD">&nbsp;<input type="text" id="Term" name="Term" role="textbox" class="FormElement ui-widget-content ui-corner-all" disabled value="'+ Term.toString() + '"></td></tr>');
+
+			$("#TblGrid_JQGrid1 > tbody").append('<tr rowpos="2" class="FormData"><td class="CaptionTD">Begin Bill Date</td><td class="DataTD">&nbsp;<input type="text" id="BegBillDate" name="BegBillDate" role="textbox" class="FormElement ui-widget-content ui-corner-all"><button type="button" id="Minus">-</button><button type="button" id="Plus">+</button></td></tr>');
+						
+			$("#TblGrid_JQGrid1 > tbody").append('<tr rowpos="3" class="FormData"><td class="CaptionTD">Billing Notes</td><td class="DataTD">&nbsp;<textarea id="BillNotes" name="BillNotes"></textarea></td></tr>');
+			
+			$("#TblGrid_JQGrid1 > tbody").append('<tr rowpos="4" class="FormData"><td class="CaptionTD">End Bill Date</td><td class="DataTD">&nbsp;<input type="text" id="EndBillDate" name="EndBillDate" role="textbox" class="FormElement ui-widget-content ui-corner-all"></td></tr>');
+
+			if (!isMonitor(Component)) {
+			    $("#TblGrid_JQGrid1 > tbody").append('<tr rowpos="5" class="FormData"><td class="CaptionTD">' + Component.toString() + ' Cost</td><td class="DataTD">&nbsp;<input type="text" id="CPUCost" name="CPUCost" role="textbox" class="FormElement ui-widget-content ui-corner-all"></td></tr>');
+			}
+
+			if ((isMonitor(Component)) || (!isMonitor(Component) && !isBlank(Component2))) {
+			    $("#TblGrid_JQGrid1 > tbody").append('<tr rowpos="6" class="FormData"><td class="CaptionTD">Monitor Cost</td><td class="DataTD">&nbsp;<input type="text" id="MonitorCost" name="MonitorCost" role="textbox" class="FormElement ui-widget-content ui-corner-all"></td></tr>');
+			}
+
+			if ((isMonitor(Component) && !isBlank(Component2)) || (!isMonitor(Component) && !isBlank(Component3))) {
+			    $("#TblGrid_JQGrid1 > tbody").append('<tr rowpos="7" class="FormData"><td class="CaptionTD">2nd Monitor Cost</td><td class="DataTD">&nbsp;<input type="text" id="MonitorCost2" name="MonitorCost2" role="textbox" class="FormElement ui-widget-content ui-corner-all"></td></tr>');
+			}
+
+			$("#TblGrid_JQGrid1 > tbody").append('<tr rowpos="8" class="FormData"><td class="CaptionTD">Insurance</td><td class="DataTD">&nbsp;<input type="text" id="Insurance" name="Insurance" role="textbox" class="FormElement ui-widget-content ui-corner-all"></td></tr>');
+
+			$("#TblGrid_JQGrid1 > tbody").append('<tr rowpos="9" class="FormData"><td class="CaptionTD">Warranty/Shipping</td><td class="DataTD">&nbsp;<input type="text" id="Warranty" name="Warranty" role="textbox" class="FormElement ui-widget-content ui-corner-all"></td></tr>');
+
+			$("#TblGrid_JQGrid1 > tbody").append('<tr rowpos="10" class="FormData"><td class="CaptionTD">Suppress Email</td><td class="DataTD">&nbsp;<input type="checkbox" id="sendEmail" name="sendEmail" class="FormElement ui-widget-content ui-corner-all"></td></tr>');
+
+			$("#BegBillDate").datepicker({
+				onSelect: function (dateStr) {
+					var d = $.datepicker.parseDate('mm/dd/yy', dateStr);
+					d.setDate(d.getDate() + ((365 * (term / 12)) - 1)); // Adds the term length - 1 day to End Bill Date
+					$('#EndBillDate').datepicker('setDate', d);
+				},
+				changeMonth: true,
+				changeYear: true
+			});
+			$("#EndBillDate").datepicker({
+				changeMonth: true,
+				changeYear: true
+			});
+
+			function setFinalizeDate(dateObj) {
+			    var month = dateObj.getMonth() + 2;
+			    var day = 1; //Billing starts on first of month
+			    var year = dateObj.getFullYear();
+
+			    if (month == 13) {
+			        month = 1;
+			        year = year + 1;
+			    }
+
+			    newdate = month.toString() + "/" + day.toString() + "/" + year.toString();
+
+			    $("#BegBillDate").val(newdate);
+
+			    year = year + (term / 12); //finding new year
+			    month = month - 1; //billing stops one month before the End Date
+			    day = daysInMonth(month, year); //billing stops on last day
+
+			    if (month == 0) {
+			        month = 12;
+			        year = year - 1;
+			    }
+
+			    endDate = month.toString() + "/" + day.toString() + "/" + year.toString();
+
+			    $("#EndBillDate").val(endDate);
+			}
+
+			setFinalizeDate(new Date());
+
+			$("#Plus").click(function () {
+			    var begdate = changeToFirstOfMonth($("#BegBillDate").val(), 0);
+			    setFinalizeDate(new Date(begdate));
+			});
+
+			$("#Minus").click(function () {
+			    var begdate = changeToFirstOfMonth($("#BegBillDate").val(), -2);
+			    setFinalizeDate(new Date(begdate));
+			});
+
+			$("#ffData").click(function () {
+				var grid = jQuery("#JQGrid1");
+				var rowKey = grid.getGridParam("selrow");
+
+				var SystemGroupID = grid.getCell(rowKey, 'SystemID');
+
+				var BegBillDate = $("#BegBillDate").val();
+				var EndBillDate = $("#EndBillDate").val();
+				var CPUcost = $("#CPUCost").val();
+				var MonitorCost = $("#MonitorCost").val();
+				var MonitorCost2 = $("#MonitorCost2").val();
+				var Insurance = $("#Insurance").val();
+				var Warranty = $("#Warranty").val();
+				var LeaseTag = $("#LeaseTag").val()
+				var suppressEmail = $("#sendEmail").is(":checked");
+
+				var BillNotes = $("#BillNotes").val().split("\n").join(""); // split and join is the same as .replace() but on every instance of \n
+
+				if (Warranty == "" || Warranty == "undefined") {
+					Warranty = "0";
+				}
+
+				if (Insurance == "" || Insurance == "undefined") {
+					Insurance = "0";
+				}
+
+				if (CPUcost == "" || CPUcost == "undefined") {
+					CPUcost = "0";
+				}
+
+				if (MonitorCost == "" || MonitorCost == "undefined") {
+					MonitorCost = "0";
+				}
+
+				if (MonitorCost2 == "" || MonitorCost2 == "undefined") {
+					MonitorCost2 = "0";
+				}
+
+				var messageBox;
+
+				$.ajax({
+					type: "POST",
+					url: "Orders/Finalize?SystemGroupID=" + SystemGroupID + "&BegBillDate=" + BegBillDate + "&EndBillDate=" + EndBillDate + "&CPUCost=" + CPUcost + "&MonitorCost=" + MonitorCost + "&MonitorCost2=" + MonitorCost2 + "&Warranty=" + Warranty + "&Insurance=" + Insurance + "&BillNotes=" + BillNotes,
+					async: false,
+					data: "{}",
+					contentType: "application/json; charset=utf-8",
+					dataType: "json",
+					success: function (response) { messageBox = confirm(response.summary); }
+				});
+
+
+
+
+				if (messageBox) {
+					$.ajax({
+						type: "POST",
+						url: "Orders/FinalizeConfirmed?SystemGroupID=" + SystemGroupID + "&BegBillDate=" + BegBillDate + "&EndBillDate=" + EndBillDate + "&CPUCost=" + CPUcost + "&MonitorCost=" + MonitorCost + "&MonitorCost2=" + MonitorCost2 + "&Warranty=" + Warranty + "&Insurance=" + Insurance + "&BillNotes=" + BillNotes + "&SuppressEmail=" + suppressEmail,
+						data: "{}",
+						contentType: "application/json; charset=utf-8",
+						dataType: "json",
+						success: function (msg) { alert(msg.status); jQuery(".ui-icon-closethick").trigger("click");  /*Causes a TypeError*/ }
+					});
+				}
+				else {
+					alert("You have cancelled");
+				}
+			});
+		}
+
+		function daysInMonth(iMonth, iYear) {
+			return new Date(iYear, iMonth, 0).getDate();
+		}
+
+		function addRow() {
+			var grid = jQuery("#JQGrid1");
+			$("td[id^=add][id$=JQGrid1]").trigger("click");
+		}
+
+		function editRow() {
+			var grid = jQuery("#JQGrid1");
+			var rowKey = grid.getGridParam("selrow");
+			if (rowKey) {
+				$("td[id^=edit][id$=JQGrid1]").trigger("click");
+			}
+			else {
+				alert("No rows are selected");
+			}
+		}
+
+		function delRow() {
+			var grid = jQuery("#JQGrid1");
+			var rowKey = grid.getGridParam("selrow");
+			if (rowKey) {
+				$("td[id^=del][id$=JQGrid1]").trigger("click");
+			}
+			else {
+				alert("No rows are selected");
+			}
+		}
+
+		function detailRow() {
+			var grid = jQuery("#JQGrid1");
+			var rowKey = grid.getGridParam("selrow");
+			var URL = '@Url.Action("PopUp", "Orders")' + "?Id=" + rowKey;
+			window.open(URL, "Summary", 'height=500,width=500');
+		}
+
+		function initGrid() {
+			jQuery(".jqgrow", "#JQGrid1").contextMenu('myMenu1', {
+				bindings: {
+					'edit': function (t) {
+						editRow();
+					},
+					'add': function (t) {
+						addRow();
+					},
+					'del': function (t) {
+						delRow();
+					},
+					'detail': function (t) {
+						detailRow();
+					},
+					'group': function (t) {
+					    group();
+					},
+					'form': function (t) {
+					    form();
+					}
+				},
+				onContextMenu: function (event, menu) {
+					var rowId = $(event.target).parent("tr").attr("id");
+					var grid = $("#JQGrid1");
+					grid.setSelection(rowId);
+
+					return true;
+
+				}
+			});
+
+		}
+
+		function group() {
+		    $("#groupModal").modal('show');
+		    adjustGroupModal();
+		}
+
+		function form() {
+		    var grid = jQuery("#JQGrid1");
+		    var rowKey = grid.getGridParam("selrow");
+		    var SR = grid.getCell(rowKey, 'SR');
+
+		    if (SR == undefined || SR.length < 3) {
+		        alert("No SR defined");
+		        return;
+		    }
+
+		    var URL = '@Url.Action("Index", "SR")' + "?SRs=" + SR;
+			window.open(URL);
+		}
+
+		$("#groupAction").change(function () { adjustGroupModal(); });
+
+		function adjustGroupModal() {
+		    var selectVal = $('#groupAction').val();
+		    $("#groupContainer").empty();
+
+		    if (selectVal == "SR Number") {
+		        var summary = '<div class="control-group"><div class="controls"><label>This will apply an SR Number to Components within the same order.</div></div>';
+		        var input = '<div class="control-group"><label class="control-label">SR Number</label><div class="controls"><input type="text" id="groupSR" /></div></div>';
+
+		        $("#groupContainer").append(summary);
+		        $("#groupContainer").append(input);
+		    } else if (selectVal == "Duplicate Record") {
+		        var summary = '<div class="control-group"><div class="controls"><label>This will duplicate the selected record by the specified amount</div></div>';
+		        var input = '<div class="control-group"><label class="control-label">Number of Duplicates</label><div class="controls"><input type="text" id="groupDup" /></div></div>';
+
+		        $("#groupContainer").append(summary);
+		        $("#groupContainer").append(input);
+		    } else if (selectVal == "Order Number") {
+		        var summary = '<div class="control-group"><div class="controls"><label>This will assign this OrderNumber to this SR</div></div>';
+		        var input = '<div class="control-group"><label class="control-label">Order Number</label><div class="controls"><input type="text" id="groupOrderNumber" /></div></div>';
+
+		        $("#groupContainer").append(summary);
+		        $("#groupContainer").append(input);
+		    }
+		    //else if (selectVal == "Change Phone") {
+		    //    var summary = '<div class="control-group"><div class="controls"><label>This will assign this Phone Number to this SR</div></div>';
+		    //    var input = '<div class="control-group"><label class="control-label">Phone</label><div class="controls"><input type="text" id="groupPhone" /></div></div>';
+
+		    //    $("#groupContainer").append(summary);
+		    //    $("#groupContainer").append(input);
+		    //}
+		}
+
+		$("#saveGroupActions").click(function () {
+		    var selectVal = $('#groupAction').val();
+		    var grid = jQuery("#JQGrid1");
+		    var rowKey = grid.getGridParam("selrow");
+
+		    if (selectVal == "SR Number") {
+		        var groupSR = $("#groupSR").val();
+
+		        $.ajax({
+		            type: "POST",
+		            url: "Orders/GroupSR?SystemId=" + rowKey + "&SR=" + groupSR,
+		            async: false,
+		            data: "{}",
+		            contentType: "application/json; charset=utf-8",
+		            dataType: "json",
+		            success: function (response) { jQuery("#JQGrid1").trigger("reloadGrid"); $("#groupModal").modal('hide'); }
+		        });
+		    }
+
+		    if (selectVal == "Duplicate Record") {
+		        var duplicatedNumber = $("#groupDup").val();
+
+		        $.ajax({
+		            type: "POST",
+		            url: "Orders/DuplicateGroup?groupId=" + rowKey + "&DuplicateNumber=" + duplicatedNumber,
+		            async: false,
+		            data: "{}",
+		            contentType: "application/json; charset=utf-8",
+		            dataType: "json",
+		            success: function (response) { jQuery("#JQGrid1").trigger("reloadGrid"); $("#groupModal").modal('hide'); }
+		        });
+		    }
+
+		    if (selectVal == "Order Number") {
+		        var OrderNumber = $("#groupOrderNumber").val();
+		        var SR = grid.getCell(rowKey, 'SR');
+		        $.ajax({
+		            type: "POST",
+		            url: "Orders/GroupOrderNumber?SR=" + SR + "&OrderNumber=" + OrderNumber,
+		            async: false,
+		            data: "{}",
+		            contentType: "application/json; charset=utf-8",
+		            dataType: "json",
+		            success: function (response) { jQuery("#JQGrid1").trigger("reloadGrid"); $("#groupModal").modal('hide'); }
+		        });
+		    }
+
+		    //if (selectVal == "Change Phone") {
+		    //    var Phone = $("#groupPhone").val();
+		    //    var SR = grid.getCell(rowKey, 'SR');
+		    //    $.ajax({
+		    //        type: "POST",
+		    //        url: "Orders/GroupPhone?SR=" + SR + "&Phone=" + Phone,
+		    //        async: false,
+		    //        data: "{}",
+		    //        contentType: "application/json; charset=utf-8",
+		    //        dataType: "json",
+		    //        success: function (response) { jQuery("#JQGrid1").trigger("reloadGrid"); $("#groupModal").modal('hide'); }
+		    //    });
+		    //}
+
+		});
+
+		function resizeWindow() {
+		    $(".ui-jqgrid-bdiv").height($(window).height() - 114);
+		}
+
+		$().ready(function () { resizeWindow(); });
+
+		$(window).resize(function () {
+			resizeWindow()
+		});
+	</script>
+}

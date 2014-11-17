@@ -1,0 +1,25 @@
+﻿@section extras{
+	<link href="~/Content/Dashboard/bootstrap-button.css" rel="stylesheet" />
+}
+
+@{
+    ViewBag.Title = "Index";
+
+	List<DateTime> times = new List<DateTime>();
+
+	DateTime StartTime = DateTime.Now.AddMonths(-4);
+
+	while ((StartTime - DateTime.Now).Days < 140)
+	{
+		times.Add(StartTime);
+		StartTime = StartTime.AddMonths(1); 
+	}
+}
+
+<div class="span3 well">
+@foreach (var time in times)
+{
+	 <a class="btn btn-block btn-large btn-primary" href="~/EOL/Report?date=@time.ToString("MMyyyy")">@time.ToString("MMM yyyy")</a><br />
+}
+
+</div>

@@ -1,0 +1,92 @@
+﻿@model LeasingDatabase.Models.Grid.EOLJqGridModel
+@using Trirand.Web.Mvc
+
+@{
+    ViewBag.Title = "Report";
+}
+
+@Html.Trirand().JQGrid(Model.OrdersGrid, "JQGrid1")
+
+<div class="contextMenu" id="myMenu1" style="display: none">
+	<ul style="width: 270px">
+		<li id="add">
+			<span class="ui-icon ui-icon-plus" style="float: left;"></span>
+			<span style="font-size: 80%; font-family: Verdana">Add Row</span>
+		</li>
+
+		<li id="edit">
+			<span class="ui-icon ui-icon-pencil" style="float: left;"></span>
+			<span style="font-size: 80%; font-family: Verdana">Edit Row</span>
+		</li>
+
+		<li id="detail">
+			<span class="ui-icon ui-icon-info" style="float: left;"></span>
+			<span style="font-size: 80%; font-family: Verdana">More Detail</span>
+		</li>
+
+		<li id="documents">
+			<span class="ui-icon ui-icon-document" style="float: left;"></span>
+			<span style="font-size: 80%; font-family: Verdana;">Download Excel</span>
+		</li>
+	</ul>
+</div>
+
+<script type="text/javascript">
+    function initGrid() {
+        jQuery(".jqgrow", "#JQGrid1").contextMenu('myMenu1', {
+            bindings: {
+                'edit': function (t) {
+                    editRow();
+                },
+                'add': function (t) {
+                    addRow();
+                },
+                'detail': function (t) {
+                    detailRow();
+                },
+                'documents': function (t) {
+                    getDocuments();
+                }
+            },
+            onContextMenu: function (event, menu) {
+                var rowId = $(event.target).parent("tr").attr("id");
+                var grid = $("#JQGrid1");
+                grid.setSelection(rowId);
+
+                return true;
+
+            }
+        });
+
+    }
+
+    function getDocuments() {
+        window.open("ExportToExcel", '_blank');
+    }
+
+    function addRow() {
+        var grid = jQuery("#JQGrid1");
+        $("td[id^=add][id$=JQGrid1]").trigger("click");
+    }
+
+    function editRow() {
+        var grid = jQuery("#JQGrid1");
+        var rowKey = grid.getGridParam("selrow");
+        if (rowKey) {
+            $("td[id^=edit][id$=JQGrid1]").trigger("click");
+        }
+        else {
+            alert("No rows are selected");
+        }
+    }
+
+    function resizeWindow() {
+        $(".ui-jqgrid-bdiv").height($(window).height() - 114);
+    }
+
+    $().ready(function () { resizeWindow(); });
+
+    $(window).resize(function () {
+        resizeWindow()
+    });
+</script>

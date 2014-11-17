@@ -1,0 +1,200 @@
+﻿@{
+  ViewBag.Title = "Index";
+  Layout = "~/Views/Shared/_NGLayout.cshtml";
+}
+<!DOCTYPE html>
+<html ng-app="Orders">
+<head>
+  <title>New Orders</title>
+  @Html.Partial("~/Views/Shared/_NGStyles.cshtml")
+  @Html.Partial("~/Views/Shared/_NGScripts.cshtml")
+  <script type="text/javascript">
+    angular.module("Orders", ["bfApp", "ngRoute"]).constant('rootUrl', "@Url.Content("~/")");
+  </script>
+</head>
+<body>
+  @Html.Partial("~/Views/Shared/_NGMenu.cshtml")
+
+  <div class="container-fluid" ng-controller="OrdersController as vm">
+    <div class="row">
+      <div id="sidebar" class="col-xs-12 col-md-3 sidebar">
+        <div class="list-group" style="margin:0 -25px;">
+
+          <a href="" class="list-group-item" ng-click="vm.createNewOrder()">
+            <h4 class="list-group-item-heading"><i class="fa fa-plus-square-o fa-lg"></i> Create a New Order</h4>
+          </a>
+
+          <div ng-repeat="order in vm.orders">
+            <a href="" class="list-group-item" ng-click="vm.setSelectedOrder(order, $index)" ng-class="{active: $index == vm.selected}">
+              <h4 class="list-group-item-heading">
+                {{ order.OrdererGID }}
+                <span ng-class="{hidden: vm.cart.indexOf(order.id) == -1}"><i class="fa fa-check"></i></span>
+                <small>
+                  <span ng-repeat="component in vm.order.Configuration">
+                    <type-icon component="component.Type" class="text-concrete"></type-icon>
+                  </span>
+                </small>
+              </h4>
+              <p class="list-group-item-text">
+                {{ order.Summary }}
+              </p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="toggleSidebar" class="hidden-sm hidden-xs"><i class="fa fa-caret-square-o-left" ng-click="vm.toggleSidebar()"></i></div>
+
+    <div class="row">
+      <div id="cartBar" class="col-xs-12 col-md-9 col-md-offset-3 main" ng-show="vm.cart.length > 0" style="background-color:black;">
+        <div class="col-md-1">
+          <i class="fa fa-shopping-cart fa-inverse fa-2x fa-fw"></i>
+        </div>
+        <div class="col-md-5">
+          <div class="col-md-9">
+            <input class="form-control" type="text" ng-model="vm.newSR" />
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-info" type="button" ng-if="vm.newSR.length < 5" ng-click="vm.generateSR()">Auto-Generate</button>
+            <button class="btn btn-success" type="button" ng-if="vm.newSR.length >= 5" ng-click="vm.submitCart()">Submit</button>
+          </div>
+        </div>
+        <div class="col-md-2 col-md-offset-1">
+          <div>
+            <label class="text-clouds">{{vm.cart.length}}(s) orders in SR</label>
+          </div>
+        </div>
+        <div class="col-md-1 pull-right">
+          <button class="btn btn-danger" type="button" ng-click="vm.clearCart()">Cancel</button>
+        </div>
+
+      </div>
+
+
+
+      <div id="mainContent" class="col-xs-12 col-md-9 col-md-offset-3 main" ng-show="vm.selectedOrder">
+        <h3>
+          Order Details
+          <small><i class="fa fa-pencil orangeHover" id="edit" data-toggle="tooltip" data-placement="right" title="Edit" ng-click="vm.editOrder()"></i></small>
+          <i class="fa fa-trash-o fa-3x trashIcon redHover text-asbestos" id="delete" data-toggle="tooltip" data-placement="bottom" title="Cancel" ng-click="vm.cancelOrder()" ng-show="vm.editingOrder"></i>
+          <i class="fa fa-save fa-3x saveIcon orangeHover text-asbestos" id="save" data-toggle="tooltip" data-placement="bottom" title="Save" ng-click="vm.saveOrder()" ng-show="vm.editingOrder"></i>
+        </h3>
+        <hr />
+        <div class="col-md-12">
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-3">
+                <p class="text-silver">Order Date</p>
+              </div>
+              <div class="col-md-6">
+                <p>{{ vm.selectedOrder.Date}}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <p class="text-silver">Orderer GID</p>
+              </div>
+              <div class="col-md-6">
+                <p><edit-input editing="vm.editingOrder" ng-model="vm.selectedOrder.OrdererGID"></edit-input></p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <p class="text-silver">Order Notes</p>
+              </div>
+              <div class="col-md-6">
+                <p><edit-textarea editing="vm.editingOrder" ng-model="vm.selectedOrder.Notes" rows="5"></edit-textarea></p>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="col-md-4">
+            <button type="button" class="btn btn-large btn-primary btn-block" ng-click="vm.addToCart(vm.selectedOrder)"><i class="fa fa-plus-square fa-lg"></i> Add to New SR</button>
+            <button type="button" class="btn btn-large btn-primary btn-block" ng-click="vm.editOrder()" id="changeConfiguration"><i class="fa fa-lg fa-edit"></i> Change Configuration</button>
+          </div>
+        </div>
+
+
+        <div class="col-md-12">
+          <h4>Component(s) <small><a style="cursor: pointer;" class="text-concrete" ng-if="vm.editingOrder" ng-click="vm.addNewComponent(vm.selectedOrder)"><i class="fa fa-plus-square-o"></i> Add Component</a></small></h4>
+          <hr />
+
+          <div class="col-md-3" ng-repeat="component in vm.selectedOrder.Configuration">
+            <div ng-if="component.Type.length > 0">
+              <div class="row">
+                <div class="col-md-9 col-md-offset-3" ng-if="!vm.editingOrder">
+                  <type-icon component="component.Type" class="fa-4x"></type-icon>
+                </div>
+                <div class="col-md-9 col-md-offset-3 text-center" ng-if="vm.editingOrder">
+                  <type-icon component="component.Type" class="fa-4x"></type-icon>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <p class="text-silver">Type</p>
+                </div>
+                <div class="col-md-9">
+                  <p ng-if="!vm.editingOrder">{{ component.Type }}</p>
+                  <au-select ng-if="vm.editingOrder" id="Type{{$index}}" ng-list="vm.types" ng-model="component.Type"></au-select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <p class="text-silver">Make</p>
+                </div>
+                <div class="col-md-9">
+                  <p ng-if="!vm.editingOrder">{{ component.Make }}</p>
+                  <au-select ng-if="vm.editingOrder" id="Make{{$index}}" ng-enter="vm.addValueToMake('Make{{$index}}')" ng-list="vm.makes" ng-model="component.Make"></au-select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <p class="text-silver">Model</p>
+                </div>
+                <div class="col-md-9">
+                  <p ng-if="!vm.editingOrder">{{ component.Model }}</p>
+                  <au-select ng-if="vm.editingOrder" id="Model{{$index}}" ng-enter="vm.addValueToModel('Model{{$index}}')" ng-list="vm.models" ng-model="component.Model"></au-select>
+                </div>
+              </div>
+              <div class="row" ng-if="vm.editingOrder">
+                <div class="col-md-offset-3 col-md-9">
+                  <button type="button" class="btn btn-link" ng-click="vm.removeComponent(component)">Remove Component</button>
+                </div>
+              </div>
+            </div>
+
+            <div ng-if="component.Type == null">
+              <p class="lead">No Configuration</p>
+            </div>
+          </div>
+
+          <div class="col-md-3" ng-if="vm.selectedOrder.Configuration.length < 1">
+            <p class="lead">No Configuration</p>
+          </div>
+
+        </div>
+
+
+
+
+        <div class="col-md-12">
+          <hr />
+          <ng-view></ng-view>
+          </div>
+        </div>
+
+    </div>
+  </div>
+
+  <script src="~/Scripts/NG/orders/ordersController.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#edit").tooltip();
+      $("#save").tooltip();
+      $("#delete").tooltip();
+    });
+  </script>
+</body>
+</html>

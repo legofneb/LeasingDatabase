@@ -1,0 +1,2219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="aulease.Entities.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="auleaseEntitiesStoreContainer">
+          <EntitySet Name="Charges" EntityType="aulease.Entities.Store.Charges" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="ComponentProperty" EntityType="aulease.Entities.Store.ComponentProperty" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Components" EntityType="aulease.Entities.Store.Components" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Coordinators" EntityType="aulease.Entities.Store.Coordinators" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="DepartmentCoordinator" EntityType="aulease.Entities.Store.DepartmentCoordinator" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Departments" EntityType="aulease.Entities.Store.Departments" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Forms" EntityType="aulease.Entities.Store.Forms" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="FormTemplates" EntityType="aulease.Entities.Store.FormTemplates" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="LeaseCharge" EntityType="aulease.Entities.Store.LeaseCharge" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Leases" EntityType="aulease.Entities.Store.Leases" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Makes" EntityType="aulease.Entities.Store.Makes" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Models" EntityType="aulease.Entities.Store.Models" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Orders" EntityType="aulease.Entities.Store.Orders" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Overheads" EntityType="aulease.Entities.Store.Overheads" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="POes" EntityType="aulease.Entities.Store.POes" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Properties" EntityType="aulease.Entities.Store.Properties" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Repairs" EntityType="aulease.Entities.Store.Repairs" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Signatures" EntityType="aulease.Entities.Store.Signatures" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="SingleCharges" EntityType="aulease.Entities.Store.SingleCharges" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="StandardComponentProperty" EntityType="aulease.Entities.Store.StandardComponentProperty" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="StandardComponents" EntityType="aulease.Entities.Store.StandardComponents" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="StandardOptions" EntityType="aulease.Entities.Store.StandardOptions" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="StandardOptionStandardComponents" EntityType="aulease.Entities.Store.StandardOptionStandardComponents" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Statements" EntityType="aulease.Entities.Store.Statements" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Status" EntityType="aulease.Entities.Store.Status" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="SystemGroups" EntityType="aulease.Entities.Store.SystemGroups" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Tasks" EntityType="aulease.Entities.Store.Tasks" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Taxes" EntityType="aulease.Entities.Store.Taxes" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Types" EntityType="aulease.Entities.Store.Types" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Users" EntityType="aulease.Entities.Store.Users" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="VendorEmails" EntityType="aulease.Entities.Store.VendorEmails" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="VendorRates" EntityType="aulease.Entities.Store.VendorRates" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <AssociationSet Name="FK_ChargeType" Association="aulease.Entities.Store.FK_ChargeType">
+            <End Role="Types" EntitySet="Types" />
+            <End Role="Charges" EntitySet="Charges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChargeVendorRate" Association="aulease.Entities.Store.FK_ChargeVendorRate">
+            <End Role="VendorRates" EntitySet="VendorRates" />
+            <End Role="Charges" EntitySet="Charges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ComponentLease" Association="aulease.Entities.Store.FK_ComponentLease">
+            <End Role="Components" EntitySet="Components" />
+            <End Role="Leases" EntitySet="Leases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ComponentMake" Association="aulease.Entities.Store.FK_ComponentMake">
+            <End Role="Makes" EntitySet="Makes" />
+            <End Role="Components" EntitySet="Components" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ComponentProperty_Components" Association="aulease.Entities.Store.FK_ComponentProperty_Components">
+            <End Role="Components" EntitySet="Components" />
+            <End Role="ComponentProperty" EntitySet="ComponentProperty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ComponentProperty_Properties" Association="aulease.Entities.Store.FK_ComponentProperty_Properties">
+            <End Role="Properties" EntitySet="Properties" />
+            <End Role="ComponentProperty" EntitySet="ComponentProperty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ComponentRepair" Association="aulease.Entities.Store.FK_ComponentRepair">
+            <End Role="Components" EntitySet="Components" />
+            <End Role="Repairs" EntitySet="Repairs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ComponentSignature" Association="aulease.Entities.Store.FK_ComponentSignature">
+            <End Role="Signatures" EntitySet="Signatures" />
+            <End Role="Components" EntitySet="Components" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ComponentStatus" Association="aulease.Entities.Store.FK_ComponentStatus">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Components" EntitySet="Components" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ComponentType" Association="aulease.Entities.Store.FK_ComponentType">
+            <End Role="Types" EntitySet="Types" />
+            <End Role="Components" EntitySet="Components" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DepartmentCoordinator_Coordinator" Association="aulease.Entities.Store.FK_DepartmentCoordinator_Coordinator">
+            <End Role="Coordinators" EntitySet="Coordinators" />
+            <End Role="DepartmentCoordinator" EntitySet="DepartmentCoordinator" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DepartmentCoordinator_Department" Association="aulease.Entities.Store.FK_DepartmentCoordinator_Department">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="DepartmentCoordinator" EntitySet="DepartmentCoordinator" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DepartmentLease" Association="aulease.Entities.Store.FK_DepartmentLease">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="Leases" EntitySet="Leases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DepartmentSingleCharge" Association="aulease.Entities.Store.FK_DepartmentSingleCharge">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="SingleCharges" EntitySet="SingleCharges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FormSystemGroup" Association="aulease.Entities.Store.FK_FormSystemGroup">
+            <End Role="SystemGroups" EntitySet="SystemGroups" />
+            <End Role="Forms" EntitySet="Forms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeaseCharge_Charges" Association="aulease.Entities.Store.FK_LeaseCharge_Charges">
+            <End Role="Charges" EntitySet="Charges" />
+            <End Role="LeaseCharge" EntitySet="LeaseCharge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeaseCharge_Leases" Association="aulease.Entities.Store.FK_LeaseCharge_Leases">
+            <End Role="Leases" EntitySet="Leases" />
+            <End Role="LeaseCharge" EntitySet="LeaseCharge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeaseOverhead" Association="aulease.Entities.Store.FK_LeaseOverhead">
+            <End Role="Overheads" EntitySet="Overheads" />
+            <End Role="Leases" EntitySet="Leases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MakeModel" Association="aulease.Entities.Store.FK_MakeModel">
+            <End Role="Makes" EntitySet="Makes" />
+            <End Role="Models" EntitySet="Models" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MakeStandardComponent" Association="aulease.Entities.Store.FK_MakeStandardComponent">
+            <End Role="Makes" EntitySet="Makes" />
+            <End Role="StandardComponents" EntitySet="StandardComponents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ModelComponent" Association="aulease.Entities.Store.FK_ModelComponent">
+            <End Role="Models" EntitySet="Models" />
+            <End Role="Components" EntitySet="Components" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ModelStandardComponent" Association="aulease.Entities.Store.FK_ModelStandardComponent">
+            <End Role="Models" EntitySet="Models" />
+            <End Role="StandardComponents" EntitySet="StandardComponents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_POSystemGroup" Association="aulease.Entities.Store.FK_POSystemGroup">
+            <End Role="POes" EntitySet="POes" />
+            <End Role="SystemGroups" EntitySet="SystemGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StandardComponentProperty_Property" Association="aulease.Entities.Store.FK_StandardComponentProperty_Property">
+            <End Role="Properties" EntitySet="Properties" />
+            <End Role="StandardComponentProperty" EntitySet="StandardComponentProperty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StandardComponentProperty_StandardComponent" Association="aulease.Entities.Store.FK_StandardComponentProperty_StandardComponent">
+            <End Role="StandardComponents" EntitySet="StandardComponents" />
+            <End Role="StandardComponentProperty" EntitySet="StandardComponentProperty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StandardComponentType" Association="aulease.Entities.Store.FK_StandardComponentType">
+            <End Role="Types" EntitySet="Types" />
+            <End Role="StandardComponents" EntitySet="StandardComponents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StandardOptionStandardComponentStandardComponent" Association="aulease.Entities.Store.FK_StandardOptionStandardComponentStandardComponent">
+            <End Role="StandardComponents" EntitySet="StandardComponents" />
+            <End Role="StandardOptionStandardComponents" EntitySet="StandardOptionStandardComponents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StandardOptionStandardOptionStandardComponent" Association="aulease.Entities.Store.FK_StandardOptionStandardOptionStandardComponent">
+            <End Role="StandardOptions" EntitySet="StandardOptions" />
+            <End Role="StandardOptionStandardComponents" EntitySet="StandardOptionStandardComponents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatusRepair" Association="aulease.Entities.Store.FK_StatusRepair">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Repairs" EntitySet="Repairs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SystemGroupComponent" Association="aulease.Entities.Store.FK_SystemGroupComponent">
+            <End Role="SystemGroups" EntitySet="SystemGroups" />
+            <End Role="Components" EntitySet="Components" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SystemGroupLease" Association="aulease.Entities.Store.FK_SystemGroupLease">
+            <End Role="SystemGroups" EntitySet="SystemGroups" />
+            <End Role="Leases" EntitySet="Leases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SystemGroupOrder" Association="aulease.Entities.Store.FK_SystemGroupOrder">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="SystemGroups" EntitySet="SystemGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SystemGroupUser" Association="aulease.Entities.Store.FK_SystemGroupUser">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="SystemGroups" EntitySet="SystemGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskStatus" Association="aulease.Entities.Store.FK_TaskStatus">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaxCharge" Association="aulease.Entities.Store.FK_TaxCharge">
+            <End Role="Taxes" EntitySet="Taxes" />
+            <End Role="Charges" EntitySet="Charges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TypeOverhead" Association="aulease.Entities.Store.FK_TypeOverhead">
+            <End Role="Types" EntitySet="Types" />
+            <End Role="Overheads" EntitySet="Overheads" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserOrder" Association="aulease.Entities.Store.FK_UserOrder">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorRateType" Association="aulease.Entities.Store.FK_VendorRateType">
+            <End Role="Types" EntitySet="Types" />
+            <End Role="VendorRates" EntitySet="VendorRates" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Charges">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Price" Type="decimal" Nullable="false" Precision="9" Scale="2" />
+          <Property Name="VendorRateId" Type="int" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="TaxId" Type="int" />
+        </EntityType>
+        <EntityType Name="ComponentProperty">
+          <Key>
+            <PropertyRef Name="Components_Id" />
+            <PropertyRef Name="Properties_Id" />
+          </Key>
+          <Property Name="Components_Id" Type="int" Nullable="false" />
+          <Property Name="Properties_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Components">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SerialNumber" Type="nvarchar(max)" />
+          <Property Name="LeaseTag" Type="nvarchar(max)" />
+          <Property Name="OrderNumber" Type="nvarchar(max)" />
+          <Property Name="MAC" Type="nvarchar(max)" />
+          <Property Name="InstallSoftware" Type="bit" Nullable="false" />
+          <Property Name="InstallHardware" Type="bit" Nullable="false" />
+          <Property Name="Note" Type="nvarchar(max)" />
+          <Property Name="Renewal" Type="bit" Nullable="false" />
+          <Property Name="MakeId" Type="int" />
+          <Property Name="SignatureId" Type="int" />
+          <Property Name="TypeId" Type="int" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="ModelId" Type="int" />
+          <Property Name="SystemGroupId" Type="int" />
+          <Property Name="Damages" Type="nvarchar(max)" />
+          <Property Name="ReturnDate" Type="datetime" />
+          <Property Name="IPAddress" Type="nvarchar(max)" />
+          <Property Name="ComputerName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Coordinators">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="GID" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="BillingAccess" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DepartmentCoordinator">
+          <Key>
+            <PropertyRef Name="Departments_Id" />
+            <PropertyRef Name="Coordinators_Id" />
+          </Key>
+          <Property Name="Departments_Id" Type="int" Nullable="false" />
+          <Property Name="Coordinators_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Departments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Fund" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Org" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Program" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Forms">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="HTML" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SystemGroup_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FormTemplates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="HTML" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LeaseCharge">
+          <Key>
+            <PropertyRef Name="Charges_Id" />
+            <PropertyRef Name="Leases_Id" />
+          </Key>
+          <Property Name="Charges_Id" Type="int" Nullable="false" />
+          <Property Name="Leases_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Leases">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="BeginDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
+          <Property Name="StatementName" Type="nvarchar(max)" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
+          <Property Name="ContractNumber" Type="nvarchar(max)" />
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="MonthlyCharge" Type="decimal" Precision="9" Scale="2" />
+          <Property Name="OverheadId" Type="int" />
+          <Property Name="ComponentId" Type="int" Nullable="false" />
+          <Property Name="SystemGroupId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Makes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Models">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MakeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Note" Type="nvarchar(max)" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="HasSentOrderedFromSupplierEmail" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Overheads">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="RateLevel" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Rate" Type="decimal" Nullable="false" Precision="9" Scale="2" />
+          <Property Name="Term" Type="int" Nullable="false" />
+          <Property Name="BeginDate" Type="datetime" Nullable="false" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="POes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PONumber" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Note" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Properties">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Key" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Repairs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Note" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Assignee" Type="nvarchar(max)" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="ComponentId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Signatures">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="MIME" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="File" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SingleCharges">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Price" Type="decimal" Nullable="false" Precision="9" Scale="2" />
+          <Property Name="GID" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Note" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="HasPaid" Type="bit" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StandardComponentProperty">
+          <Key>
+            <PropertyRef Name="StandardComponents_Id" />
+            <PropertyRef Name="Properties_Id" />
+          </Key>
+          <Property Name="StandardComponents_Id" Type="int" Nullable="false" />
+          <Property Name="Properties_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StandardComponents">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ModelId" Type="int" Nullable="false" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="MakeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StandardOptions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="BaseRate24" Type="decimal" Nullable="false" Precision="9" Scale="2" />
+          <Property Name="BaseRate36" Type="decimal" Nullable="false" Precision="9" Scale="2" />
+          <Property Name="SupportRate24" Type="decimal" Nullable="false" Precision="9" Scale="2" />
+          <Property Name="SupportRate36" Type="decimal" Nullable="false" Precision="9" Scale="2" />
+        </EntityType>
+        <EntityType Name="StandardOptionStandardComponents">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="StandardOptionId" Type="int" Nullable="false" />
+          <Property Name="StandardComponentId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Statements">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SystemGroups">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="Location_Building" Type="nvarchar(max)" />
+          <Property Name="Location_Room" Type="nvarchar(max)" />
+          <Property Name="POId" Type="int" />
+        </EntityType>
+        <EntityType Name="Tasks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Assignee" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
+          <Property Name="Note" Type="varchar(max)" />
+          <Property Name="Status_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Taxes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Price" Type="decimal" Nullable="false" Scale="4" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Types">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="GID" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar(max)" />
+          <Property Name="Location_Building" Type="nvarchar(max)" />
+          <Property Name="Location_Room" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="VendorEmails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="EmailAddress" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VendorRates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Term" Type="int" Nullable="false" />
+          <Property Name="BeginDate" Type="datetime" Nullable="false" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="Rate" Type="decimal" Nullable="false" Precision="9" Scale="2" />
+        </EntityType>
+        <Association Name="FK_ChargeType">
+          <End Role="Types" Type="aulease.Entities.Store.Types" Multiplicity="1" />
+          <End Role="Charges" Type="aulease.Entities.Store.Charges" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Types">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Charges">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChargeVendorRate">
+          <End Role="VendorRates" Type="aulease.Entities.Store.VendorRates" Multiplicity="0..1" />
+          <End Role="Charges" Type="aulease.Entities.Store.Charges" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VendorRates">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Charges">
+              <PropertyRef Name="VendorRateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ComponentLease">
+          <End Role="Components" Type="aulease.Entities.Store.Components" Multiplicity="1" />
+          <End Role="Leases" Type="aulease.Entities.Store.Leases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Components">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Leases">
+              <PropertyRef Name="ComponentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ComponentMake">
+          <End Role="Makes" Type="aulease.Entities.Store.Makes" Multiplicity="0..1" />
+          <End Role="Components" Type="aulease.Entities.Store.Components" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Makes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Components">
+              <PropertyRef Name="MakeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ComponentProperty_Components">
+          <End Role="Components" Type="aulease.Entities.Store.Components" Multiplicity="1" />
+          <End Role="ComponentProperty" Type="aulease.Entities.Store.ComponentProperty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Components">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ComponentProperty">
+              <PropertyRef Name="Components_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ComponentProperty_Properties">
+          <End Role="Properties" Type="aulease.Entities.Store.Properties" Multiplicity="1" />
+          <End Role="ComponentProperty" Type="aulease.Entities.Store.ComponentProperty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Properties">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ComponentProperty">
+              <PropertyRef Name="Properties_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ComponentRepair">
+          <End Role="Components" Type="aulease.Entities.Store.Components" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Repairs" Type="aulease.Entities.Store.Repairs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Components">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Repairs">
+              <PropertyRef Name="ComponentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ComponentSignature">
+          <End Role="Signatures" Type="aulease.Entities.Store.Signatures" Multiplicity="0..1" />
+          <End Role="Components" Type="aulease.Entities.Store.Components" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Signatures">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Components">
+              <PropertyRef Name="SignatureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ComponentStatus">
+          <End Role="Status" Type="aulease.Entities.Store.Status" Multiplicity="1" />
+          <End Role="Components" Type="aulease.Entities.Store.Components" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Components">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ComponentType">
+          <End Role="Types" Type="aulease.Entities.Store.Types" Multiplicity="0..1" />
+          <End Role="Components" Type="aulease.Entities.Store.Components" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Types">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Components">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DepartmentCoordinator_Coordinator">
+          <End Role="Coordinators" Type="aulease.Entities.Store.Coordinators" Multiplicity="1" />
+          <End Role="DepartmentCoordinator" Type="aulease.Entities.Store.DepartmentCoordinator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coordinators">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DepartmentCoordinator">
+              <PropertyRef Name="Coordinators_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DepartmentCoordinator_Department">
+          <End Role="Departments" Type="aulease.Entities.Store.Departments" Multiplicity="1" />
+          <End Role="DepartmentCoordinator" Type="aulease.Entities.Store.DepartmentCoordinator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DepartmentCoordinator">
+              <PropertyRef Name="Departments_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DepartmentLease">
+          <End Role="Departments" Type="aulease.Entities.Store.Departments" Multiplicity="1" />
+          <End Role="Leases" Type="aulease.Entities.Store.Leases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Leases">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DepartmentSingleCharge">
+          <End Role="Departments" Type="aulease.Entities.Store.Departments" Multiplicity="1" />
+          <End Role="SingleCharges" Type="aulease.Entities.Store.SingleCharges" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SingleCharges">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FormSystemGroup">
+          <End Role="SystemGroups" Type="aulease.Entities.Store.SystemGroups" Multiplicity="1" />
+          <End Role="Forms" Type="aulease.Entities.Store.Forms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemGroups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Forms">
+              <PropertyRef Name="SystemGroup_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeaseCharge_Charges">
+          <End Role="Charges" Type="aulease.Entities.Store.Charges" Multiplicity="1" />
+          <End Role="LeaseCharge" Type="aulease.Entities.Store.LeaseCharge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Charges">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeaseCharge">
+              <PropertyRef Name="Charges_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeaseCharge_Leases">
+          <End Role="Leases" Type="aulease.Entities.Store.Leases" Multiplicity="1" />
+          <End Role="LeaseCharge" Type="aulease.Entities.Store.LeaseCharge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Leases">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeaseCharge">
+              <PropertyRef Name="Leases_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeaseOverhead">
+          <End Role="Overheads" Type="aulease.Entities.Store.Overheads" Multiplicity="0..1" />
+          <End Role="Leases" Type="aulease.Entities.Store.Leases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Overheads">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Leases">
+              <PropertyRef Name="OverheadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MakeModel">
+          <End Role="Makes" Type="aulease.Entities.Store.Makes" Multiplicity="1" />
+          <End Role="Models" Type="aulease.Entities.Store.Models" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Makes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Models">
+              <PropertyRef Name="MakeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MakeStandardComponent">
+          <End Role="Makes" Type="aulease.Entities.Store.Makes" Multiplicity="1" />
+          <End Role="StandardComponents" Type="aulease.Entities.Store.StandardComponents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Makes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StandardComponents">
+              <PropertyRef Name="MakeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ModelComponent">
+          <End Role="Models" Type="aulease.Entities.Store.Models" Multiplicity="0..1" />
+          <End Role="Components" Type="aulease.Entities.Store.Components" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Models">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Components">
+              <PropertyRef Name="ModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ModelStandardComponent">
+          <End Role="Models" Type="aulease.Entities.Store.Models" Multiplicity="1" />
+          <End Role="StandardComponents" Type="aulease.Entities.Store.StandardComponents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Models">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StandardComponents">
+              <PropertyRef Name="ModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_POSystemGroup">
+          <End Role="POes" Type="aulease.Entities.Store.POes" Multiplicity="0..1" />
+          <End Role="SystemGroups" Type="aulease.Entities.Store.SystemGroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="POes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SystemGroups">
+              <PropertyRef Name="POId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StandardComponentProperty_Property">
+          <End Role="Properties" Type="aulease.Entities.Store.Properties" Multiplicity="1" />
+          <End Role="StandardComponentProperty" Type="aulease.Entities.Store.StandardComponentProperty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Properties">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StandardComponentProperty">
+              <PropertyRef Name="Properties_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StandardComponentProperty_StandardComponent">
+          <End Role="StandardComponents" Type="aulease.Entities.Store.StandardComponents" Multiplicity="1" />
+          <End Role="StandardComponentProperty" Type="aulease.Entities.Store.StandardComponentProperty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StandardComponents">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StandardComponentProperty">
+              <PropertyRef Name="StandardComponents_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StandardComponentType">
+          <End Role="Types" Type="aulease.Entities.Store.Types" Multiplicity="1" />
+          <End Role="StandardComponents" Type="aulease.Entities.Store.StandardComponents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Types">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StandardComponents">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StandardOptionStandardComponentStandardComponent">
+          <End Role="StandardComponents" Type="aulease.Entities.Store.StandardComponents" Multiplicity="1" />
+          <End Role="StandardOptionStandardComponents" Type="aulease.Entities.Store.StandardOptionStandardComponents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StandardComponents">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StandardOptionStandardComponents">
+              <PropertyRef Name="StandardComponentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StandardOptionStandardOptionStandardComponent">
+          <End Role="StandardOptions" Type="aulease.Entities.Store.StandardOptions" Multiplicity="1" />
+          <End Role="StandardOptionStandardComponents" Type="aulease.Entities.Store.StandardOptionStandardComponents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StandardOptions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StandardOptionStandardComponents">
+              <PropertyRef Name="StandardOptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatusRepair">
+          <End Role="Status" Type="aulease.Entities.Store.Status" Multiplicity="1" />
+          <End Role="Repairs" Type="aulease.Entities.Store.Repairs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Repairs">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SystemGroupComponent">
+          <End Role="SystemGroups" Type="aulease.Entities.Store.SystemGroups" Multiplicity="0..1" />
+          <End Role="Components" Type="aulease.Entities.Store.Components" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemGroups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Components">
+              <PropertyRef Name="SystemGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SystemGroupLease">
+          <End Role="SystemGroups" Type="aulease.Entities.Store.SystemGroups" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Leases" Type="aulease.Entities.Store.Leases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemGroups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Leases">
+              <PropertyRef Name="SystemGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SystemGroupOrder">
+          <End Role="Orders" Type="aulease.Entities.Store.Orders" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SystemGroups" Type="aulease.Entities.Store.SystemGroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SystemGroups">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SystemGroupUser">
+          <End Role="Users" Type="aulease.Entities.Store.Users" Multiplicity="1" />
+          <End Role="SystemGroups" Type="aulease.Entities.Store.SystemGroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SystemGroups">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskStatus">
+          <End Role="Status" Type="aulease.Entities.Store.Status" Multiplicity="1" />
+          <End Role="Tasks" Type="aulease.Entities.Store.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="Status_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaxCharge">
+          <End Role="Taxes" Type="aulease.Entities.Store.Taxes" Multiplicity="0..1" />
+          <End Role="Charges" Type="aulease.Entities.Store.Charges" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Taxes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Charges">
+              <PropertyRef Name="TaxId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TypeOverhead">
+          <End Role="Types" Type="aulease.Entities.Store.Types" Multiplicity="1" />
+          <End Role="Overheads" Type="aulease.Entities.Store.Overheads" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Types">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Overheads">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserOrder">
+          <End Role="Users" Type="aulease.Entities.Store.Users" Multiplicity="1" />
+          <End Role="Orders" Type="aulease.Entities.Store.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorRateType">
+          <End Role="Types" Type="aulease.Entities.Store.Types" Multiplicity="1" />
+          <End Role="VendorRates" Type="aulease.Entities.Store.VendorRates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Types">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VendorRates">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="aulease.Entities" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="AuleaseEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+          <EntitySet Name="Coordinators" EntityType="aulease.Entities.Coordinator" />
+          <EntitySet Name="Charges" EntityType="aulease.Entities.Charge" />
+          <EntitySet Name="Components" EntityType="aulease.Entities.Component" />
+          <EntitySet Name="Departments" EntityType="aulease.Entities.Department" />
+          <EntitySet Name="Leases" EntityType="aulease.Entities.Lease" />
+          <EntitySet Name="Makes" EntityType="aulease.Entities.Make" />
+          <EntitySet Name="Orders" EntityType="aulease.Entities.Order" />
+          <EntitySet Name="Overheads" EntityType="aulease.Entities.Overhead" />
+          <EntitySet Name="POes" EntityType="aulease.Entities.PO" />
+          <EntitySet Name="Properties" EntityType="aulease.Entities.Property" />
+          <EntitySet Name="Repairs" EntityType="aulease.Entities.Repair" />
+          <EntitySet Name="Signatures" EntityType="aulease.Entities.Signature" />
+          <EntitySet Name="Status" EntityType="aulease.Entities.Status" />
+          <EntitySet Name="Types" EntityType="aulease.Entities.Type" />
+          <EntitySet Name="Users" EntityType="aulease.Entities.User" />
+          <EntitySet Name="VendorEmails" EntityType="aulease.Entities.VendorEmail" />
+          <EntitySet Name="VendorRates" EntityType="aulease.Entities.VendorRate" />
+          <AssociationSet Name="FK_ChargeType" Association="aulease.Entities.FK_ChargeType">
+            <End Role="Types" EntitySet="Types" />
+            <End Role="Charges" EntitySet="Charges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChargeVendorRate" Association="aulease.Entities.FK_ChargeVendorRate">
+            <End Role="VendorRates" EntitySet="VendorRates" />
+            <End Role="Charges" EntitySet="Charges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ComponentLease" Association="aulease.Entities.FK_ComponentLease">
+            <End Role="Components" EntitySet="Components" />
+            <End Role="Leases" EntitySet="Leases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ComponentMake" Association="aulease.Entities.FK_ComponentMake">
+            <End Role="Makes" EntitySet="Makes" />
+            <End Role="Components" EntitySet="Components" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ComponentRepair" Association="aulease.Entities.FK_ComponentRepair">
+            <End Role="Components" EntitySet="Components" />
+            <End Role="Repairs" EntitySet="Repairs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ComponentSignature" Association="aulease.Entities.FK_ComponentSignature">
+            <End Role="Signatures" EntitySet="Signatures" />
+            <End Role="Components" EntitySet="Components" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ComponentStatus" Association="aulease.Entities.FK_ComponentStatus">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Components" EntitySet="Components" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ComponentType" Association="aulease.Entities.FK_ComponentType">
+            <End Role="Types" EntitySet="Types" />
+            <End Role="Components" EntitySet="Components" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DepartmentLease" Association="aulease.Entities.FK_DepartmentLease">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="Leases" EntitySet="Leases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeaseOverhead" Association="aulease.Entities.FK_LeaseOverhead">
+            <End Role="Overheads" EntitySet="Overheads" />
+            <End Role="Leases" EntitySet="Leases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserOrder" Association="aulease.Entities.FK_UserOrder">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatusRepair" Association="aulease.Entities.FK_StatusRepair">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Repairs" EntitySet="Repairs" />
+          </AssociationSet>
+          <AssociationSet Name="ComponentProperty" Association="aulease.Entities.ComponentProperty">
+            <End Role="Components" EntitySet="Components" />
+            <End Role="Properties" EntitySet="Properties" />
+          </AssociationSet>
+          <AssociationSet Name="LeaseCharge" Association="aulease.Entities.LeaseCharge">
+            <End Role="Charges" EntitySet="Charges" />
+            <End Role="Leases" EntitySet="Leases" />
+          </AssociationSet>
+          <EntitySet Name="StandardComponents" EntityType="aulease.Entities.StandardComponent" />
+          <AssociationSet Name="StandardComponentProperty" Association="aulease.Entities.StandardComponentProperty">
+            <End Role="StandardComponent" EntitySet="StandardComponents" />
+            <End Role="Property" EntitySet="Properties" />
+          </AssociationSet>
+          <EntitySet Name="Taxes" EntityType="aulease.Entities.Tax" />
+          <EntitySet Name="Models" EntityType="aulease.Entities.Model" />
+          <AssociationSet Name="ModelComponent" Association="aulease.Entities.ModelComponent">
+            <End Role="Model" EntitySet="Models" />
+            <End Role="Component" EntitySet="Components" />
+          </AssociationSet>
+          <AssociationSet Name="ModelStandardComponent" Association="aulease.Entities.ModelStandardComponent">
+            <End Role="Model" EntitySet="Models" />
+            <End Role="StandardComponent" EntitySet="StandardComponents" />
+          </AssociationSet>
+          <AssociationSet Name="StandardComponentType" Association="aulease.Entities.StandardComponentType">
+            <End Role="StandardComponent" EntitySet="StandardComponents" />
+            <End Role="Type" EntitySet="Types" />
+          </AssociationSet>
+          <AssociationSet Name="MakeStandardComponent" Association="aulease.Entities.MakeStandardComponent">
+            <End Role="Make" EntitySet="Makes" />
+            <End Role="StandardComponent" EntitySet="StandardComponents" />
+          </AssociationSet>
+          <AssociationSet Name="VendorRateType" Association="aulease.Entities.VendorRateType">
+            <End Role="VendorRate" EntitySet="VendorRates" />
+            <End Role="Type" EntitySet="Types" />
+          </AssociationSet>
+          <AssociationSet Name="TaxCharge" Association="aulease.Entities.TaxCharge">
+            <End Role="Tax" EntitySet="Taxes" />
+            <End Role="Charge" EntitySet="Charges" />
+          </AssociationSet>
+          <EntitySet Name="SystemGroups" EntityType="aulease.Entities.SystemGroup" />
+          <AssociationSet Name="SystemGroupLease" Association="aulease.Entities.SystemGroupLease">
+            <End Role="SystemGroup" EntitySet="SystemGroups" />
+            <End Role="Lease" EntitySet="Leases" />
+          </AssociationSet>
+          <AssociationSet Name="SystemGroupUser" Association="aulease.Entities.SystemGroupUser">
+            <End Role="SystemGroup" EntitySet="SystemGroups" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="SystemGroupOrder" Association="aulease.Entities.SystemGroupOrder">
+            <End Role="SystemGroup" EntitySet="SystemGroups" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="MakeModel" Association="aulease.Entities.MakeModel">
+            <End Role="Make" EntitySet="Makes" />
+            <End Role="Model" EntitySet="Models" />
+          </AssociationSet>
+          <AssociationSet Name="SystemGroupComponent" Association="aulease.Entities.SystemGroupComponent">
+            <End Role="SystemGroup" EntitySet="SystemGroups" />
+            <End Role="Component" EntitySet="Components" />
+          </AssociationSet>
+          <AssociationSet Name="POSystemGroup" Association="aulease.Entities.POSystemGroup">
+            <End Role="PO" EntitySet="POes" />
+            <End Role="SystemGroup" EntitySet="SystemGroups" />
+          </AssociationSet>
+          <EntitySet Name="StandardOptionStandardComponents" EntityType="aulease.Entities.StandardOptionStandardComponent" />
+          <AssociationSet Name="FK_StandardOptionStandardComponentStandardComponent" Association="aulease.Entities.FK_StandardOptionStandardComponentStandardComponent">
+            <End Role="StandardComponent" EntitySet="StandardComponents" />
+            <End Role="StandardOptionStandardComponent" EntitySet="StandardOptionStandardComponents" />
+          </AssociationSet>
+          <AssociationSet Name="TypeOverhead" Association="aulease.Entities.TypeOverhead">
+            <End Role="Type" EntitySet="Types" />
+            <End Role="Overhead" EntitySet="Overheads" />
+          </AssociationSet>
+          <EntitySet Name="StandardOptions" EntityType="aulease.Entities.StandardOption" />
+          <AssociationSet Name="FK_StandardOptionStandardOptionStandardComponent" Association="aulease.Entities.FK_StandardOptionStandardOptionStandardComponent">
+            <End Role="StandardOption" EntitySet="StandardOptions" />
+            <End Role="StandardOptionStandardComponent" EntitySet="StandardOptionStandardComponents" />
+          </AssociationSet>
+          <EntitySet Name="Tasks" EntityType="aulease.Entities.Task" />
+          <AssociationSet Name="TaskStatus" Association="aulease.Entities.TaskStatus">
+            <End Role="Task" EntitySet="Tasks" />
+            <End Role="Status" EntitySet="Status" />
+          </AssociationSet>
+          <EntitySet Name="Statements" EntityType="aulease.Entities.Statement" />
+          <AssociationSet Name="DepartmentCoordinator" Association="aulease.Entities.DepartmentCoordinator">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Coordinator" EntitySet="Coordinators" />
+          </AssociationSet>
+          <EntitySet Name="FormTemplates" EntityType="aulease.Entities.FormTemplate" />
+          <EntitySet Name="Forms" EntityType="aulease.Entities.Form" />
+          <AssociationSet Name="FK_FormSystemGroup" Association="aulease.Entities.FK_FormSystemGroup">
+            <End Role="SystemGroup" EntitySet="SystemGroups" />
+            <End Role="Form" EntitySet="Forms" />
+          </AssociationSet>
+          <EntitySet Name="SingleCharges" EntityType="aulease.Entities.SingleCharge" />
+          <AssociationSet Name="FK_DepartmentSingleCharge" Association="aulease.Entities.FK_DepartmentSingleCharge">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="SingleCharge" EntitySet="SingleCharges" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Coordinator">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="GID" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Type="Boolean" Name="BillingAccess" Nullable="false" />
+          <NavigationProperty Name="Departments" Relationship="aulease.Entities.DepartmentCoordinator" FromRole="Coordinator" ToRole="Department" />
+        </EntityType>
+        <EntityType Name="Charge">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="9" Scale="2" />
+          <Property Name="VendorRateId" Type="Int32" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Type" Relationship="aulease.Entities.FK_ChargeType" FromRole="Charges" ToRole="Types" />
+          <NavigationProperty Name="VendorRate" Relationship="aulease.Entities.FK_ChargeVendorRate" FromRole="Charges" ToRole="VendorRates" />
+          <NavigationProperty Name="Leases" Relationship="aulease.Entities.LeaseCharge" FromRole="Charges" ToRole="Leases" />
+          <NavigationProperty Name="Tax" Relationship="aulease.Entities.TaxCharge" FromRole="Charge" ToRole="Tax" />
+          <Property Type="Int32" Name="TaxId" Nullable="true" />
+        </EntityType>
+        <EntityType Name="Component">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="SerialNumber" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="LeaseTag" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="OrderNumber" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="MAC" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="InstallSoftware" Type="Boolean" Nullable="false" />
+          <Property Name="InstallHardware" Type="Boolean" Nullable="false" />
+          <Property Name="Note" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Renewal" Type="Boolean" Nullable="false" />
+          <Property Name="MakeId" Type="Int32" />
+          <Property Name="SignatureId" Type="Int32" />
+          <Property Name="TypeId" Type="Int32" Nullable="true" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Leases" Relationship="aulease.Entities.FK_ComponentLease" FromRole="Components" ToRole="Leases" />
+          <NavigationProperty Name="Make" Relationship="aulease.Entities.FK_ComponentMake" FromRole="Components" ToRole="Makes" />
+          <NavigationProperty Name="Repairs" Relationship="aulease.Entities.FK_ComponentRepair" FromRole="Components" ToRole="Repairs" />
+          <NavigationProperty Name="Signature" Relationship="aulease.Entities.FK_ComponentSignature" FromRole="Components" ToRole="Signatures" />
+          <NavigationProperty Name="Status" Relationship="aulease.Entities.FK_ComponentStatus" FromRole="Components" ToRole="Status" />
+          <NavigationProperty Name="Type" Relationship="aulease.Entities.FK_ComponentType" FromRole="Components" ToRole="Types" />
+          <NavigationProperty Name="Properties" Relationship="aulease.Entities.ComponentProperty" FromRole="Components" ToRole="Properties" />
+          <NavigationProperty Name="Model" Relationship="aulease.Entities.ModelComponent" FromRole="Component" ToRole="Model" />
+          <Property Type="Int32" Name="ModelId" Nullable="true" />
+          <NavigationProperty Name="ReplacementSystemGroup" Relationship="aulease.Entities.SystemGroupComponent" FromRole="Component" ToRole="SystemGroup" />
+          <Property Type="Int32" Name="SystemGroupId" Nullable="true" />
+          <Property Type="String" Name="Damages" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="ReturnDate" Precision="3" />
+          <Property Type="String" Name="IPAddress" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ComputerName" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Name" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" Nullable="true" />
+          <Property Name="Fund" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Org" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Program" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Leases" Relationship="aulease.Entities.FK_DepartmentLease" FromRole="Departments" ToRole="Leases" />
+          <NavigationProperty Name="Coordinators" Relationship="aulease.Entities.DepartmentCoordinator" FromRole="Department" ToRole="Coordinator" />
+          <NavigationProperty Name="SingleCharges" Relationship="aulease.Entities.FK_DepartmentSingleCharge" FromRole="Department" ToRole="SingleCharge" />
+        </EntityType>
+        <EntityType Name="Lease">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="BeginDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="StatementName" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ContractNumber" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" Nullable="true" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="MonthlyCharge" Type="Decimal" Precision="9" Scale="2" />
+          <Property Name="OverheadId" Type="Int32" Nullable="true" />
+          <Property Name="ComponentId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Component" Relationship="aulease.Entities.FK_ComponentLease" FromRole="Leases" ToRole="Components" />
+          <NavigationProperty Name="Department" Relationship="aulease.Entities.FK_DepartmentLease" FromRole="Leases" ToRole="Departments" />
+          <NavigationProperty Name="Overhead" Relationship="aulease.Entities.FK_LeaseOverhead" FromRole="Leases" ToRole="Overheads" />
+          <NavigationProperty Name="Charges" Relationship="aulease.Entities.LeaseCharge" FromRole="Leases" ToRole="Charges" />
+          <NavigationProperty Name="SystemGroup" Relationship="aulease.Entities.SystemGroupLease" FromRole="Lease" ToRole="SystemGroup" />
+          <Property Type="Int32" Name="SystemGroupId" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Make">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Components" Relationship="aulease.Entities.FK_ComponentMake" FromRole="Makes" ToRole="Components" />
+          <NavigationProperty Name="StandardComponents" Relationship="aulease.Entities.MakeStandardComponent" FromRole="Make" ToRole="StandardComponent" />
+          <NavigationProperty Name="Models" Relationship="aulease.Entities.MakeModel" FromRole="Make" ToRole="Model" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Note" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="aulease.Entities.FK_UserOrder" FromRole="Orders" ToRole="Users" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="3" />
+          <NavigationProperty Name="SystemGroups" Relationship="aulease.Entities.SystemGroupOrder" FromRole="Order" ToRole="SystemGroup" />
+          <Property Type="Boolean" Name="HasSentOrderedFromSupplierEmail" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Overhead">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="RateLevel" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Rate" Type="Decimal" Nullable="false" Precision="9" Scale="2" />
+          <Property Name="Term" Type="Int32" Nullable="false" />
+          <Property Name="BeginDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Leases" Relationship="aulease.Entities.FK_LeaseOverhead" FromRole="Overheads" ToRole="Leases" />
+          <NavigationProperty Name="Type" Relationship="aulease.Entities.TypeOverhead" FromRole="Overhead" ToRole="Type" />
+          <Property Type="Int32" Name="TypeId" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PO">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="PONumber" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Note" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" Nullable="true" />
+          <NavigationProperty Name="SystemGroups" Relationship="aulease.Entities.POSystemGroup" FromRole="PO" ToRole="SystemGroup" />
+        </EntityType>
+        <EntityType Name="Property">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Key" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Components" Relationship="aulease.Entities.ComponentProperty" FromRole="Properties" ToRole="Components" />
+          <NavigationProperty Name="StandardComponents" Relationship="aulease.Entities.StandardComponentProperty" FromRole="Property" ToRole="StandardComponent" />
+        </EntityType>
+        <EntityType Name="Repair">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Note" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Assignee" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="ComponentId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Component" Relationship="aulease.Entities.FK_ComponentRepair" FromRole="Repairs" ToRole="Components" />
+          <NavigationProperty Name="Status" Relationship="aulease.Entities.FK_StatusRepair" FromRole="Repairs" ToRole="Status" />
+        </EntityType>
+        <EntityType Name="Signature">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="MIME" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="File" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Components" Relationship="aulease.Entities.FK_ComponentSignature" FromRole="Signatures" ToRole="Components" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Components" Relationship="aulease.Entities.FK_ComponentStatus" FromRole="Status" ToRole="Components" />
+          <NavigationProperty Name="Repairs" Relationship="aulease.Entities.FK_StatusRepair" FromRole="Status" ToRole="Repairs" />
+          <NavigationProperty Name="Tasks" Relationship="aulease.Entities.TaskStatus" FromRole="Status" ToRole="Task" />
+        </EntityType>
+        <EntityType Name="Type">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Charges" Relationship="aulease.Entities.FK_ChargeType" FromRole="Types" ToRole="Charges" />
+          <NavigationProperty Name="Components" Relationship="aulease.Entities.FK_ComponentType" FromRole="Types" ToRole="Components" />
+          <NavigationProperty Name="StandardComponents" Relationship="aulease.Entities.StandardComponentType" FromRole="Type" ToRole="StandardComponent" />
+          <NavigationProperty Name="VendorRates" Relationship="aulease.Entities.VendorRateType" FromRole="Type" ToRole="VendorRate" />
+          <NavigationProperty Name="Overheads" Relationship="aulease.Entities.TypeOverhead" FromRole="Type" ToRole="Overhead" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="GID" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Orders" Relationship="aulease.Entities.FK_UserOrder" FromRole="Users" ToRole="Orders" />
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Location" Type="aulease.Entities.Location" Nullable="false" />
+          <NavigationProperty Name="SystemGroups" Relationship="aulease.Entities.SystemGroupUser" FromRole="User" ToRole="SystemGroup" />
+        </EntityType>
+        <EntityType Name="VendorEmail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="VendorRate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Term" Type="Int32" Nullable="false" />
+          <Property Name="BeginDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Charges" Relationship="aulease.Entities.FK_ChargeVendorRate" FromRole="VendorRates" ToRole="Charges" />
+          <NavigationProperty Name="Type" Relationship="aulease.Entities.VendorRateType" FromRole="VendorRate" ToRole="Type" />
+          <Property Type="Int32" Name="TypeId" Nullable="false" />
+          <Property Type="Decimal" Name="Rate" Nullable="false" Precision="9" Scale="2" />
+        </EntityType>
+        <Association Name="FK_ChargeType">
+          <End Role="Types" Type="aulease.Entities.Type" Multiplicity="1" />
+          <End Role="Charges" Type="aulease.Entities.Charge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Types">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Charges">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChargeVendorRate">
+          <End Role="VendorRates" Type="aulease.Entities.VendorRate" Multiplicity="0..1" />
+          <End Role="Charges" Type="aulease.Entities.Charge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VendorRates">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Charges">
+              <PropertyRef Name="VendorRateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ComponentLease">
+          <End Role="Components" Type="aulease.Entities.Component" Multiplicity="1" />
+          <End Role="Leases" Type="aulease.Entities.Lease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Components">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Leases">
+              <PropertyRef Name="ComponentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ComponentMake">
+          <End Role="Makes" Type="aulease.Entities.Make" Multiplicity="0..1" />
+          <End Role="Components" Type="aulease.Entities.Component" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Makes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Components">
+              <PropertyRef Name="MakeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ComponentRepair">
+          <End Role="Components" Type="aulease.Entities.Component" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Repairs" Type="aulease.Entities.Repair" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Components">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Repairs">
+              <PropertyRef Name="ComponentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ComponentSignature">
+          <End Role="Signatures" Type="aulease.Entities.Signature" Multiplicity="0..1" />
+          <End Role="Components" Type="aulease.Entities.Component" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Signatures">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Components">
+              <PropertyRef Name="SignatureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ComponentStatus">
+          <End Role="Status" Type="aulease.Entities.Status" Multiplicity="1" />
+          <End Role="Components" Type="aulease.Entities.Component" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Components">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ComponentType">
+          <End Role="Types" Type="aulease.Entities.Type" Multiplicity="0..1" />
+          <End Role="Components" Type="aulease.Entities.Component" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Types">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Components">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DepartmentLease">
+          <End Role="Departments" Type="aulease.Entities.Department" Multiplicity="1" />
+          <End Role="Leases" Type="aulease.Entities.Lease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Leases">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeaseOverhead">
+          <End Role="Overheads" Type="aulease.Entities.Overhead" Multiplicity="0..1" />
+          <End Role="Leases" Type="aulease.Entities.Lease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Overheads">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Leases">
+              <PropertyRef Name="OverheadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserOrder">
+          <End Role="Users" Type="aulease.Entities.User" Multiplicity="1" />
+          <End Role="Orders" Type="aulease.Entities.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatusRepair">
+          <End Role="Status" Type="aulease.Entities.Status" Multiplicity="1" />
+          <End Role="Repairs" Type="aulease.Entities.Repair" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Repairs">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ComponentProperty">
+          <End Role="Components" Type="aulease.Entities.Component" Multiplicity="*">
+          </End>
+          <End Role="Properties" Type="aulease.Entities.Property" Multiplicity="*">
+          </End>
+        </Association>
+        <Association Name="LeaseCharge">
+          <End Role="Charges" Type="aulease.Entities.Charge" Multiplicity="*">
+          </End>
+          <End Role="Leases" Type="aulease.Entities.Lease" Multiplicity="*" />
+        </Association>
+        <EntityType Name="StandardComponent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <NavigationProperty Name="Properties" Relationship="aulease.Entities.StandardComponentProperty" FromRole="StandardComponent" ToRole="Property" />
+          <NavigationProperty Name="Model" Relationship="aulease.Entities.ModelStandardComponent" FromRole="StandardComponent" ToRole="Model" />
+          <Property Type="Int32" Name="ModelId" Nullable="false" />
+          <NavigationProperty Name="Type" Relationship="aulease.Entities.StandardComponentType" FromRole="StandardComponent" ToRole="Type" />
+          <Property Type="Int32" Name="TypeId" Nullable="false" />
+          <NavigationProperty Name="Make" Relationship="aulease.Entities.MakeStandardComponent" FromRole="StandardComponent" ToRole="Make" />
+          <Property Type="Int32" Name="MakeId" Nullable="false" />
+          <NavigationProperty Name="StandardOptionStandardComponents" Relationship="aulease.Entities.FK_StandardOptionStandardComponentStandardComponent" FromRole="StandardComponent" ToRole="StandardOptionStandardComponent" />
+        </EntityType>
+        <Association Name="StandardComponentProperty">
+          <End Type="aulease.Entities.StandardComponent" Role="StandardComponent" Multiplicity="*" />
+          <End Type="aulease.Entities.Property" Role="Property" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Tax">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="18" Scale="4" />
+          <Property Type="DateTime" Name="Timestamp" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Charges" Relationship="aulease.Entities.TaxCharge" FromRole="Tax" ToRole="Charge" />
+        </EntityType>
+        <EntityType Name="Model">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Components" Relationship="aulease.Entities.ModelComponent" FromRole="Model" ToRole="Component" />
+          <NavigationProperty Name="StandardComponents" Relationship="aulease.Entities.ModelStandardComponent" FromRole="Model" ToRole="StandardComponent" />
+          <NavigationProperty Name="Make" Relationship="aulease.Entities.MakeModel" FromRole="Model" ToRole="Make" />
+          <Property Type="Int32" Name="MakeId" Nullable="false" />
+        </EntityType>
+        <Association Name="ModelComponent">
+          <End Type="aulease.Entities.Model" Role="Model" Multiplicity="0..1" />
+          <End Type="aulease.Entities.Component" Role="Component" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Model">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Component">
+              <PropertyRef Name="ModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ModelStandardComponent">
+          <End Type="aulease.Entities.Model" Role="Model" Multiplicity="1" />
+          <End Type="aulease.Entities.StandardComponent" Role="StandardComponent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Model">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StandardComponent">
+              <PropertyRef Name="ModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="StandardComponentType">
+          <End Type="aulease.Entities.StandardComponent" Role="StandardComponent" Multiplicity="*" />
+          <End Type="aulease.Entities.Type" Role="Type" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StandardComponent">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MakeStandardComponent">
+          <End Type="aulease.Entities.Make" Role="Make" Multiplicity="1" />
+          <End Type="aulease.Entities.StandardComponent" Role="StandardComponent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Make">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StandardComponent">
+              <PropertyRef Name="MakeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="VendorRateType">
+          <End Type="aulease.Entities.VendorRate" Role="VendorRate" Multiplicity="*" />
+          <End Type="aulease.Entities.Type" Role="Type" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VendorRate">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TaxCharge">
+          <End Type="aulease.Entities.Tax" Role="Tax" Multiplicity="0..1" />
+          <End Type="aulease.Entities.Charge" Role="Charge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tax">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Charge">
+              <PropertyRef Name="TaxId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="Location">
+          <Property Type="String" Name="Building" Nullable="true" />
+          <Property Type="String" Name="Room" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="SystemGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <NavigationProperty Name="Leases" Relationship="aulease.Entities.SystemGroupLease" FromRole="SystemGroup" ToRole="Lease" />
+          <NavigationProperty Name="User" Relationship="aulease.Entities.SystemGroupUser" FromRole="SystemGroup" ToRole="User" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <NavigationProperty Name="Order" Relationship="aulease.Entities.SystemGroupOrder" FromRole="SystemGroup" ToRole="Order" />
+          <Property Type="Int32" Name="OrderId" Nullable="false" />
+          <Property Name="Location" Type="aulease.Entities.Location" Nullable="false" />
+          <NavigationProperty Name="EOLComponents" Relationship="aulease.Entities.SystemGroupComponent" FromRole="SystemGroup" ToRole="Component" />
+          <NavigationProperty Name="PO" Relationship="aulease.Entities.POSystemGroup" FromRole="SystemGroup" ToRole="PO" />
+          <Property Type="Int32" Name="POId" Nullable="true" />
+          <NavigationProperty Name="Forms" Relationship="aulease.Entities.FK_FormSystemGroup" FromRole="SystemGroup" ToRole="Form" />
+          </EntityType>
+        <Association Name="SystemGroupLease">
+          <End Type="aulease.Entities.SystemGroup" Role="SystemGroup" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="aulease.Entities.Lease" Role="Lease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Lease">
+              <PropertyRef Name="SystemGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SystemGroupUser">
+          <End Type="aulease.Entities.SystemGroup" Role="SystemGroup" Multiplicity="*" />
+          <End Type="aulease.Entities.User" Role="User" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SystemGroup">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SystemGroupOrder">
+          <End Type="aulease.Entities.SystemGroup" Role="SystemGroup" Multiplicity="*">
+          </End>
+          <End Type="aulease.Entities.Order" Role="Order" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SystemGroup">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MakeModel">
+          <End Type="aulease.Entities.Make" Role="Make" Multiplicity="1" />
+          <End Type="aulease.Entities.Model" Role="Model" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Make">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Model">
+              <PropertyRef Name="MakeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SystemGroupComponent">
+          <End Type="aulease.Entities.SystemGroup" Role="SystemGroup" Multiplicity="0..1" />
+          <End Type="aulease.Entities.Component" Role="Component" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Component">
+              <PropertyRef Name="SystemGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="POSystemGroup">
+          <End Type="aulease.Entities.PO" Role="PO" Multiplicity="0..1" />
+          <End Type="aulease.Entities.SystemGroup" Role="SystemGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PO">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SystemGroup">
+              <PropertyRef Name="POId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="StandardOptionStandardComponent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="StandardOptionId" Nullable="false" />
+          <Property Type="Int32" Name="StandardComponentId" Nullable="false" />
+          <NavigationProperty Name="StandardComponent" Relationship="aulease.Entities.FK_StandardOptionStandardComponentStandardComponent" FromRole="StandardOptionStandardComponent" ToRole="StandardComponent" />
+          <NavigationProperty Name="StandardOption" Relationship="aulease.Entities.FK_StandardOptionStandardOptionStandardComponent" FromRole="StandardOptionStandardComponent" ToRole="StandardOption" />
+          </EntityType>
+        <Association Name="FK_StandardOptionStandardComponentStandardComponent">
+          <End Type="aulease.Entities.StandardComponent" Role="StandardComponent" Multiplicity="1" />
+          <End Type="aulease.Entities.StandardOptionStandardComponent" Role="StandardOptionStandardComponent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StandardComponent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StandardOptionStandardComponent">
+              <PropertyRef Name="StandardComponentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TypeOverhead">
+          <End Type="aulease.Entities.Type" Role="Type" Multiplicity="1" />
+          <End Type="aulease.Entities.Overhead" Role="Overhead" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Overhead">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="StandardOption">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="BaseRate24" Nullable="false" Precision="9" Scale="2" />
+          <Property Type="Decimal" Name="BaseRate36" Nullable="false" Precision="9" Scale="2" />
+          <Property Type="Decimal" Name="SupportRate24" Nullable="false" Precision="9" Scale="2" />
+          <Property Type="Decimal" Name="SupportRate36" Nullable="false" Precision="9" Scale="2" />
+          <NavigationProperty Name="StandardOptionStandardComponents" Relationship="aulease.Entities.FK_StandardOptionStandardOptionStandardComponent" FromRole="StandardOption" ToRole="StandardOptionStandardComponent" />
+        </EntityType>
+        <Association Name="FK_StandardOptionStandardOptionStandardComponent">
+          <End Type="aulease.Entities.StandardOption" Role="StandardOption" Multiplicity="1" />
+          <End Type="aulease.Entities.StandardOptionStandardComponent" Role="StandardOptionStandardComponent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StandardOption">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StandardOptionStandardComponent">
+              <PropertyRef Name="StandardOptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="Assignee" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Type="DateTime" Name="Timestamp" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Status" Relationship="aulease.Entities.TaskStatus" FromRole="Task" ToRole="Status" />
+          <Property Type="String" Name="Note" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="TaskStatus">
+          <End Type="aulease.Entities.Task" Role="Task" Multiplicity="*" />
+          <End Type="aulease.Entities.Status" Role="Status" Multiplicity="1" />
+        </Association>
+        <EntityType Name="Statement">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="3" />
+        </EntityType>
+        <Association Name="DepartmentCoordinator">
+          <End Type="aulease.Entities.Department" Role="Department" Multiplicity="*" />
+          <End Type="aulease.Entities.Coordinator" Role="Coordinator" Multiplicity="*" />
+        </Association>
+        <EntityType Name="FormTemplate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="HTML" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Form">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="HTML" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="SystemGroup_Id" Nullable="false" />
+          <NavigationProperty Name="SystemGroup" Relationship="aulease.Entities.FK_FormSystemGroup" FromRole="Form" ToRole="SystemGroup" />
+        </EntityType>
+        <Association Name="FK_FormSystemGroup">
+          <End Type="aulease.Entities.SystemGroup" Role="SystemGroup" Multiplicity="1" />
+          <End Type="aulease.Entities.Form" Role="Form" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Form">
+              <PropertyRef Name="SystemGroup_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SingleCharge">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="9" Scale="2" />
+          <Property Type="String" Name="GID" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Note" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="3" />
+          <Property Type="Boolean" Name="HasPaid" Nullable="false" />
+          <Property Type="Int32" Name="DepartmentId" Nullable="false" />
+          <NavigationProperty Name="Department" Relationship="aulease.Entities.FK_DepartmentSingleCharge" FromRole="SingleCharge" ToRole="Department" />
+        </EntityType>
+        <Association Name="FK_DepartmentSingleCharge">
+          <End Type="aulease.Entities.Department" Role="Department" Multiplicity="1" />
+          <End Type="aulease.Entities.SingleCharge" Role="SingleCharge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SingleCharge">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="auleaseEntitiesStoreContainer" CdmEntityContainer="AuleaseEntities">
+    <EntitySetMapping Name="Coordinators">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.Coordinator)">
+        <MappingFragment StoreEntitySet="Coordinators">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="GID" ColumnName="GID" />
+          <ScalarProperty Name="BillingAccess" ColumnName="BillingAccess" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Charges">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.Charge)">
+        <MappingFragment StoreEntitySet="Charges">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="VendorRateId" ColumnName="VendorRateId" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="TaxId" ColumnName="TaxId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Components">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.Component)">
+        <MappingFragment StoreEntitySet="Components">
+          <ScalarProperty Name="ComputerName" ColumnName="ComputerName" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+          <ScalarProperty Name="LeaseTag" ColumnName="LeaseTag" />
+          <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+          <ScalarProperty Name="MAC" ColumnName="MAC" />
+          <ScalarProperty Name="InstallSoftware" ColumnName="InstallSoftware" />
+          <ScalarProperty Name="InstallHardware" ColumnName="InstallHardware" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="Renewal" ColumnName="Renewal" />
+          <ScalarProperty Name="MakeId" ColumnName="MakeId" />
+          <ScalarProperty Name="SignatureId" ColumnName="SignatureId" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+          <ScalarProperty Name="ModelId" ColumnName="ModelId" />
+          <ScalarProperty Name="SystemGroupId" ColumnName="SystemGroupId" />
+          <ScalarProperty Name="Damages" ColumnName="Damages" />
+          <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Departments">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.Department)">
+        <MappingFragment StoreEntitySet="Departments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Fund" ColumnName="Fund" />
+          <ScalarProperty Name="Org" ColumnName="Org" />
+          <ScalarProperty Name="Program" ColumnName="Program" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Leases">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.Lease)">
+        <MappingFragment StoreEntitySet="Leases">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="StatementName" ColumnName="StatementName" />
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+          <ScalarProperty Name="ContractNumber" ColumnName="ContractNumber" />
+          <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+          <ScalarProperty Name="MonthlyCharge" ColumnName="MonthlyCharge" />
+          <ScalarProperty Name="OverheadId" ColumnName="OverheadId" />
+          <ScalarProperty Name="ComponentId" ColumnName="ComponentId" />
+          <ScalarProperty Name="SystemGroupId" ColumnName="SystemGroupId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Makes">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.Make)">
+        <MappingFragment StoreEntitySet="Makes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Orders">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.Order)">
+        <MappingFragment StoreEntitySet="Orders">
+          <ScalarProperty Name="HasSentOrderedFromSupplierEmail" ColumnName="HasSentOrderedFromSupplierEmail" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Overheads">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.Overhead)">
+        <MappingFragment StoreEntitySet="Overheads">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RateLevel" ColumnName="RateLevel" />
+          <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="Term" ColumnName="Term" />
+          <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="POes">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.PO)">
+        <MappingFragment StoreEntitySet="POes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PONumber" ColumnName="PONumber" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Properties">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.Property)">
+        <MappingFragment StoreEntitySet="Properties">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Key" ColumnName="Key" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Repairs">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.Repair)">
+        <MappingFragment StoreEntitySet="Repairs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="Assignee" ColumnName="Assignee" />
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+          <ScalarProperty Name="ComponentId" ColumnName="ComponentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Signatures">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.Signature)">
+        <MappingFragment StoreEntitySet="Signatures">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="MIME" ColumnName="MIME" />
+          <ScalarProperty Name="File" ColumnName="File" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Status">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.Status)">
+        <MappingFragment StoreEntitySet="Status">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Types">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.Type)">
+        <MappingFragment StoreEntitySet="Types">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="GID" ColumnName="GID" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ComplexProperty Name="Location" TypeName="aulease.Entities.Location">
+            <ScalarProperty Name="Building" ColumnName="Location_Building" />
+            <ScalarProperty Name="Room" ColumnName="Location_Room" />
+          </ComplexProperty>
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VendorEmails">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.VendorEmail)">
+        <MappingFragment StoreEntitySet="VendorEmails">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VendorRates">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.VendorRate)">
+        <MappingFragment StoreEntitySet="VendorRates">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Term" ColumnName="Term" />
+          <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="Rate" ColumnName="Rate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StandardComponents">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.StandardComponent)">
+        <MappingFragment StoreEntitySet="StandardComponents">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ModelId" ColumnName="ModelId" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="MakeId" ColumnName="MakeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Taxes">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.Tax)">
+        <MappingFragment StoreEntitySet="Taxes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Models">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.Model)">
+        <MappingFragment StoreEntitySet="Models">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="MakeId" ColumnName="MakeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SystemGroups">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.SystemGroup)">
+        <MappingFragment StoreEntitySet="SystemGroups">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ComplexProperty Name="Location" TypeName="aulease.Entities.Location">
+            <ScalarProperty Name="Building" ColumnName="Location_Building" />
+            <ScalarProperty Name="Room" ColumnName="Location_Room" />
+          </ComplexProperty>
+          <ScalarProperty Name="POId" ColumnName="POId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StandardOptionStandardComponents">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.StandardOptionStandardComponent)">
+        <MappingFragment StoreEntitySet="StandardOptionStandardComponents">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="StandardOptionId" ColumnName="StandardOptionId" />
+          <ScalarProperty Name="StandardComponentId" ColumnName="StandardComponentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StandardOptions">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.StandardOption)">
+        <MappingFragment StoreEntitySet="StandardOptions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="BaseRate24" ColumnName="BaseRate24" />
+          <ScalarProperty Name="BaseRate36" ColumnName="BaseRate36" />
+          <ScalarProperty Name="SupportRate24" ColumnName="SupportRate24" />
+          <ScalarProperty Name="SupportRate36" ColumnName="SupportRate36" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tasks">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.Task)">
+        <MappingFragment StoreEntitySet="Tasks">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Assignee" ColumnName="Assignee" />
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Statements">
+      <EntityTypeMapping TypeName="IsTypeOf(aulease.Entities.Statement)">
+        <MappingFragment StoreEntitySet="Statements">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="ComponentProperty" TypeName="aulease.Entities.ComponentProperty" StoreEntitySet="ComponentProperty">
+      <EndProperty Name="Components">
+        <ScalarProperty Name="Id" ColumnName="Components_Id" />
+      </EndProperty>
+      <EndProperty Name="Properties">
+        <ScalarProperty Name="Id" ColumnName="Properties_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="LeaseCharge" TypeName="aulease.Entities.LeaseCharge" StoreEntitySet="LeaseCharge">
+      <EndProperty Name="Charges">
+        <ScalarProperty Name="Id" ColumnName="Charges_Id" />
+      </EndProperty>
+      <EndProperty Name="Leases">
+        <ScalarProperty Name="Id" ColumnName="Leases_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="StandardComponentProperty" TypeName="aulease.Entities.StandardComponentProperty" StoreEntitySet="StandardComponentProperty">
+      <EndProperty Name="StandardComponent">
+        <ScalarProperty Name="Id" ColumnName="StandardComponents_Id" />
+      </EndProperty>
+      <EndProperty Name="Property">
+        <ScalarProperty Name="Id" ColumnName="Properties_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TaskStatus" TypeName="aulease.Entities.TaskStatus" StoreEntitySet="Tasks">
+      <EndProperty Name="Status">
+        <ScalarProperty Name="Id" ColumnName="Status_Id" />
+      </EndProperty>
+      <EndProperty Name="Task">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DepartmentCoordinator" TypeName="aulease.Entities.DepartmentCoordinator" StoreEntitySet="DepartmentCoordinator">
+      <EndProperty Name="Department">
+        <ScalarProperty Name="Id" ColumnName="Departments_Id" />
+      </EndProperty>
+      <EndProperty Name="Coordinator">
+        <ScalarProperty Name="Id" ColumnName="Coordinators_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+          <EntitySetMapping Name="FormTemplates">
+            <EntityTypeMapping TypeName="aulease.Entities.FormTemplate">
+              <MappingFragment StoreEntitySet="FormTemplates">
+                <ScalarProperty Name="HTML" ColumnName="HTML" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Forms">
+            <EntityTypeMapping TypeName="aulease.Entities.Form">
+              <MappingFragment StoreEntitySet="Forms">
+                <ScalarProperty Name="SystemGroup_Id" ColumnName="SystemGroup_Id" />
+                <ScalarProperty Name="HTML" ColumnName="HTML" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SingleCharges">
+            <EntityTypeMapping TypeName="aulease.Entities.SingleCharge">
+              <MappingFragment StoreEntitySet="SingleCharges">
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="HasPaid" ColumnName="HasPaid" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="GID" ColumnName="GID" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer>
+    <edmx:Connection>
+      <edmx:DesignerInfoPropertySet>
+        <edmx:DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </edmx:DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <edmx:DesignerInfoPropertySet>
+        <edmx:DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <edmx:DesignerProperty Name="EnablePluralization" Value="True" />
+        <edmx:DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <edmx:DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </edmx:DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams />
+  </edmx:Designer>
+</edmx:Edmx>

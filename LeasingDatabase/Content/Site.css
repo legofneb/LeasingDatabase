@@ -1,0 +1,19 @@
+﻿body {
+	padding-top: 40px;
+	font: 13px/1.7em 'Open Sans';
+}
+
+dd {
+    float: left;
+    width: 50%;
+}
+
+dt {
+    min-height: 20px;
+    width: 30%;
+    float: left;
+}
+
+dl {
+    margin: 0 10px 0 10px;
+}

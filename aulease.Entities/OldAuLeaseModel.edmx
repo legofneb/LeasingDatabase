@@ -1,0 +1,509 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="OldAuLeaseModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="OldAuLeaseModelStoreContainer">
+          <EntitySet Name="Billing" EntityType="OldAuLeaseModel.Store.Billing" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DeptContactInfo" EntityType="OldAuLeaseModel.Store.DeptContactInfo" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="NewOrdersPending" EntityType="OldAuLeaseModel.Store.NewOrdersPending" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="NewUserInfo" EntityType="OldAuLeaseModel.Store.NewUserInfo" store:Type="Tables" store:Schema="dbo" store:Name="NewUserInfo">
+            <DefiningQuery>SELECT 
+      [NewUserInfo].[SerialNumber] AS [SerialNumber], 
+      [NewUserInfo].[SR] AS [SR], 
+      [NewUserInfo].[LeaseTag] AS [LeaseTag], 
+      [NewUserInfo].[Component] AS [Component], 
+      [NewUserInfo].[Fund] AS [Fund], 
+      [NewUserInfo].[Org] AS [Org], 
+      [NewUserInfo].[Program] AS [Program], 
+      [NewUserInfo].[FirstName] AS [FirstName], 
+      [NewUserInfo].[LastName] AS [LastName], 
+      [NewUserInfo].[Department] AS [Department], 
+      [NewUserInfo].[Location] AS [Location], 
+      [NewUserInfo].[UserID] AS [UserID], 
+      [NewUserInfo].[Notes] AS [Notes], 
+      [NewUserInfo].[Manufacturer] AS [Manufacturer], 
+      [NewUserInfo].[Model] AS [Model], 
+      [NewUserInfo].[Maintenance] AS [Maintenance], 
+      [NewUserInfo].[OrderNumber] AS [OrderNumber], 
+      [NewUserInfo].[ContractNumber] AS [ContractNumber], 
+      [NewUserInfo].[ParentTag] AS [ParentTag], 
+      [NewUserInfo].[BeginBillDate] AS [BeginBillDate], 
+      [NewUserInfo].[EndBillDate] AS [EndBillDate], 
+      [NewUserInfo].[MonthlyCharge] AS [MonthlyCharge], 
+      [NewUserInfo].[EOLSerial] AS [EOLSerial], 
+      [NewUserInfo].[EOLTag] AS [EOLTag], 
+      [NewUserInfo].[OldSerial] AS [OldSerial], 
+      [NewUserInfo].[RateLevel] AS [RateLevel], 
+      [NewUserInfo].[StatementName] AS [StatementName]
+      FROM [dbo].[NewUserInfo] AS [NewUserInfo]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+        <EntityType Name="Billing">
+          <Key>
+            <PropertyRef Name="RecordID" />
+          </Key>
+          <Property Name="SerialNumber" Type="varchar" MaxLength="50" />
+          <Property Name="BegBillDate" Type="datetime" />
+          <Property Name="EndBillDate" Type="datetime" />
+          <Property Name="MonthlyCharge" Type="decimal" Precision="9" Scale="2" />
+          <Property Name="Term" Type="int" />
+          <Property Name="igfTerm" Type="int" />
+          <Property Name="Fund" Type="varchar(max)" />
+          <Property Name="Org" Type="varchar(max)" />
+          <Property Name="Program" Type="varchar(max)" />
+          <Property Name="Transfer" Type="bit" Nullable="false" />
+          <Property Name="Extend" Type="bit" Nullable="false" />
+          <Property Name="PaidinFull" Type="bit" Nullable="false" />
+          <Property Name="RecordID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ContractNumber" Type="varchar(max)" />
+          <Property Name="igfRate" Type="decimal" Precision="9" Scale="2" />
+          <Property Name="Tax" Type="decimal" Precision="9" Scale="2" />
+          <Property Name="ChargedRate" Type="decimal" Precision="9" Scale="2" />
+          <Property Name="LeasingRate" Type="decimal" Precision="9" Scale="2" />
+          <Property Name="Insurance" Type="decimal" Precision="9" Scale="2" />
+          <Property Name="StatementName" Type="varchar(max)" />
+          <Property Name="ComponentCost" Type="decimal" Precision="9" Scale="2" />
+          <Property Name="InsuranceCost" Type="decimal" Precision="9" Scale="2" />
+          <Property Name="WarrantyCost" Type="decimal" Precision="9" Scale="2" />
+        </EntityType>
+        <EntityType Name="DeptContactInfo">
+          <Key>
+            <PropertyRef Name="RecordID" />
+          </Key>
+          <Property Name="BILL_LEVEL_CODE" Type="nvarchar" MaxLength="255" />
+          <Property Name="BILL_LEVEL_DSC" Type="nvarchar" MaxLength="255" />
+          <Property Name="BILL_Desc" Type="nvarchar" MaxLength="50" />
+          <Property Name="BILL_Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="255" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="255" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="255" />
+          <Property Name="Fund" Type="varchar(max)" />
+          <Property Name="Org" Type="varchar(max)" />
+          <Property Name="Program" Type="nvarchar" MaxLength="50" />
+          <Property Name="RecordID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="NewOrdersPending">
+          <Key>
+            <PropertyRef Name="RecordID" />
+          </Key>
+          <Property Name="RecordID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SerialNumber" Type="varchar" MaxLength="50" />
+          <Property Name="SR" Type="varchar" MaxLength="50" />
+          <Property Name="LeaseTag" Type="varchar" MaxLength="10" />
+          <Property Name="Fund" Type="varchar" MaxLength="10" />
+          <Property Name="Org" Type="varchar" MaxLength="10" />
+          <Property Name="Program" Type="varchar" MaxLength="10" />
+          <Property Name="FirstName" Type="varchar" MaxLength="80" />
+          <Property Name="LastName" Type="varchar" MaxLength="30" />
+          <Property Name="StatementName" Type="varchar" MaxLength="500" />
+          <Property Name="Department" Type="varchar" MaxLength="50" />
+          <Property Name="Location" Type="varchar" MaxLength="50" />
+          <Property Name="UserID" Type="varchar" MaxLength="20" />
+          <Property Name="OrderDate" Type="datetime" />
+          <Property Name="Component" Type="varchar" MaxLength="50" />
+          <Property Name="Manufacturer" Type="varchar" MaxLength="50" />
+          <Property Name="Model" Type="varchar" MaxLength="50" />
+          <Property Name="Component2" Type="varchar(max)" />
+          <Property Name="LeaseTag2" Type="varchar(max)" />
+          <Property Name="SerialNumber2" Type="varchar(max)" />
+          <Property Name="Manufacturer2" Type="varchar(max)" />
+          <Property Name="Model2" Type="varchar(max)" />
+          <Property Name="Component3" Type="varchar(max)" />
+          <Property Name="LeaseTag3" Type="varchar(max)" />
+          <Property Name="SerialNumber3" Type="varchar(max)" />
+          <Property Name="Manufacturer3" Type="varchar(max)" />
+          <Property Name="Model3" Type="varchar(max)" />
+          <Property Name="Notes" Type="varchar(max)" />
+          <Property Name="Maintenance" Type="bit" />
+          <Property Name="OrderNumber" Type="varchar" MaxLength="50" />
+          <Property Name="ContractNumber" Type="varchar" MaxLength="50" />
+          <Property Name="ParentTag" Type="varchar" MaxLength="50" />
+          <Property Name="OrdererUserName" Type="varchar" MaxLength="20" />
+          <Property Name="OrdererFirstName" Type="varchar" MaxLength="100" />
+          <Property Name="OrdererLastName" Type="varchar" MaxLength="100" />
+          <Property Name="OrdererPhone" Type="varchar" MaxLength="30" />
+          <Property Name="OrdererEmail" Type="varchar" MaxLength="60" />
+          <Property Name="OrdererDepartment" Type="varchar" MaxLength="500" />
+          <Property Name="Renewal" Type="bit" />
+          <Property Name="Term" Type="int" />
+          <Property Name="RateLevel" Type="varchar" MaxLength="100" />
+          <Property Name="LabOrder" Type="bit" />
+          <Property Name="LabName" Type="varchar" MaxLength="510" />
+          <Property Name="Phone" Type="varchar" MaxLength="30" />
+          <Property Name="Scanned" Type="datetime" />
+          <Property Name="Prepped" Type="datetime" />
+          <Property Name="MonitorCount" Type="int" />
+          <Property Name="Reference" Type="decimal" />
+          <Property Name="Finalized" Type="bit" />
+          <Property Name="EOLSerial" Type="varchar" MaxLength="100" />
+          <Property Name="EOLTag" Type="varchar" MaxLength="100" />
+          <Property Name="EOLSerial2" Type="varchar(max)" />
+          <Property Name="EOLTag2" Type="varchar(max)" />
+          <Property Name="EOLSerial3" Type="varchar(max)" />
+          <Property Name="EOLTag3" Type="varchar(max)" />
+          <Property Name="OldSerial" Type="varchar(max)" />
+          <Property Name="Cancelled" Type="bit" Nullable="false" />
+          <Property Name="OperatingSystem" Type="varchar(max)" />
+          <Property Name="Rate" Type="bit" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'aulease.dbo.NewUserInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="NewUserInfo">
+          <Key>
+            <PropertyRef Name="SerialNumber" />
+          </Key>
+          <Property Name="SerialNumber" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="SR" Type="varchar" MaxLength="50" />
+          <Property Name="LeaseTag" Type="varchar" MaxLength="50" />
+          <Property Name="Component" Type="varchar" MaxLength="50" />
+          <Property Name="Fund" Type="varchar(max)" />
+          <Property Name="Org" Type="varchar(max)" />
+          <Property Name="Program" Type="varchar" MaxLength="50" />
+          <Property Name="FirstName" Type="varchar(max)" />
+          <Property Name="LastName" Type="varchar(max)" />
+          <Property Name="Department" Type="varchar" MaxLength="500" />
+          <Property Name="Location" Type="varchar" MaxLength="500" />
+          <Property Name="UserID" Type="varchar" MaxLength="20" />
+          <Property Name="Notes" Type="varchar(max)" />
+          <Property Name="Manufacturer" Type="varchar" MaxLength="50" />
+          <Property Name="Model" Type="varchar" MaxLength="50" />
+          <Property Name="Maintenance" Type="bit" />
+          <Property Name="OrderNumber" Type="varchar" MaxLength="50" />
+          <Property Name="ContractNumber" Type="varchar" MaxLength="50" />
+          <Property Name="ParentTag" Type="varchar" MaxLength="50" />
+          <Property Name="BeginBillDate" Type="varchar" MaxLength="10" />
+          <Property Name="EndBillDate" Type="varchar" MaxLength="10" />
+          <Property Name="MonthlyCharge" Type="decimal" Precision="9" Scale="2" />
+          <Property Name="EOLSerial" Type="varchar" MaxLength="50" />
+          <Property Name="EOLTag" Type="varchar" MaxLength="10" />
+          <Property Name="OldSerial" Type="varchar(max)" />
+          <Property Name="RateLevel" Type="varchar(max)" />
+          <Property Name="StatementName" Type="varchar(max)" />
+        </EntityType>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OldAuLeaseModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="OldAuleaseEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Billings" EntityType="OldAuLeaseModel.Billing" />
+          <EntitySet Name="DeptContactInfoes" EntityType="OldAuLeaseModel.DeptContactInfo" />
+          <EntitySet Name="NewUserInfoes" EntityType="OldAuLeaseModel.NewUserInfo" />
+          <EntitySet Name="NewOrdersPendings" EntityType="OldAuLeaseModel.NewOrdersPending" />
+        </EntityContainer>
+        <EntityType Name="Billing">
+          <Key>
+            <PropertyRef Name="RecordID" />
+          </Key>
+          <Property Name="SerialNumber" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="BegBillDate" Type="DateTime" Precision="3" />
+          <Property Name="EndBillDate" Type="DateTime" Precision="3" />
+          <Property Name="MonthlyCharge" Type="Decimal" Precision="9" Scale="2" />
+          <Property Name="Term" Type="Int32" />
+          <Property Name="igfTerm" Type="Int32" />
+          <Property Name="Fund" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Org" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Program" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Transfer" Type="Boolean" Nullable="false" />
+          <Property Name="Extend" Type="Boolean" Nullable="false" />
+          <Property Name="PaidinFull" Type="Boolean" Nullable="false" />
+          <Property Name="RecordID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="ContractNumber" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="igfRate" Type="Decimal" Precision="9" Scale="2" />
+          <Property Name="Tax" Type="Decimal" Precision="9" Scale="2" />
+          <Property Name="ChargedRate" Type="Decimal" Precision="9" Scale="2" />
+          <Property Name="LeasingRate" Type="Decimal" Precision="9" Scale="2" />
+          <Property Name="Insurance" Type="Decimal" Precision="9" Scale="2" />
+          <Property Name="StatementName" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="ComponentCost" Type="Decimal" Precision="9" Scale="2" />
+          <Property Name="InsuranceCost" Type="Decimal" Precision="9" Scale="2" />
+          <Property Name="WarrantyCost" Type="Decimal" Precision="9" Scale="2" />
+        </EntityType>
+        <EntityType Name="DeptContactInfo">
+          <Key>
+            <PropertyRef Name="RecordID" />
+          </Key>
+          <Property Name="BILL_LEVEL_CODE" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="BILL_LEVEL_DSC" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="BILL_Desc" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="BILL_Type" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="FirstName" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="LastName" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="UserName" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="Fund" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Org" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Program" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="RecordID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="NewUserInfo">
+          <Key>
+            <PropertyRef Name="SerialNumber" />
+          </Key>
+          <Property Name="SerialNumber" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="SR" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="LeaseTag" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Component" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Fund" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Org" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Program" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="LastName" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Department" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="Location" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="UserID" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="Notes" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Manufacturer" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Model" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Maintenance" Type="Boolean" />
+          <Property Name="OrderNumber" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="ContractNumber" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="ParentTag" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="BeginBillDate" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="EndBillDate" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="MonthlyCharge" Type="Decimal" Precision="9" Scale="2" />
+          <Property Name="EOLSerial" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="EOLTag" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="OldSerial" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="RateLevel" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="StatementName" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="NewOrdersPending">
+          <Key>
+            <PropertyRef Name="RecordID" />
+          </Key>
+          <Property Type="Int32" Name="RecordID" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="SerialNumber" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SR" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="LeaseTag" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Fund" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Org" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Program" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FirstName" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="LastName" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="StatementName" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Department" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Location" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="UserID" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="OrderDate" Precision="3" />
+          <Property Type="String" Name="Component" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Manufacturer" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Model" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Component2" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="LeaseTag2" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SerialNumber2" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Manufacturer2" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Model2" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Component3" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="LeaseTag3" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SerialNumber3" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Manufacturer3" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Model3" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Notes" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="Maintenance" />
+          <Property Type="String" Name="OrderNumber" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ContractNumber" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ParentTag" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="OrdererUserName" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="OrdererFirstName" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="OrdererLastName" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="OrdererPhone" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="OrdererEmail" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="OrdererDepartment" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="Renewal" />
+          <Property Type="Int32" Name="Term" />
+          <Property Type="String" Name="RateLevel" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="LabOrder" />
+          <Property Type="String" Name="LabName" MaxLength="510" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Phone" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="Scanned" Precision="3" />
+          <Property Type="DateTime" Name="Prepped" Precision="3" />
+          <Property Type="Int32" Name="MonitorCount" />
+          <Property Type="Decimal" Name="Reference" Precision="18" Scale="0" />
+          <Property Type="Boolean" Name="Finalized" />
+          <Property Type="String" Name="EOLSerial" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EOLTag" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EOLSerial2" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EOLTag2" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EOLSerial3" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EOLTag3" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="OldSerial" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="Cancelled" Nullable="false" />
+          <Property Type="String" Name="OperatingSystem" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="Rate" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OldAuLeaseModelStoreContainer" CdmEntityContainer="OldAuleaseEntities">
+          <EntitySetMapping Name="Billings">
+            <EntityTypeMapping TypeName="OldAuLeaseModel.Billing">
+              <MappingFragment StoreEntitySet="Billing">
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="BegBillDate" ColumnName="BegBillDate" />
+                <ScalarProperty Name="EndBillDate" ColumnName="EndBillDate" />
+                <ScalarProperty Name="MonthlyCharge" ColumnName="MonthlyCharge" />
+                <ScalarProperty Name="Term" ColumnName="Term" />
+                <ScalarProperty Name="igfTerm" ColumnName="igfTerm" />
+                <ScalarProperty Name="Fund" ColumnName="Fund" />
+                <ScalarProperty Name="Org" ColumnName="Org" />
+                <ScalarProperty Name="Program" ColumnName="Program" />
+                <ScalarProperty Name="Transfer" ColumnName="Transfer" />
+                <ScalarProperty Name="Extend" ColumnName="Extend" />
+                <ScalarProperty Name="PaidinFull" ColumnName="PaidinFull" />
+                <ScalarProperty Name="RecordID" ColumnName="RecordID" />
+                <ScalarProperty Name="ContractNumber" ColumnName="ContractNumber" />
+                <ScalarProperty Name="igfRate" ColumnName="igfRate" />
+                <ScalarProperty Name="Tax" ColumnName="Tax" />
+                <ScalarProperty Name="ChargedRate" ColumnName="ChargedRate" />
+                <ScalarProperty Name="LeasingRate" ColumnName="LeasingRate" />
+                <ScalarProperty Name="Insurance" ColumnName="Insurance" />
+                <ScalarProperty Name="StatementName" ColumnName="StatementName" />
+                <ScalarProperty Name="ComponentCost" ColumnName="ComponentCost" />
+                <ScalarProperty Name="InsuranceCost" ColumnName="InsuranceCost" />
+                <ScalarProperty Name="WarrantyCost" ColumnName="WarrantyCost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeptContactInfoes">
+            <EntityTypeMapping TypeName="OldAuLeaseModel.DeptContactInfo">
+              <MappingFragment StoreEntitySet="DeptContactInfo">
+                <ScalarProperty Name="BILL_LEVEL_CODE" ColumnName="BILL_LEVEL_CODE" />
+                <ScalarProperty Name="BILL_LEVEL_DSC" ColumnName="BILL_LEVEL_DSC" />
+                <ScalarProperty Name="BILL_Desc" ColumnName="BILL_Desc" />
+                <ScalarProperty Name="BILL_Type" ColumnName="BILL_Type" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Fund" ColumnName="Fund" />
+                <ScalarProperty Name="Org" ColumnName="Org" />
+                <ScalarProperty Name="Program" ColumnName="Program" />
+                <ScalarProperty Name="RecordID" ColumnName="RecordID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NewUserInfoes">
+            <EntityTypeMapping TypeName="OldAuLeaseModel.NewUserInfo">
+              <MappingFragment StoreEntitySet="NewUserInfo">
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="SR" ColumnName="SR" />
+                <ScalarProperty Name="LeaseTag" ColumnName="LeaseTag" />
+                <ScalarProperty Name="Component" ColumnName="Component" />
+                <ScalarProperty Name="Fund" ColumnName="Fund" />
+                <ScalarProperty Name="Org" ColumnName="Org" />
+                <ScalarProperty Name="Program" ColumnName="Program" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="Manufacturer" ColumnName="Manufacturer" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Maintenance" ColumnName="Maintenance" />
+                <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+                <ScalarProperty Name="ContractNumber" ColumnName="ContractNumber" />
+                <ScalarProperty Name="ParentTag" ColumnName="ParentTag" />
+                <ScalarProperty Name="BeginBillDate" ColumnName="BeginBillDate" />
+                <ScalarProperty Name="EndBillDate" ColumnName="EndBillDate" />
+                <ScalarProperty Name="MonthlyCharge" ColumnName="MonthlyCharge" />
+                <ScalarProperty Name="EOLSerial" ColumnName="EOLSerial" />
+                <ScalarProperty Name="EOLTag" ColumnName="EOLTag" />
+                <ScalarProperty Name="OldSerial" ColumnName="OldSerial" />
+                <ScalarProperty Name="RateLevel" ColumnName="RateLevel" />
+                <ScalarProperty Name="StatementName" ColumnName="StatementName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NewOrdersPendings">
+            <EntityTypeMapping TypeName="OldAuLeaseModel.NewOrdersPending">
+              <MappingFragment StoreEntitySet="NewOrdersPending">
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="OperatingSystem" ColumnName="OperatingSystem" />
+                <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
+                <ScalarProperty Name="OldSerial" ColumnName="OldSerial" />
+                <ScalarProperty Name="EOLTag3" ColumnName="EOLTag3" />
+                <ScalarProperty Name="EOLSerial3" ColumnName="EOLSerial3" />
+                <ScalarProperty Name="EOLTag2" ColumnName="EOLTag2" />
+                <ScalarProperty Name="EOLSerial2" ColumnName="EOLSerial2" />
+                <ScalarProperty Name="EOLTag" ColumnName="EOLTag" />
+                <ScalarProperty Name="EOLSerial" ColumnName="EOLSerial" />
+                <ScalarProperty Name="Finalized" ColumnName="Finalized" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="MonitorCount" ColumnName="MonitorCount" />
+                <ScalarProperty Name="Prepped" ColumnName="Prepped" />
+                <ScalarProperty Name="Scanned" ColumnName="Scanned" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="LabName" ColumnName="LabName" />
+                <ScalarProperty Name="LabOrder" ColumnName="LabOrder" />
+                <ScalarProperty Name="RateLevel" ColumnName="RateLevel" />
+                <ScalarProperty Name="Term" ColumnName="Term" />
+                <ScalarProperty Name="Renewal" ColumnName="Renewal" />
+                <ScalarProperty Name="OrdererDepartment" ColumnName="OrdererDepartment" />
+                <ScalarProperty Name="OrdererEmail" ColumnName="OrdererEmail" />
+                <ScalarProperty Name="OrdererPhone" ColumnName="OrdererPhone" />
+                <ScalarProperty Name="OrdererLastName" ColumnName="OrdererLastName" />
+                <ScalarProperty Name="OrdererFirstName" ColumnName="OrdererFirstName" />
+                <ScalarProperty Name="OrdererUserName" ColumnName="OrdererUserName" />
+                <ScalarProperty Name="ParentTag" ColumnName="ParentTag" />
+                <ScalarProperty Name="ContractNumber" ColumnName="ContractNumber" />
+                <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+                <ScalarProperty Name="Maintenance" ColumnName="Maintenance" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="Model3" ColumnName="Model3" />
+                <ScalarProperty Name="Manufacturer3" ColumnName="Manufacturer3" />
+                <ScalarProperty Name="SerialNumber3" ColumnName="SerialNumber3" />
+                <ScalarProperty Name="LeaseTag3" ColumnName="LeaseTag3" />
+                <ScalarProperty Name="Component3" ColumnName="Component3" />
+                <ScalarProperty Name="Model2" ColumnName="Model2" />
+                <ScalarProperty Name="Manufacturer2" ColumnName="Manufacturer2" />
+                <ScalarProperty Name="SerialNumber2" ColumnName="SerialNumber2" />
+                <ScalarProperty Name="LeaseTag2" ColumnName="LeaseTag2" />
+                <ScalarProperty Name="Component2" ColumnName="Component2" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Manufacturer" ColumnName="Manufacturer" />
+                <ScalarProperty Name="Component" ColumnName="Component" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="StatementName" ColumnName="StatementName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Program" ColumnName="Program" />
+                <ScalarProperty Name="Org" ColumnName="Org" />
+                <ScalarProperty Name="Fund" ColumnName="Fund" />
+                <ScalarProperty Name="LeaseTag" ColumnName="LeaseTag" />
+                <ScalarProperty Name="SR" ColumnName="SR" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="RecordID" ColumnName="RecordID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams />
+  </Designer>
+</edmx:Edmx>

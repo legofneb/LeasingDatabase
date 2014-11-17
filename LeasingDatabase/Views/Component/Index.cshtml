@@ -1,0 +1,591 @@
+﻿@model LeasingDatabase.Models.Grid.ComponentJqGridModel
+@using Trirand.Web.Mvc
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@Html.Trirand().JQGrid(Model.OrdersGrid, "JQGrid1")
+
+<div class="contextMenu" id="myMenu1" style="display: none">
+	<ul style="width: 270px">
+		<li id="add">
+			<span class="ui-icon ui-icon-plus" style="float: left;"></span>
+			<span style="font-size: 80%; font-family: Verdana">Add Row</span>
+		</li>
+
+		<li id="edit">
+			<span class="ui-icon ui-icon-pencil" style="float: left;"></span>
+			<span style="font-size: 80%; font-family: Verdana">Edit Row</span>
+		</li>
+
+		<li id="detail">
+			<span class="ui-icon ui-icon-info" style="float: left;"></span>
+			<span style="font-size: 80%; font-family: Verdana">More Detail</span>
+		</li>
+
+		<li id="documents">
+			<span class="ui-icon ui-icon-document" style="float: left;"></span>
+			<span style="font-size: 80%; font-family: Verdana;">Documents</span>
+		</li>
+
+        <li id="group">
+            <span class="ui-icon ui-icon-link" style="float: left"></span>
+			<span style="font-size: 80%; font-family: Verdana">SR Actions</span>
+        </li>
+
+        <li id="billing">
+            <span class="ui-icon ui-icon-suitcase" style="float: left;"></span>
+            <span style="font-size: 80%; font-family: Verdana;">Billing</span>
+        </li>
+	</ul>
+</div>
+
+<div id="extendModal" class="modal hide fade">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Extend Lease</h3>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="extendSerialNumber">Serial Number</label>
+            <div class="controls">
+                <input type="text" id="extendSerialNumber" readonly="true" />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="extendSR">SR</label>
+            <div class="controls">
+                <input type="text" id="extendSR" readonly="true"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="extendMonths">Months to Extend</label>
+            <div class="controls">
+                <select id="extendMonths">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6" selected>6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="extendEndDate">Extend Til</label>
+            <div class="controls">
+                <input type="text" id="extendEndDate" readonly="true"/>
+            </div>
+        </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+    <a href="#" class="btn btn-primary" id="sendExtension">Save changes</a>
+  </div>
+</div>
+
+<div id="buyOutModal" class="modal hide fade">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Buy Out Lease</h3>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="buyOutSerialNumber">Serial Number</label>
+            <div class="controls">
+                <input type="text" id="buyOutSerialNumber" readonly="true" />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="buyOutSR">SR</label>
+            <div class="controls">
+                <input type="text" id="buyOutSR" readonly="true"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="buyOutCharge">Charge</label>
+            <div class="controls">
+                <input type="text" id="buyOutCharge"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="buyOutLastDate">Last Lease Billed Date</label>
+            <div class="controls">
+                <button type="button" id="buyOutLastMinus">-</button>
+                <input type="text" id="buyOutLastDate" readonly="true"/>
+                <button type="button" id="buyOutLastPlus">+</button>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="buyOutEndDate">Buy Out Date</label>
+            <div class="controls">
+                <button type="button" id="buyOutMinus">-</button>
+                <input type="text" id="buyOutDate" readonly="true"/>
+                <button type="button" id="buyOutPlus">+</button>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="buyOutFOP">Assign Buy Out to Different FOP</label>
+            <div class="controls">
+                <input type="checkbox" id="buyOutFOP" />
+            </div>
+        </div>
+
+        <div id="FOPBox">
+        <div class="control-group">
+            <label class="control-label" for="buyOutFund">Fund</label>
+            <div class="controls">
+                <input type="text" id="buyOutFund" />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="buyOutOrg">Org</label>
+            <div class="controls">
+                <input type="text" id="buyOutOrg" />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="buyOutProgram">Program</label>
+            <div class="controls">
+                <input type="text" id="buyOutProgram" />
+            </div>
+        </div>
+        </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+    <a href="#" class="btn btn-primary" id="sendBuyOut">Save changes</a>
+  </div>
+</div>
+
+<div id="changeModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="changeModal" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3>Change FOP Information</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label" for="changeSerialNumber">Serial Number</label>
+                <div class="controls">
+                    <input type="text" id="changeSerialNumber" readonly="true" />
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="changeFund">Fund</label>
+                <div class="controls">
+                    <input type="text" id="changeFund" />
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="changeOrg">Org</label>
+                <div class="controls">
+                    <input type="text" id="changeOrg" />
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="changeProgram">Program</label>
+                <div class="controls">
+                    <input type="text" id="changeProgram" />
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="changeStatementName">Statement Name</label>
+                <div class="controls">
+                    <input type="text" id="changeStatementName" />
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="changeDate">Effective Beg Date</label>
+                <div class="controls">
+                    <button type="button" id="changeMinus">-</button>
+                    <input type="text" id="changeDate" readonly="true"/>
+                    <button type="button" id="changePlus">+</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button class="btn btn-primary" id="changeFOP">Save changes</button>
+    </div>
+</div>
+
+<div id="groupModal" class="modal hide fade" tabindex="-1">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3></h3>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="groupAction">Group Action</label>
+            <div class="controls">
+                <select id="groupAction">
+                    <option>---Select an option---</option>
+                    <option>Change Contract Number</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="groupContainer">
+
+        </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal">Close</button>
+    <button class="btn btn-primary" id="saveGroupActions">Save changes</button>
+  </div>
+</div>
+
+@section scripts {
+	<script type="text/javascript">
+
+	    $().ready(function () {
+	        $("#extendMonths").change(function () { extendDate(); });
+	    });
+
+	    $("#sendExtension").click(function () {
+	        var SN = $("#extendSerialNumber").val();
+	        var EndDate = Date.parse($("#extendEndDate").val());
+	        EndDate = +EndDate / 1000;
+
+	        $.ajax({
+	            type: "POST",
+	            url: "Component/Extend?SerialNumber=" + SN + "&EndDate=" + EndDate,
+	            async: false,
+	            data: "{}",
+	            contentType: "application/json; charset=utf-8",
+	            dataType: "json",
+	            success: function (response) { jQuery("#JQGrid1").trigger("reloadGrid"); $("#extendModal").modal('hide'); jQuery(".ui-icon-closethick").trigger("click"); }
+	        });
+	    });
+
+	    $("#sendBuyOut").click(function () {
+	        var SN = $("#buyOutSerialNumber").val();
+	        var buyOutLastDate = Date.parse($("#buyOutLastDate").val());
+	        var buyOutDate = Date.parse($("#buyOutDate").val());
+	        var Charge = $("#buyOutCharge").val();
+	        buyOutLastDate = +buyOutLastDate / 1000;
+	        buyOutDate = +buyOutDate / 1000;
+
+	        var checkbox = $('#buyOutFOP').is(':checked');
+	        var Fund = $("#buyOutFund").val();
+	        var Org = $("#buyOutOrg").val();
+	        var Program = $("#buyOutProgram").val();
+
+	        if (checkbox == false) {
+	            Fund = "undefined";
+	            Org = "undefined";
+	            Program = "undefined";
+	        }
+
+	        $.ajax({
+	            type: "POST",
+	            url: "Component/BuyOut?SerialNumber=" + SN + "&Charge=" + Charge + "&LastDate=" + buyOutLastDate + "&buyOutDate=" + buyOutDate + "&changeFOP=" + checkbox + "&Fund=" + Fund + "&Org=" + Org + "&Program=" + Program,
+	            async: false,
+	            data: "{}",
+	            contentType: "application/json; charset=utf-8",
+	            dataType: "json",
+	            success: function (response) { jQuery("#JQGrid1").trigger("reloadGrid"); $("#buyOutModal").modal('hide'); jQuery(".ui-icon-closethick").trigger("click"); }
+	        });
+	    });
+
+	    $("#changeFOP").click(function () {
+	        var SN = $("#changeSerialNumber").val();
+
+	        var Fund = $("#changeFund").val();
+	        var Org = $("#changeOrg").val();
+	        var Program = $("#changeProgram").val();
+	        var GID = $("#changeGID").val();
+	        var StatementName = $("#changeStatementName").val();
+	        var changeDate = Date.parse($("#changeDate").val());
+	        changeDate = +changeDate / 1000;
+
+	        $.ajax({
+	            type: "POST",
+	            url: "Component/ChangeFOP?SerialNumber=" + SN + "&StatementName=" + StatementName + "&Fund=" + Fund + "&Org=" + Org + "&Program=" + Program + "&changeDate=" + changeDate + "&GID=" + GID,
+	            async: false,
+	            data: "{}",
+	            contentType: "application/json; charset=utf-8",
+	            dataType: "json",
+	            success: function (response) { jQuery("#JQGrid1").trigger("reloadGrid"); $("#changeModal").modal('hide'); jQuery(".ui-icon-closethick").trigger("click"); }
+	        });
+	    });
+
+	    function extendDate() {
+	        var months = $("#extendMonths").val();
+
+	        var grid = jQuery("#JQGrid1");
+	        var rowKey = grid.getGridParam("selrow");
+	        var endDate = grid.getCell(rowKey, 'EndDate');
+
+
+	        $("#extendEndDate").val(changeMonth(endDate, months));
+	    }
+
+	    function buyOutDate() {
+	        var grid = jQuery("#JQGrid1");
+	        var rowKey = grid.getGridParam("selrow");
+	        var EndDate = grid.getCell(rowKey, 'EndDate');
+	        var d = new Date(Date.now());
+
+	        $("#buyOutLastDate").val(changeMonth(EndDate, 0));
+	        $("#buyOutDate").val(changeToFirstOfMonth(d, 1));
+	    }
+
+	    function setchangeDate() {
+	        var d = new Date(Date.now());
+	        $("#changeDate").val(changeToFirstOfMonth(d, 1));
+	    }
+
+	    $("#changePlus").click(function () { $("#changeDate").val(changeToFirstOfMonth($("#changeDate").val(), 1)); });
+	    $("#changeMinus").click(function () { $("#changeDate").val(changeToFirstOfMonth($("#changeDate").val(), -1)); });
+
+	    $("#buyOutPlus").click(function () { $("#buyOutDate").val(changeToFirstOfMonth($("#buyOutDate").val(), 1)); });
+	    $("#buyOutMinus").click(function () { $("#buyOutDate").val(changeToFirstOfMonth($("#buyOutDate").val(), -1)); });
+
+	    $("#buyOutLastPlus").click(function () { $("#buyOutLastDate").val(changeMonth($("#buyOutLastDate").val(), 1)); });
+	    $("#buyOutLastMinus").click(function () { $("#buyOutLastDate").val(changeMonth($("#buyOutLastDate").val(), -1)); });
+
+	    function changeMonth(date, months) {
+	        var timeStamp = Date.parse(date);
+	        var d = new Date(timeStamp);
+	        var newDate = new Date(new Date(d).setMonth(+d.getMonth() + +1 + +months, 0));
+	        return newDate;
+	    }
+
+	    function changeToFirstOfMonth(date, months) {
+	        var timeStamp = Date.parse(date);
+	        var d = new Date(timeStamp);
+	        var newDate = new Date(new Date(d).setMonth(+d.getMonth() + +months, 1));
+	        return newDate;
+	    }
+
+	    function BeforeEdit() {
+	        $("#sData").before('<a href="Javascript:void(0);" id="FOPData" class="fm-button ui-state-default ui-corner-all fm-button-icon-left">Change FOP<span class="ui-icon ui-icon-arrowreturn-1-e"></span></a>');
+	        $("#sData").before('<a href="Javascript:void(0);" id="buyData" class="fm-button ui-state-default ui-corner-all fm-button-icon-left">Buy out<span class="ui-icon ui-icon-cart"></span></a>');
+	        $("#sData").before('<a href="Javascript:void(0);" id="exData" class="fm-button ui-state-default ui-corner-all fm-button-icon-left">Extend<span class="ui-icon ui-icon-arrowthickstop-1-e"></span></a>');
+	    }
+
+	    function AfterEdit() {
+	        $("#exData").click(extendOrder);
+	        $("#buyData").click(buyOutOrder);
+	        $("#FOPData").click(FOPOrder);
+
+	        $(".DataTD > input[type='text']").width(200);
+	        $(".DataTD > textarea").width(204);
+	        $(".DataTD > textarea").height(100);
+	    }
+
+	    function extendOrder() {
+	        var grid = jQuery("#JQGrid1");
+	        var rowKey = grid.getGridParam("selrow");
+	        var SerialNumber = grid.getCell(rowKey, 'SerialNumber');
+	        var SR = grid.getCell(rowKey, 'SRNumber');
+
+	        $('#extendModal').modal('show');
+	        $('#extendSerialNumber').val(SerialNumber);
+	        $('#extendSR').val(SR);
+	        extendDate();
+	    }
+
+	    function buyOutOrder() {
+	        var grid = jQuery("#JQGrid1");
+	        var rowKey = grid.getGridParam("selrow");
+	        var SerialNumber = grid.getCell(rowKey, 'SerialNumber');
+	        var SR = grid.getCell(rowKey, 'SRNumber');
+
+	        $("#buyOutModal").modal('show');
+	        $('#buyOutSerialNumber').val(SerialNumber);
+	        $('#buyOutSR').val(SR);
+
+	        $('#buyOutFOP').attr('checked', false);
+	        $('#buyOutFOP').change(function () { buyOutFOP(); });
+
+	        buyOutFOP();
+	        buyOutDate();
+	    }
+        
+	    function buyOutFOP() {
+	        var checkbox = $('#buyOutFOP').is(':checked');
+
+	        if (checkbox == true) {
+	            $('#FOPBox').show();
+	        }
+	        else {
+	            $('#FOPBox').hide();
+	        }   
+	    }
+
+	    function FOPOrder() {
+	        var grid = jQuery("#JQGrid1");
+	        var rowKey = grid.getGridParam("selrow");
+	        var SerialNumber = grid.getCell(rowKey, 'SerialNumber');
+	        var StatementName = grid.getCell(rowKey, 'StatementName');
+	        var Fund = grid.getCell(rowKey, 'Fund');
+	        var Org = grid.getCell(rowKey, 'Org');
+	        var Program = grid.getCell(rowKey, 'Program');
+
+	        $('#changeStatementName').val(StatementName);
+	        $('#changeModal').modal('show');
+	        $('#changeSerialNumber').val(SerialNumber);
+	        $('#changeFund').val(Fund);
+	        $('#changeOrg').val(Org);
+	        $('#changeProgram').val(Program);
+	        setchangeDate();
+	    }
+
+		function initGrid() {
+			jQuery(".jqgrow", "#JQGrid1").contextMenu('myMenu1', {
+				bindings: {
+					'edit': function (t) {
+						editRow();
+					},
+					'add': function (t) {
+						addRow();
+					},
+					'detail': function (t) {
+						detailRow();
+					},
+					'documents': function (t) {
+						getDocuments();
+					},
+					'group': function (t) {
+					    group();
+					},
+					'billing': function (t) {
+					    goToBilling();
+					}
+				},
+				onContextMenu: function (event, menu) {
+					var rowId = $(event.target).parent("tr").attr("id");
+					var grid = $("#JQGrid1");
+					grid.setSelection(rowId);
+
+					return true;
+
+				}
+			});
+
+		}
+
+		function addRow() {
+			var grid = jQuery("#JQGrid1");
+			$("td[id^=add][id$=JQGrid1]").trigger("click");
+		}
+
+		function editRow() {
+			var grid = jQuery("#JQGrid1");
+			var rowKey = grid.getGridParam("selrow");
+			if (rowKey) {
+				$("td[id^=edit][id$=JQGrid1]").trigger("click");
+			}
+			else {
+				alert("No rows are selected");
+			}
+		}
+
+		function detailRow() {
+			var grid = jQuery("#JQGrid1");
+			var rowKey = grid.getGridParam("selrow");
+			var URL = '@Url.Action("BillingPopUp", "Component")' + "?Id=" + rowKey;
+			window.open(URL, "Summary", 'height=500,width=500');
+		}
+
+		function getDocuments() {
+			var grid = jQuery("#JQGrid1");
+			var rowKey = grid.getGridParam("selrow");
+			var SR = grid.getCell(rowKey, 'SRNumber');
+
+			window.open('@Url.Action("Documents", "Document")' + "?SR=" + SR, "_blank");
+		}
+
+	    function goToBilling() {
+	        var grid = jQuery("#JQGrid1");
+	        var rowKey = grid.getGridParam("selrow");
+	        var SerialNumber = grid.getCell(rowKey, 'SerialNumber');
+
+	        window.open('@Url.Action("SerialNumber", "Billing")' + "?SerialNumber=" + SerialNumber, "_blank");
+	    }
+
+	    function group() {
+	        $("#groupModal").modal('show');
+	        adjustGroupModal();
+	    }
+
+	    $("#groupAction").change(function () { adjustGroupModal(); });
+
+	    function adjustGroupModal() {
+	        var selectVal = $('#groupAction').val();
+	        $("#groupContainer").empty();
+
+	        if (selectVal == "Change Contract Number") {
+	            var summary = '<div class="control-group"><div class="controls"><label>This will apply an Contract Number to all Components in an SR.</div></div>';
+	            var input = '<div class="control-group"><label class="control-label">Contract Number</label><div class="controls"><input type="text" id="groupContractNumber" /></div></div>';
+
+	            $("#groupContainer").append(summary);
+	            $("#groupContainer").append(input);
+	        } 
+	    }
+
+	    $("#saveGroupActions").click(function () {
+	        var selectVal = $('#groupAction').val();
+            var contractNumber = $('#groupContractNumber').val();
+	        var grid = jQuery("#JQGrid1");
+	        var rowKey = grid.getGridParam("selrow");
+	        var SR = grid.getCell(rowKey, 'SRNumber');
+
+	        if (selectVal == "Change Contract Number") {
+	            $.ajax({
+	                type: "POST",
+	                url: "Component/GroupContractNumber?SR=" + SR + "&ContractNumber=" + contractNumber,
+	                async: false,
+	                data: "{}",
+	                contentType: "application/json; charset=utf-8",
+	                dataType: "json",
+	                success: function (response) { jQuery("#JQGrid1").trigger("reloadGrid"); $("#groupModal").modal('hide'); }
+	            });
+	        }
+
+	    });
+
+
+		function resizeWindow() {
+			$(".ui-jqgrid-bdiv").height($(window).height() - 114);
+		}
+
+		$().ready(function () { resizeWindow(); });
+
+		$(window).resize(function () {
+			resizeWindow()
+		});
+	</script>
+}

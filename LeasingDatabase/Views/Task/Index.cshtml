@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@section extras {
+	<link href="~/Content/bootstrap-forms.css" rel="stylesheet" />
+	<link href="~/Content/Dashboard/bootstrap-button.css" rel="stylesheet" />
+	<link href="~/Content/Dashboard/bootstrap-table.css" rel="stylesheet" />
+}
+<br />
+<div class="container">
+    <div class="offset2 span7 well">
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th></th>
+			<th>Task</th>
+			<th>Assignee</th>
+			<th>Notes</th>
+            <th></th>
+		</tr>
+	</thead>
+	<tbody>
+@foreach (aulease.Entities.Task Task in ViewBag.Tasks)
+{
+	 <tr>
+		 <td><a href="@Url.Action("EditTask", "Task")?Id=@Task.Id"><i class="icon-pencil"></i></a></td>
+		 <td>@Task.Name</td>
+		 <td>@Task.Assignee</td>
+		 <td>@Task.Note</td>
+		 <td><a href="@Url.Action("CloseTask", "Task")?Id=@Task.Id"><i class="icon-remove-sign"></i></a></td>
+	 </tr>
+}
+	</tbody>
+</table>
+
+    <a class="btn btn-primary btn-block" href="@Url.Action("AddTask", "Task")">Add Task</a>
+        </div>
+</div>

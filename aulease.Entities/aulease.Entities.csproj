@@ -1,0 +1,271 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BE1834E0-5361-46AF-9787-853E6E9F30BE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>aulease.Entities</RootNamespace>
+    <AssemblyName>aulease.Entities</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Elmah">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AuleaseEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AuleaseEntities.Context.tt</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AuleaseEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AuleaseEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AuleaseEntities.edmx</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Billing.cs">
+      <DependentUpon>OldAuLeaseModel.tt</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Charge.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Component.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Coordinator.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Department.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DeptContactInfo.cs">
+      <DependentUpon>OldAuLeaseModel.tt</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Extensions\AuleaseEntitiesExtended.cs" />
+    <Compile Include="Extensions\ComponentExtended.cs" />
+    <Compile Include="Extensions\DepartmentExtended.cs" />
+    <Compile Include="Extensions\LeaseExtended.cs" />
+    <Compile Include="Extensions\OrderExtended.cs" />
+    <Compile Include="Extensions\OverheadExtended.cs" />
+    <Compile Include="Extensions\POExtended.cs" />
+    <Compile Include="Extensions\SingleChargeExtended.cs" />
+    <Compile Include="Extensions\StandardComponent.cs" />
+    <Compile Include="Extensions\StandardOption.cs" />
+    <Compile Include="Extensions\StatusExtended.cs" />
+    <Compile Include="Extensions\SystemGroupExtended.cs" />
+    <Compile Include="Extensions\TypeExtended.cs" />
+    <Compile Include="Extensions\UserExtended.cs" />
+    <Compile Include="Form.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FormTemplate.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Lease.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Location.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Make.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Meta.cs" />
+    <Compile Include="Model.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NewOrdersPending.cs">
+      <DependentUpon>OldAuLeaseModel.tt</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="NewUserInfo.cs">
+      <DependentUpon>OldAuLeaseModel.tt</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="OldAuLeaseModel.Context.cs">
+      <DependentUpon>OldAuLeaseModel.Context.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="OldAuLeaseModel.cs">
+      <DependentUpon>OldAuLeaseModel.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="OldAuLeaseModel.Designer.cs">
+      <DependentUpon>OldAuLeaseModel.edmx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Order.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Overhead.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PO.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Property.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repair.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Signature.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SingleCharge.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StandardComponent.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StandardOption.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StandardOptionStandardComponent.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Statement.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Status.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SystemGroup.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Task.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Tax.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Type.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="User.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VendorEmail.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VendorRate.cs">
+      <DependentUpon>AuleaseEntities.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AuleaseEntities.edmx.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="AuleaseEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AuleaseEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="AuleaseEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AuleaseEntities.edmx</DependentUpon>
+      <LastGenOutput>AuleaseEntities.Context.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="AuleaseEntities.edmx.diagram">
+      <DependentUpon>AuleaseEntities.edmx</DependentUpon>
+    </None>
+    <None Include="AuleaseEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AuleaseEntities.edmx</DependentUpon>
+      <LastGenOutput>AuleaseEntities.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <EntityDeploy Include="OldAuLeaseModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>OldAuLeaseModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="OldAuLeaseModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>OldAuLeaseModel.edmx</DependentUpon>
+      <LastGenOutput>OldAuLeaseModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="OldAuLeaseModel.edmx.diagram">
+      <DependentUpon>OldAuLeaseModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="OldAuLeaseModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>OldAuLeaseModel.edmx</DependentUpon>
+      <LastGenOutput>OldAuLeaseModel.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

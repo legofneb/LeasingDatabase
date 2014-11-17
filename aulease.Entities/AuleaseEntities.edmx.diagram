@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="369cd36a9a5746348cb3f877a0fc9050" Name="Diagram1" ZoomLevel="89">
+        <EntityTypeShape EntityType="aulease.Entities.Coordinator" Width="1.5" PointX="4.625" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="aulease.Entities.Charge" Width="1.5" PointX="6.625" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="aulease.Entities.Component" Width="1.5" PointX="6.625" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="aulease.Entities.Department" Width="1.5" PointX="2.625" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="aulease.Entities.Lease" Width="1.5" PointX="4.625" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="aulease.Entities.Make" Width="1.5" PointX="8.625" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="aulease.Entities.Order" Width="1.5" PointX="4.625" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="aulease.Entities.Overhead" Width="1.5" PointX="11.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="aulease.Entities.PO" Width="1.5" PointX="2.375" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="aulease.Entities.Property" Width="1.5" PointX="10.5" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="aulease.Entities.Repair" Width="1.5" PointX="5.25" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="aulease.Entities.Signature" Width="1.5" PointX="8.625" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="aulease.Entities.Status" Width="1.5" PointX="7.75" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="aulease.Entities.Type" Width="1.5" PointX="8.625" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="aulease.Entities.User" Width="1.5" PointX="2.375" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="aulease.Entities.VendorEmail" Width="1.5" PointX="11.25" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="aulease.Entities.VendorRate" Width="1.5" PointX="8.625" PointY="4.125" IsExpanded="true" />
+        <AssociationConnector Association="aulease.Entities.FK_ChargeType" ManuallyRouted="false" />
+        <AssociationConnector Association="aulease.Entities.FK_ChargeVendorRate" ManuallyRouted="false" />
+        <AssociationConnector Association="aulease.Entities.FK_ComponentLease" ManuallyRouted="false" />
+        <AssociationConnector Association="aulease.Entities.FK_ComponentMake" ManuallyRouted="false" />
+        <AssociationConnector Association="aulease.Entities.FK_ComponentRepair" ManuallyRouted="false" />
+        <AssociationConnector Association="aulease.Entities.FK_ComponentSignature" ManuallyRouted="false" />
+        <AssociationConnector Association="aulease.Entities.FK_ComponentStatus" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="aulease.Entities.FK_ComponentType" ManuallyRouted="false" />
+        <AssociationConnector Association="aulease.Entities.FK_DepartmentLease" ManuallyRouted="false" />
+        <AssociationConnector Association="aulease.Entities.FK_LeaseOverhead" ManuallyRouted="true" >
+          <ConnectorPoint PointX="12" PointY="4.375" />
+          <ConnectorPoint PointX="12" PointY="3.9997353975998156" />
+          <ConnectorPoint PointX="7.458333333333333" PointY="3.9997353975998151" />
+          <ConnectorPoint PointX="7.291666666666667" PointY="3.9997353975998156" />
+          <ConnectorPoint PointX="6.4205195693202546" PointY="3.9997353975998156" />
+          <ConnectorPoint PointX="6.4205195693202546" PointY="4.125" />
+          <ConnectorPoint PointX="6.125" PointY="4.125" />
+        </AssociationConnector>
+        <AssociationConnector Association="aulease.Entities.FK_UserOrder" ManuallyRouted="false" />
+        <AssociationConnector Association="aulease.Entities.FK_StatusRepair" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="aulease.Entities.ComponentProperty" ManuallyRouted="false" />
+        <AssociationConnector Association="aulease.Entities.LeaseCharge" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="aulease.Entities.StandardComponent" Width="1.5" PointX="12.625" PointY="8.5" />
+        <AssociationConnector Association="aulease.Entities.StandardComponentProperty" />
+        <EntityTypeShape EntityType="aulease.Entities.Tax" Width="1.5" PointX="6.625" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="aulease.Entities.Model" Width="1.5" PointX="10.5" PointY="11.625" />
+        <AssociationConnector Association="aulease.Entities.ModelComponent" />
+        <AssociationConnector Association="aulease.Entities.ModelStandardComponent" />
+        <AssociationConnector Association="aulease.Entities.StandardComponentType" />
+        <AssociationConnector Association="aulease.Entities.MakeStandardComponent" />
+        <AssociationConnector Association="aulease.Entities.VendorRateType" />
+        <AssociationConnector Association="aulease.Entities.TaxCharge" />
+        <EntityTypeShape EntityType="aulease.Entities.SystemGroup" Width="1.5" PointX="4.625" PointY="9" />
+        <AssociationConnector Association="aulease.Entities.SystemGroupLease" />
+        <AssociationConnector Association="aulease.Entities.SystemGroupUser" />
+        <AssociationConnector Association="aulease.Entities.SystemGroupOrder" />
+        <AssociationConnector Association="aulease.Entities.MakeModel" />
+        <AssociationConnector Association="aulease.Entities.SystemGroupComponent" />
+        <AssociationConnector Association="aulease.Entities.POSystemGroup" />
+        <EntityTypeShape EntityType="aulease.Entities.StandardOptionStandardComponent" Width="1.5" PointX="12.625" PointY="12" />
+        <AssociationConnector Association="aulease.Entities.FK_StandardOptionStandardComponentStandardComponent" />
+        <AssociationConnector Association="aulease.Entities.TypeOverhead" />
+        <EntityTypeShape EntityType="aulease.Entities.StandardOption" Width="1.5" PointX="12.75" PointY="14.625" />
+        <AssociationConnector Association="aulease.Entities.FK_StandardOptionStandardOptionStandardComponent" />
+        <EntityTypeShape EntityType="aulease.Entities.Task" Width="1.5" PointX="7.75" PointY="17.75" />
+        <AssociationConnector Association="aulease.Entities.TaskStatus" />
+        <EntityTypeShape EntityType="aulease.Entities.Statement" Width="1.5" PointX="9" PointY="1.625" />
+        <AssociationConnector Association="aulease.Entities.DepartmentCoordinator" />
+        <EntityTypeShape EntityType="aulease.Entities.FormTemplate" Width="1.5" PointX="0.5" PointY="7.875" />
+        <EntityTypeShape EntityType="aulease.Entities.Form" Width="1.5" PointX="0.5" PointY="9.75" />
+        <AssociationConnector Association="aulease.Entities.FK_FormSystemGroup" />
+        <EntityTypeShape EntityType="aulease.Entities.SingleCharge" Width="1.5" PointX="2.625" PointY="5.625" />
+        <AssociationConnector Association="aulease.Entities.FK_DepartmentSingleCharge" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

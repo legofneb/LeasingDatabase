@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Grab a Signature";
+}
+
+@section extras {
+	<link href="~/Content/bootstrap-forms.css" rel="stylesheet" />
+	<link href="~/Content/Dashboard/bootstrap-button.css" rel="stylesheet" />
+}
+
+<div class="container">
+    <div class="span6 well">
+        <select id="select" class="span6">
+            @foreach (var comp in ViewBag.Components as List<aulease.Entities.Component>)
+            {
+                <option value="@comp.LeaseTag">@comp.LeaseTag</option>
+            }
+        </select>
+        <button id="next" class="btn btn-large btn-block btn-primary">Next</button>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $("#next").click(function () {
+            var tag = $("#select").val();
+            window.location = "Forms/FormGenerate?tag=" + tag;
+        });
+    </script>
+}

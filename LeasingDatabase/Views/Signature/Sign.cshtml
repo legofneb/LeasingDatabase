@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Sign";
+}
+
+<h2>Sign</h2>
+@{
+    ViewBag.Title = "Grab a Signature";
+}
+
+@section extras {
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="true" />
+
+	<link href="~/Content/bootstrap-forms.css" rel="stylesheet" />
+	<link href="~/Content/Dashboard/bootstrap-button.css" rel="stylesheet" />
+    <link href="~/Content/drawingboard.css" rel="stylesheet"/>
+}
+
+<div id="board" style="width: 1000px; height: 400px;">
+
+</div>
+
+<button id="save" class="btn btn-large btn-primary">Save</button>
+
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/drawingboard.js"></script>
+    <script type="text/javascript">
+        var myBoard = new DrawingBoard.Board('board');
+
+        $("#save").click(function () {
+            var image = $(".drawing-board-canvas")[0].toDataURL("image/png");
+
+            image = image.replace('data:image/png;base64,', '');
+            $.ajax({
+                type: 'POST',
+                url: 'Save',
+                data: '{ "imageData" : "' + image + '"} ',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function () { window.location = "SavePage" }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@section extras{
+	<link href="~/Content/Dashboard/bootstrap-button.css" rel="stylesheet" />
+}
+<div class="container">
+    <div class="well span3">
+@using (Html.BeginForm("FOP", "BillingCoordinator", FormMethod.Get, new { @class = "form-horizontal" }))
+{
+	<div class="control-group">
+		<label class="control-label" for="Fund">Fund</label>
+		<div class="controls">
+			<input type="text" name="Fund" id="Fund" placeholder="Fund" />
+		</div>
+	</div>
+	<br />
+	<div class="control-group">
+		<label class="control-label" for="Org">Org</label>
+		<div class="controls">
+			<input type="text" name="Org" id="Org" placeholder="Org" />
+		</div>
+	</div>
+	<br />
+	<div class="control-group">
+		<label class="control-label" for="Program">Program</label>
+		<div class="controls">
+			<input type="text" name="Program" id="Program" placeholder="Program" />
+		</div>
+	</div>
+	<button class="btn" type="submit">Submit</button>
+}
+    </div>
+
+    <div class="well span3">
+@using (Html.BeginForm("GID", "BillingCoordinator", FormMethod.Get, new { @class = "form-horizontal" }))
+{
+	<div class="control-group">
+		<label class="control-label" for="GID">Search by Name:</label>
+		<div class="controls">
+			<input type="text" name="GID" id="GID" placeholder="GID" />
+		</div>
+	</div>
+	<button class="btn" type="submit">Submit</button>
+}
+    </div>
+
+</div>
+<h4>@ViewBag.error</h4>

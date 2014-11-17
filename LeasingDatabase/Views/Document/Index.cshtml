@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@section extras {
+	<link href="~/Content/bootstrap-forms.css" rel="stylesheet" />
+	<link href="~/Content/Dashboard/bootstrap-button.css" rel="stylesheet" />
+}
+<br />
+<div class="container">
+	<div class="row">
+		<div class="span5 offset3 well">
+			@using (Html.BeginForm("Documents", "Document", FormMethod.Get, new { @class = "form-horizontal" }))
+   { 
+				<fieldset>
+					<legend>Find SR Number</legend>
+					<div class="control-group">
+						<label class="control-label">SR Number</label>
+						<div class="controls">
+							<input type="text" id="SR" name="SR" placeholder="SR Number" />
+						</div>
+					</div>
+
+					<div class="control-group">
+						<div class="controls">
+							<button type="submit" class="btn btn-primary btn-large">Find Files</button>
+						</div>
+					</div>
+				</fieldset>
+   }
+		</div>
+		<div class="span5 offset3 well">
+			<p>Download the LocalLinks Extension for either Chrome or Firefox to view documents correctly.</p>
+			<hr />
+			<div class="row">
+				<div class="span1"><img src="~/Content/images/chrome.png" /></div>
+				<div class="span3"><a href="https://chrome.google.com/webstore/detail/locallinks/jllpkdkcdjndhggodimiphkghogcpida?hl=en" target="_blank"><h3>Local Links - Chrome</h3></a></div>
+			</div>
+			<div class="row">
+				<div class="span3 offset1"><a href="https://addons.mozilla.org/en-us/firefox/addon/locallink/" target="_blank"><h3>Local Links - FireFox</h3></a></div>
+				<div class="span1"><img src="~/Content/images/firefox.png" /></div>
+			</div>
+		</div>
+	</div>
+</div>

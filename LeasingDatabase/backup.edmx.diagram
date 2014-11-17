@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3f2bfc5e5be04e259906f08510f652fa" Name="Diagram1">
+        <EntityTypeShape EntityType="auleaseApps2Model.BackupComponent" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="auleaseApps2Model.BackupMake" Width="1.5" PointX="3.2921106793415316" PointY="5.5354062642601347" />
+        <EntityTypeShape EntityType="auleaseApps2Model.BackupModel" Width="1.5" PointX="0.12873703061078537" PointY="15.079463548529644" />
+        <AssociationConnector Association="auleaseApps2Model.FK_ComponentMake" />
+        <AssociationConnector Association="auleaseApps2Model.FK_ModelComponent" />
+        <AssociationConnector Association="auleaseApps2Model.FK_MakeModel" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

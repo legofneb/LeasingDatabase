@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="auleaseApps2Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="auleaseApps2ModelStoreContainer">
+          <EntitySet Name="Components" EntityType="auleaseApps2Model.Store.Components" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Makes" EntityType="auleaseApps2Model.Store.Makes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Models" EntityType="auleaseApps2Model.Store.Models" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_ComponentMake" Association="auleaseApps2Model.Store.FK_ComponentMake">
+            <End Role="Makes" EntitySet="Makes" />
+            <End Role="Components" EntitySet="Components" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MakeModel" Association="auleaseApps2Model.Store.FK_MakeModel">
+            <End Role="Makes" EntitySet="Makes" />
+            <End Role="Models" EntitySet="Models" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ModelComponent" Association="auleaseApps2Model.Store.FK_ModelComponent">
+            <End Role="Models" EntitySet="Models" />
+            <End Role="Components" EntitySet="Components" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Components">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SerialNumber" Type="nvarchar(max)" />
+          <Property Name="LeaseTag" Type="nvarchar(max)" />
+          <Property Name="OrderNumber" Type="nvarchar(max)" />
+          <Property Name="MAC" Type="nvarchar(max)" />
+          <Property Name="InstallSoftware" Type="bit" Nullable="false" />
+          <Property Name="InstallHardware" Type="bit" Nullable="false" />
+          <Property Name="Note" Type="nvarchar(max)" />
+          <Property Name="Renewal" Type="bit" Nullable="false" />
+          <Property Name="MakeId" Type="int" />
+          <Property Name="SignatureId" Type="int" />
+          <Property Name="TypeId" Type="int" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="ModelId" Type="int" />
+          <Property Name="SystemGroupId" Type="int" />
+          <Property Name="Damages" Type="nvarchar(max)" />
+          <Property Name="ReturnDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Makes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Models">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MakeId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ComponentMake">
+          <End Role="Makes" Type="auleaseApps2Model.Store.Makes" Multiplicity="0..1" />
+          <End Role="Components" Type="auleaseApps2Model.Store.Components" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Makes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Components">
+              <PropertyRef Name="MakeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MakeModel">
+          <End Role="Makes" Type="auleaseApps2Model.Store.Makes" Multiplicity="1" />
+          <End Role="Models" Type="auleaseApps2Model.Store.Models" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Makes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Models">
+              <PropertyRef Name="MakeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ModelComponent">
+          <End Role="Models" Type="auleaseApps2Model.Store.Models" Multiplicity="0..1" />
+          <End Role="Components" Type="auleaseApps2Model.Store.Components" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Models">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Components">
+              <PropertyRef Name="ModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="auleaseApps2Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="auleaseApps2Entities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BackupComponents" EntityType="auleaseApps2Model.BackupComponent" />
+          <EntitySet Name="BackupMakes" EntityType="auleaseApps2Model.BackupMake" />
+          <EntitySet Name="BackupModels" EntityType="auleaseApps2Model.BackupModel" />
+          <AssociationSet Name="FK_ComponentMake" Association="auleaseApps2Model.FK_ComponentMake">
+            <End Role="Make" EntitySet="BackupMakes" />
+            <End Role="BackupComponent" EntitySet="BackupComponents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ModelComponent" Association="auleaseApps2Model.FK_ModelComponent">
+            <End Role="Model" EntitySet="BackupModels" />
+            <End Role="BackupComponent" EntitySet="BackupComponents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MakeModel" Association="auleaseApps2Model.FK_MakeModel">
+            <End Role="Make" EntitySet="BackupMakes" />
+            <End Role="Model" EntitySet="BackupModels" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="BackupComponent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SerialNumber" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="LeaseTag" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="OrderNumber" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="MAC" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="InstallSoftware" Type="Boolean" Nullable="false" />
+          <Property Name="InstallHardware" Type="Boolean" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Renewal" Type="Boolean" Nullable="false" />
+          <Property Name="MakeId" Type="Int32" />
+          <Property Name="SignatureId" Type="Int32" />
+          <Property Name="TypeId" Type="Int32" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="ModelId" Type="Int32" />
+          <Property Name="SystemGroupId" Type="Int32" />
+          <Property Name="Damages" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ReturnDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Make" Relationship="auleaseApps2Model.FK_ComponentMake" FromRole="BackupComponent" ToRole="Make" />
+          <NavigationProperty Name="Model" Relationship="auleaseApps2Model.FK_ModelComponent" FromRole="BackupComponent" ToRole="Model" />
+        </EntityType>
+        <EntityType Name="BackupMake">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Components" Relationship="auleaseApps2Model.FK_ComponentMake" FromRole="Make" ToRole="BackupComponent" />
+          <NavigationProperty Name="Models" Relationship="auleaseApps2Model.FK_MakeModel" FromRole="Make" ToRole="Model" />
+        </EntityType>
+        <EntityType Name="BackupModel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="MakeId" Nullable="false" />
+          <NavigationProperty Name="Components" Relationship="auleaseApps2Model.FK_ModelComponent" FromRole="Model" ToRole="BackupComponent" />
+          <NavigationProperty Name="Make" Relationship="auleaseApps2Model.FK_MakeModel" FromRole="Model" ToRole="Make" />
+        </EntityType>
+        <Association Name="FK_ComponentMake">
+          <End Type="auleaseApps2Model.BackupMake" Role="Make" Multiplicity="0..1" />
+          <End Type="auleaseApps2Model.BackupComponent" Role="BackupComponent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Make">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BackupComponent">
+              <PropertyRef Name="MakeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ModelComponent">
+          <End Type="auleaseApps2Model.BackupModel" Role="Model" Multiplicity="0..1" />
+          <End Type="auleaseApps2Model.BackupComponent" Role="BackupComponent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Model">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BackupComponent">
+              <PropertyRef Name="ModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MakeModel">
+          <End Type="auleaseApps2Model.BackupMake" Role="Make" Multiplicity="1" />
+          <End Type="auleaseApps2Model.BackupModel" Role="Model" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Make">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Model">
+              <PropertyRef Name="MakeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="auleaseApps2ModelStoreContainer" CdmEntityContainer="auleaseApps2Entities1">
+          <EntitySetMapping Name="BackupComponents">
+            <EntityTypeMapping TypeName="auleaseApps2Model.BackupComponent">
+              <MappingFragment StoreEntitySet="Components">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="LeaseTag" ColumnName="LeaseTag" />
+                <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+                <ScalarProperty Name="MAC" ColumnName="MAC" />
+                <ScalarProperty Name="InstallSoftware" ColumnName="InstallSoftware" />
+                <ScalarProperty Name="InstallHardware" ColumnName="InstallHardware" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Renewal" ColumnName="Renewal" />
+                <ScalarProperty Name="MakeId" ColumnName="MakeId" />
+                <ScalarProperty Name="SignatureId" ColumnName="SignatureId" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="ModelId" ColumnName="ModelId" />
+                <ScalarProperty Name="SystemGroupId" ColumnName="SystemGroupId" />
+                <ScalarProperty Name="Damages" ColumnName="Damages" />
+                <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BackupMakes">
+            <EntityTypeMapping TypeName="auleaseApps2Model.BackupMake">
+              <MappingFragment StoreEntitySet="Makes">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BackupModels">
+            <EntityTypeMapping TypeName="auleaseApps2Model.BackupModel">
+              <MappingFragment StoreEntitySet="Models">
+                <ScalarProperty Name="MakeId" ColumnName="MakeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Upload";
+}
+
+<h2>Error Messages</h2>
+
+<ul>
+@foreach (string item in ViewBag.errors as List<string>)
+{
+    <li>@item</li>
+}
+</ul>

@@ -1,0 +1,40 @@
+﻿@{
+    Layout = "~/Views/Shared/_NGLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html ng-app="scan">
+<head>
+  <title>Scan</title>
+ 
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="~/Scripts/dist/css/flat-ui.min.css" />
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet">
+  <link href="~/Content/newSite.css" rel="stylesheet" />
+  <link href="~/Content/loading-bar.css" rel="stylesheet" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <script src="~/Scripts/chosen.jquery.js"></script>
+
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
+
+  <script src="~/Scripts/NG/app.js"></script>
+  <script>
+    angular.module("scan", ["ngRoute", "ngAnimate", "angular-loading-bar"]).constant("rootUrl", "@Url.Content("~/")");
+  </script>
+  <script src="~/Scripts/NG/scan/scanController.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-route.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-animate.min.js"></script>
+  <script src="~/Scripts/loading-bar.js"></script>
+</head>
+<body ng-controller="scanCtrl">
+
+  
+
+  <br />
+  @Html.Partial("~\\Views\\Shared\\_NGMenu.cshtml")
+  <div class="container-fluid">
+    <ng-view class="slide" />
+  </div>
+</body>
+</html>

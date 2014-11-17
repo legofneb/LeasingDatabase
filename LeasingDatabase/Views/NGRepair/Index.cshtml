@@ -1,0 +1,29 @@
+﻿@{
+  ViewBag.Title = "Repair Console";
+  Layout = "~/Views/Shared/_NGLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html ng-app="repairApp">
+<head>
+  <title>Repairs</title>
+
+  @Html.Partial("~/Views/Shared/_NGStyles.cshtml");
+  @Html.Partial("~/Views/Shared/_NGScripts.cshtml");
+  <script>
+
+    /* repairApp Constant rootUrl uses Url.Content */
+    angular.module("repairApp", ["ngRoute", "ngResource", "angular-loading-bar"]).constant("rootUrl", "@Url.Content("~/")");
+
+  </script>
+</head>
+<body ng-controller="repairCtrl as vm">
+  @Html.Partial("~/Views/Shared/_NGMenu.cshtml")
+
+  <div class="container-fluid">
+    <ng-view></ng-view>
+  </div>
+
+  <script src="~/Scripts/NG/repairs/repairsController.js"></script>
+</body>
+</html>

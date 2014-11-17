@@ -1,0 +1,9 @@
+﻿@{
+    ViewBag.Title = "Folders";
+}
+
+@using Trirand.Web.Mvc
+@using LeasingDatabase.Models.Grid
+
+<h2>Index</h2>
+@(Html.Trirand().JQGrid(Model.FileDataGrid, "FileBrowserGrid"))

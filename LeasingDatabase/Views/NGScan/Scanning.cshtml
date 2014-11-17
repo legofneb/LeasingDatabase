@@ -1,0 +1,78 @@
+﻿<div class="row">
+  <div class="well col-lg-6 col-lg-offset-3" ng-show="currentComponent">
+    <h1 class="text-center">{{SR}} <small class="text-concrete">{{ComponentIndex()}}/{{ComponentCount()}}</small></h1>
+    <hr />
+
+    <form class="form-horizontal" role="form">
+
+      <div class="form-group">
+        <label class="col-lg-3 control-label"></label>
+        <div class="col-lg-9">
+          <h3 ng-if="currentComponent.Type == 'Laptop'"><i class="fa fa-2x fa-laptop"></i> {{currentComponent.Type}}</h3>
+          <h3 ng-if="currentComponent.Type == 'CPU'"><i class="fa fa-2x fa-hdd-o"></i> {{currentComponent.Type}}</h3>
+          <h3 ng-if="currentComponent.Type == 'Monitor'"><i class="fa fa-2x fa-desktop"></i> {{currentComponent.Type}}</h3>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-lg-3 control-label text-concrete">Statement Name</label>
+        <div class="col-lg-9">
+          <p class="form-control-static">{{currentComponent.StatementName}}</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-lg-3 control-label text-concrete">Make</label>
+        <div class="col-lg-9">
+          <p class="form-control-static">{{currentComponent.Make}}</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-lg-3 control-label text-concrete">Model</label>
+        <div class="col-lg-9">
+          <p class="form-control-static">{{currentComponent.Model}}</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-lg-3 control-label text-concrete">Serial Number</label>
+        <div class="col-lg-9">
+          <input type="text" id="SerialNumber" class="form-control" ng-model="currentComponent.SerialNumber" ng-enter="enterSerialNumber()" autofocus="autofocus" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-lg-3 control-label text-concrete">Lease Tag</label>
+        <div class="col-lg-9">
+          <input type="text" id="LeaseTag" class="form-control" ng-model="currentComponent.LeaseTag" ng-enter="enterLeaseTag()" />
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-default disable-animate" ng-click="previousComponent()" ng-hide="firstComponent()">Previous</button>
+      <button type="button" class="btn btn-default disable-animate" ng-click="nextComponent()" ng-hide="lastComponent()">Next</button>
+      <button type="button" class="btn btn-success" ng-click="submit()" ng-show="hasAllValues()">Submit</button>
+
+      <div class="pull-right">
+        <button type="button" class="btn btn-warning pull-right disable-animate" ng-click="submit()" ng-hide="hasAllValues()">Submit Partial Order</button>
+        <button type="button" class="btn btn-danger pull-right" ng-click="cancel()">Cancel</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="well col-lg-6 col-lg-offset-3" ng-show="currentComponent">
+    <div class="alert alert-info alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+      <strong>Info: </strong>There are {{order.length}} systems in this order.
+    </div>
+
+    <div class="alert alert-warning" ng-hide="hasAllValues()">
+      <strong>Warning: </strong>The order has not been completed
+    </div>
+  </div>
+
+  
+</div>

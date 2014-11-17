@@ -1,0 +1,10 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@foreach (var user in ViewBag.Users as List<string>)
+{
+    <p>@user</p>
+}

@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "PopUp";
+}
+
+@section extras{
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>	
+	<link href="~/Content/Dashboard/bootstrap-table.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="~/Content/Dashboard/site.css">
+	<script type="text/javascript">
+		$().ready(function () {
+			$(".navbar").remove();
+			$('body').css('padding-left', '0px');
+			$('body').css('padding-right', '0px');
+		});
+	</script>
+}
+
+@{ LeasingDatabase.Models.OrderModel Order = (LeasingDatabase.Models.OrderModel)ViewData["Order"];}
+
+<div class="container">	
+	<div class="row">
+		<div class="span6">
+			<div class="widget stacked widget-table action-table">
+					
+				<div class="widget-header">
+					<i class="icon-list"></i>
+					<h3>Full System Details</h3>
+				</div> <!-- /widget-header -->
+				
+				<div class="widget-content">
+					<table class="table table-condensed table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>Field</th>
+								<th>Information</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Order Date</td>
+								<td>@Order.OrderDate</td>
+							</tr>
+							<tr>
+								<td>SR Number</td>
+								<td>@Order.SR</td>
+							</tr>
+							<tr>
+								<td>Order Number</td>
+								<td>@Order.OrderNumber</td>
+							</tr>
+							<tr>
+								<td>User Name</td>
+								<td>@Order.GID</td>
+							</tr>
+                            <tr>
+								<td>Order Notes</td>
+								<td>@Order.OrderNotes</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,9 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Upload</h2>
+@using (Html.BeginForm("Upload", "EOLUpload", FormMethod.Post, new { enctype = "multipart/form-data" })) { 
+		<input type="file" name="FileUpload1" /><br />
+		<input type="submit" name="Submit" id="Submit" value="Upload" />
+	}

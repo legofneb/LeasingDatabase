@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <!--<meta name="viewport" content="width=device-width" />-->
+    <title>@ViewBag.Title</title>
+	<link href="~/Content/Site.css" rel="stylesheet" />
+	<link href="~/Content/jqGrid/ui.jqgrid.css" rel="stylesheet" />
+	<link href="~/Content/css/Aristo/Aristo.css" rel="stylesheet" />
+	@Styles.Render("~/Styles/bootstrap")
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/jqueryui")
+	@Scripts.Render("~/bundles/bootstrap")
+	<!--<link rel="stylesheet" type="text/css" href="~/Content/Dashboard/css/bootstrap.min.css">-->
+	<!--<link rel="stylesheet" type="text/css" href="~/Content/Dashboard/css/bootstrap-responsive.css">-->
+	<!--<link rel="stylesheet" type="text/css" href="~/Content/Dashboard/css/font-awesome/css/font-awesome.css">-->
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.min.css" rel="stylesheet">
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+	@RenderSection("extras", required: false)
+	<!-- language pack - MUST be included before the jqGrid javascript -->
+    <script type="text/javascript" src="~/Scripts/trirand/i18n/grid.locale-en.js"></script>
+    <!-- the jqGrid javascript runtime -->
+    <script type="text/javascript" src="~/Scripts/trirand/jquery.jqGrid.min.js"></script>
+	<script type="text/javascript" src="~/Scripts/jquery.contextmenu.js"></script> 
+</head>
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+			<ul class="nav">
+				<li><a href="@Url.Action("Index", "Home")">Home</a></li>
+				<li class="divider-vertical"></li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						Database Tables
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						<li>@Html.ActionLink("Orders Pending", "Index", "Orders")</li>
+						<li>@Html.ActionLink("User Information", "Index", "Component")</li>
+						<li>@Html.ActionLink("EOL", "Index", "EOL")</li>
+						<li>@Html.ActionLink("IGF Rates", "Index", "VendorRate")</li>
+                        <li>@Html.ActionLink("Overhead Rates", "Index", "OverheadRate")</li>
+						<li>@Html.ActionLink("Billing", "Index", "Billing")</li>
+						<li>@Html.ActionLink("Department", "Index", "Department")</li>
+						<li>@Html.ActionLink("Billing Coordinators", "Index", "BillingCoordinator")</li>
+					</ul>
+				</li>
+				<li class="divider-vertical"></li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						Tools
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						<li>@Html.ActionLink("SR Documents", "Index", "Document")</li>
+                        <li>@Html.ActionLink("Upload IGF EOL", "Index", "EOLUpload")</li>
+                        <li>@Html.ActionLink("Send Statements", "Index", "Email")</li>
+                        <li>@Html.ActionLink("Uncontracted Leases", "Index", "UnContractedComponent")</li>
+                        <li>@Html.ActionLink("UnFinalize", "UnFinalize", "Component")</li>
+                        <li>@Html.ActionLink("IGF Email List", "Vendor", "Email")</li>
+                        <li>@Html.ActionLink("Single Charges", "Index", "SingleCharge")</li>
+					</ul>
+				</li>
+				<li class="divider-vertical"></li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						Reports
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						<li>@Html.ActionLink("Generate Billing", "GenerateBilling", "Reports")</li>
+						<li>@Html.ActionLink("Generate OIT Billing", "GenerateOITBilling", "Reports")</li>
+					</ul>
+				</li>
+				<li class="divider-vertical"></li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						Repairs
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						<li>@Html.ActionLink("Console", "Index", "NGRepair")</li>
+					</ul>
+				</li>
+				<li class="divider-vertical"></li>
+
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						Tasks
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						<li>@Html.ActionLink("Task Console", "Index", "Task")</li>
+						<li>@Html.ActionLink("Create Task", "AddTask", "Task")</li>
+					</ul>
+				</li>
+				<li class="divider-vertical"></li>
+				<li>@Html.ActionLink("Upload", "Index", "Upload")</li>
+				
+			</ul>
+			<ul class="nav pull-right">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<span class="icon-stack pull-left">
+							<i class="icon-check-empty icon-stack-base"></i>
+							<i class="icon-user"></i>
+						</span>
+						@CWSToolkit.AuthUser.GetFirstName() @CWSToolkit.AuthUser.GetLastName()
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">	
+						<li><a href="https://cws.auburn.edu/shared/auth/logout">Logout</a></li>
+					</ul>
+				</li>
+			</ul>
+				</div>
+		</div>
+	</div>
+
+
+    @RenderBody()
+
+    
+    @RenderSection("scripts", required: false)
+</body>
+</html>

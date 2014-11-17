@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Edit Email";
+}
+
+@section extras {
+	<link href="~/Content/bootstrap-forms.css" rel="stylesheet" />
+	<link href="~/Content/Dashboard/bootstrap-button.css" rel="stylesheet" />
+}
+
+<br />
+<div class="container">
+	<div class="row">
+		<div class="span5 offset3 well">
+@using (Html.BeginForm("ChangeEmail", "Email", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+	<fieldset>
+		<legend>Edit Task</legend>
+        <div class="control-group">
+            <label class="control-label">Id</label>
+            <div class="controls">
+                <input type="text" name="Id" value="@ViewBag.Email.Id" id="Id" placeholder="Id" readonly="readonly" />
+            </div>
+        </div>
+
+		<div class="control-group">
+			<label class="control-label">Email</label>
+			<div class="controls">
+				<input type="text" name="Email" value="@ViewBag.Email.EmailAddress" id="Email" placeholder="Email Address" />
+			</div>
+		</div>
+
+		<div class="control-group">
+						<div class="controls">
+							<button type="submit" class="btn btn-primary btn-large">Update Task</button>
+						</div>
+					</div>
+	</fieldset> 
+}
+			</div>
+		</div>
+</div>

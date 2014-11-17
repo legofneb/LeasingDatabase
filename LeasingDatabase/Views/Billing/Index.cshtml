@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<br />
+
+<h3>Enter a Serial Number to look up billing records</h3>
+
+@using (Html.BeginForm("SerialNumber", "Billing", FormMethod.Get))
+{
+	<input type="text" name="SerialNumber" /><br />
+	<input type="submit" name="Submit" id="Submit" value="Upload" />
+}

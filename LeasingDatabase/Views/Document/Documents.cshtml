@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Documents";
+}
+<br />
+<div class="container">
+	<div class="row">
+		<div class="well span5 offset3">
+			<h3 style="text-decoration: underline">@ViewBag.Folder</h3>
+		@foreach (var item in ViewBag.fileList as IEnumerable<FileInfo>)
+		{	<a href="file:///@item.FullName"><i class="icon-file-alt icon-2x"></i><h4 style="display:inline;"> @item.Name</h4></a><br />	}
+		</div>
+	</div>
+</div>

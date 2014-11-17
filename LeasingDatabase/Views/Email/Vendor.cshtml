@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Vendor Email";
+}
+
+@section extras {
+	<link href="~/Content/bootstrap-forms.css" rel="stylesheet" />
+	<link href="~/Content/Dashboard/bootstrap-button.css" rel="stylesheet" />
+	<link href="~/Content/Dashboard/bootstrap-table.css" rel="stylesheet" />
+}
+<br />
+<div class="container">
+    <div class="offset2 span7 well">
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th></th>
+			<th>Email Address</th>
+            <th></th>
+		</tr>
+	</thead>
+	<tbody>
+@foreach (aulease.Entities.VendorEmail email in ViewBag.Emails)
+{
+	 <tr>
+		 <td><a href="@Url.Action("EditEmail", "Email")?Id=@email.Id"><i class="icon-pencil"></i></a></td>
+		 <td>@email.EmailAddress</td>
+		 <td><a href="@Url.Action("RemoveEmail", "Email")?Id=@email.Id"><i class="icon-remove-sign"></i></a></td>
+	 </tr>
+}
+	</tbody>
+</table>
+
+    <a class="btn btn-primary btn-block" href="@Url.Action("CreateEmail", "Email")">Add Email</a>
+        </div>
+</div>

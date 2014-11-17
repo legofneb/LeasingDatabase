@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@section extras{
+	<link href="~/Content/Dashboard/bootstrap-button.css" rel="stylesheet" />
+}
+
+<div class="container">
+    <div class="well span3">
+@using (Html.BeginForm("SendEOLStatements", "Email", FormMethod.Get, new { @class = "form-horizontal", onsubmit="return confirm('Do you really want to send End of Lease Statements?');" }))
+{
+    <div class="control-group">
+		<label for="Month">Month</label>
+		<div class="controls">
+			<input type="text" name="Month" value="@ViewBag.StatementMonth" />
+		</div>
+	</div>
+	<button class="btn" type="submit" disabled>Send End of Lease Statements Email</button>
+}
+    </div>
+
+    <div class="well span3">
+@using (Html.BeginForm("SendBillingStatements", "Email", FormMethod.Get, new { @class = "form-horizontal", onsubmit="return confirm('Do you really want to send Billing Statements?');"}))
+{
+    <div class="control-group">
+		<label for="Month">Month</label>
+		<div class="controls">
+			<input type="text" name="Month" value="@ViewBag.StatementMonth" />
+		</div>
+	</div>
+	<button class="btn" type="submit">Send Billing Statements</button>
+}
+    </div>
+
+</div>
+<h4>@ViewBag.error</h4>

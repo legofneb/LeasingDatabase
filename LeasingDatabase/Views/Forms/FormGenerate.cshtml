@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "FormGenerate";
+    Layout = "~/Views/Shared/_LayoutCustom.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="completeForm">
+            @Html.Raw(ViewBag.HTML)
+        </div>
+        <button type="button" class="btn btn-default" id="send">Submit</button>
+        <a href="~/Signature/Select?Tag=@ViewBag.Tag" class="btn btn-default">Skip</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#send").click(function () {
+        $.ajax({
+            type: "POST",
+            url: "FormCreate",
+            data: {html: htmlEncode($("#completeForm").html()), tag: "@ViewBag.Tag" },
+            success: function () { location.href = "/Signature/Select?Tag=@ViewBag.Tag" }
+        });
+    });
+
+    function htmlEncode(value){
+        if (value) {
+            return jQuery('<div />').text(value).html();
+        } else {
+            return '';
+        }
+    }
+
+    $('#completeForm input').each(function () {
+        $(this).keyup(function () {
+            $(this).attr('value', $(this).val());
+        });
+    });
+</script>

@@ -1,0 +1,87 @@
+﻿<div class="row">
+  <div class="col-xs-12 col-sm-3 col-md-3 sidebar">
+    <div class="list-group" style="margin:0 -20px;">
+
+      <a class="list-group-item">
+        <p class="list-group-item-heading">Show Completed Repairs <input type="checkbox" ng-if="vm.showCompleted" ng-click="vm.toggleShowCompleted()" checked="checked"/><input type="checkbox" ng-if="!vm.showCompleted" ng-click="vm.toggleShowCompleted()" /></p>
+        {{vm.showCompleted.value}}
+      </a>
+      <a class="list-group-item">
+        <h4 class="list-group-item-heading" style="cursor:pointer;" ng-click="vm.addNewRepair()">Add New Repair</h4>
+        
+      </a>
+      <a class="list-group-item" style="cursor:pointer;" ng-repeat="repair in vm.repairs | CompletedRepairs:vm.showCompleted | orderBy:'id':true" ng-click="vm.repairSelected(repair)" ng-class="{'active': repair == vm.selectedRepair}">
+          <h4 class=" list-group-item-heading">
+        {{repair.SerialNumber}}<small><type-icon class="fa-lg" repair="repair"></type-icon></small></h4>
+        <p class="list-group-item-text">{{repair.GID}}</p>
+      </a>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-9 col-sm-offset-3 col-md-9 col-md-offset-3 main">
+    <div ng-show="vm.selectedRepair">
+
+      <h2><type-icon repair="vm.selectedRepair" class="fa-lg"></type-icon> - {{vm.selectedRepair.Type}}</h2>
+      <hr />
+        <dl class="dl-horizontal">
+          <dt>Date Created</dt>
+          <dd>{{vm.selectedRepair.DateCreated}}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt>Serial Number</dt>
+          <dd>{{vm.selectedRepair.SerialNumber}}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt>Lease Tag</dt>
+          <dd>{{vm.selectedRepair.LeaseTag}}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt>Make</dt>
+          <dd>{{vm.selectedRepair.Make}}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt>Model</dt>
+          <dd>{{vm.selectedRepair.Model}}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt>Name</dt>
+          <dd>{{vm.selectedRepair.Name}}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt>GID</dt>
+          <dd>{{vm.selectedRepair.GID}}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt>Notes</dt>
+          <dd>{{vm.selectedRepair.Note}}</dd>
+        </dl>
+
+        <button class="btn btn-primary btn-lg" ng-click="vm.editRepair(vm.selectedRepair)" ng-disabled="vm.selectedRepair.Completed">Edit Repair</button>
+        <button class="btn btn-success btn-lg" ng-click="vm.completeRepair(vm.selectedRepair)" ng-disabled="vm.selectedRepair.Completed">Repair Completed</button>
+
+      <hr />
+
+          <h3>Past Repairs</h3>
+
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Assignee</th>
+                <th>Note</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="pastRepair in vm.selectedRepair.PastRepairs">
+                  <td>{{pastRepair.Date}}</td>
+                  <td>{{pastRepair.Assignee}}</td>
+                  <td>{{pastRepair.Note}}</td>
+                </tr>
+            </tbody>
+          </table>
+
+    </div>
+  </div>
+</div>
+
+
+

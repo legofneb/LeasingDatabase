@@ -1,0 +1,8 @@
+﻿@model LeasingDatabase.Models.Grid.BillingJqGridModel
+@using Trirand.Web.Mvc
+
+@{
+    ViewBag.Title = "SerialNumber";
+}
+
+@Html.Trirand().JQGrid(Model.OrdersGrid, "JQGrid1")

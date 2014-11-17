@@ -1,0 +1,8 @@
+﻿@model LeasingDatabase.Models.Grid.DepartmentJqGridModel
+@using Trirand.Web.Mvc
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@Html.Trirand().JQGrid(Model.OrdersGrid, "JQGrid1")

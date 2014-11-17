@@ -1,0 +1,257 @@
+<html>
+<head>
+	<title>AU Lease Database</title>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap-responsive.css">
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="./css/font-awesome/css/font-awesome.css">
+	<link rel="stylesheet" type="text/css" href="site.css">
+	
+	<script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Status', 'Component Count'],
+          ['New',     11],
+          ['Shipping',      30],
+          ['Installs',  12],
+          ['Deliveries', 20]
+        ]);
+
+        var options = {
+          title: 'Order Breakdown'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('order_chart'));
+        chart.draw(data, options);
+      }
+    </script>
+	
+	<script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Status', 'Component Count'],
+          ['Not Returned',     100],
+          ['In Shop',      35],
+          ['FBan\'d',  20]
+        ]);
+
+        var options = {
+          title: 'This month EOL Breakdown'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('eol_chart'));
+        chart.draw(data, options);
+      }
+    </script>
+</head>
+<body>
+
+<br />
+
+<div class="container">	
+	<div class="row">
+		<div class="span6">
+			<div class="widget stacked">
+				<div class="widget-header">
+					<i class="icon-star"></i>
+					<h3>Quick Stats</h3>
+				</div>
+				
+				<div class="widget-content">
+					<div class="stats">
+						<div class="stat">
+							<span class="stat-value">100</span>
+							New Orders
+						</div>
+						<div class="stat">
+							<span class="stat-value">13</span>
+							Installs
+						</div>
+						<div class="stat">
+							<span class="stat-value">2</span>
+							Repairs
+						</div>
+						<div class="stat">
+							<span class="stat-value">150</span>
+							EOL
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="widget stacked">
+				<div class="widget-header">
+					<i class="icon-list-alt"></i>
+					<h3>Order Information</h3>
+				</div>
+				
+				<div class="widget-content">
+					<div class="stats">
+						<div class="stat">
+							<span class="stat-value">100</span>
+							New Orders
+						</div>
+						<div class="stat">
+							<span class="stat-value">27</span>
+							Orders Placed
+						</div>
+						<div class="stat">
+							<span class="stat-value">13</span>
+							Installs
+						</div>
+						<div class="stat">
+							<span class="stat-value">0</span>
+							Delivery Only
+						</div>
+					</div>
+					<div class="stats">
+						<div id="order_chart" class="stat stat-chart"></div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="widget stacked">
+				<div class="widget-header">
+					<i class="icon-truck"></i>
+					<h3>EOL Information</h3>
+				</div>
+				
+				<div class="widget-content">
+					<div class="stats">
+						<div class="stat">
+							<span class="stat-value">150</span>
+							Total EOL
+						</div>
+						<div class="stat">
+							<span class="stat-value">2</span>
+							Not Returned
+						</div>
+						<div class="stat">
+							<span class="stat-value">32</span>
+							In Shop
+						</div>
+						<div class="stat">
+							<span class="stat-value">59</span>
+							FBan'd
+						</div>
+					</div>
+					<div class="stats">
+						<div id="eol_chart" class="stat stat-chart"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="span6">
+			<div class="widget stacked">
+				<div class="widget-header">
+					<i class="icon-bookmark"></i>
+					<h3>Quick Shortcuts</h3>
+				</div>
+				<div class="widget-content">
+					<div class="shortcuts">
+						<a href="#" class="shortcut">
+							<i class="shortcut-icon icon-list-alt"></i>
+							<span class="shortcut-label">Orders Pending</span>
+						</a>
+						<a href="#" class="shortcut">
+							<i class="shortcut-icon icon-group"></i>
+							<span class="shortcut-label">User Information</span>
+						</a>
+						<a href="#" class="shortcut">
+							<i class="shortcut-icon icon-upload"></i>
+							<span class="shortcut-label">Upload</span>
+						</a>
+						<a href="#" class="shortcut">
+							<i class="shortcut-icon icon-truck"></i>
+							<span class="shortcut-label">End of Lease</span>
+						</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class="widget widget-nopad stacked">
+				<div class="widget-header">
+					<i class="icon-asterisk"></i>
+					<h3>New Orders</h3>
+				</div>
+				<div class="widget-content">
+					<ul class="news-items">
+						<li>
+							<div class="new-item-detail">
+								<a href="#" class="news-item-title">Order 1</a>
+								<p class="news-item-preview">Here is some stuff about the order. Some details... and maybe just a bit more.</p>
+							</div>
+							<div class="news-item-date">
+								<span class="news-item-day">23</span>
+								<span class="news-item-month">May</span>
+							</div>
+						</li>
+						<li>
+							<div class="new-item-detail">
+								<a href="#" class="news-item-title">Order 2</a>
+								<p class="news-item-preview">Here is other stuff about the second order. Some more details... and more and more and more and more...</p>
+							</div>
+							<div class="news-item-date">
+								<span class="news-item-day">24</span>
+								<span class="news-item-month">May</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="widget stacked widget-table action-table">
+					
+				<div class="widget-header">
+					<i class="icon-wrench"></i>
+					<h3>Repairs</h3>
+				</div> <!-- /widget-header -->
+				
+				<div class="widget-content">
+					<table class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>User</th>
+								<th>Issue</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>bnf0001</td>
+								<td>Computer was on Fire</td>
+								<td>Don't care</td>
+							</tr>
+							<tr>
+								<td>bnf0001</td>
+								<td>Water Damage after Fire</td>
+								<td>Still ain't doing anything</td>
+							</tr>
+							<tr>
+								<td>bnf0001</td>
+								<td>Nothing happens when pressing power button</td>
+								<td>Suggested Plugging in</td>
+							</tr>
+							<tr>
+								<td>President</td>
+								<td>Can't find R: Drive</td>
+								<td>Sent all of IT</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

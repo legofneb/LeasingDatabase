@@ -1,0 +1,256 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutCustom.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Billing <small>Misc. Computer Support Charges</small></h1>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12"></div>
+    <div class="btn-group pull-right">
+        <button class="btn btn-primary btn-default" data-toggle="modal" data-target="#addModal">Add Charge</button>
+        <button class="btn btn-success btn-default" id="Excel">Download Excel</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        
+
+        
+
+        
+
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Amount</th>
+                    <th>Description</th>
+                    <th>FOP</th>
+                    <th>code</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Department</th>
+                    <th>Date</th>
+                    <th>Billed</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var singleCharge in ViewBag.Charges as List<aulease.Entities.SingleCharge>)
+                {
+                    <tr id="@singleCharge.Id">
+                        <td>@singleCharge.Price</td>
+                        <td>@singleCharge.Note</td>
+                        <td>@singleCharge.Department.Fund-@singleCharge.Department.Org-@singleCharge.Department.Program</td>
+                        <td>CSMISC</td>
+                        <td>@singleCharge.FirstName</td>
+                        <td>@singleCharge.LastName</td>
+                        <td>@singleCharge.Department.Name</td>
+                        <td>@singleCharge.Date.ToString("d")</td>
+                        <td>@if (singleCharge.HasPaid) { <span class="glyphicon glyphicon-ok"></span> } else{ <span class="glyphicon glyphicon-remove"></span> }</td>
+                        <td><a href="javascript:enableEditModal(@singleCharge.Id, '@singleCharge.GID', '@singleCharge.Price', '@singleCharge.Note', '@singleCharge.Department.Fund', '@singleCharge.Department.Org', '@singleCharge.Department.Program', '@singleCharge.Date.ToString("d")')">Edit</a></td>
+                        <td><a href="javascript:enableDelModal(@singleCharge.Id)">Delete</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="addModalLabel">Add A Charge</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+            <div class="form-group">
+                <label for="addGID">GID</label>
+                <input type="text" class="form-control" id="addGID" placeholder="GID" />
+            </div>
+            <div class="form-group">
+                <label for="addAmount">Amount</label>
+                <input type="text" class="form-control" id="addAmount" placeholder="Amount" />
+            </div>
+            <div class="form-group">
+                <label for="addNote">Description</label>
+                <input type="text" class="form-control" id="addNote" placeholder="Description" />
+            </div>
+            <div class="form-group">
+                <label for="addFund">Fund</label>
+                <input type="text" class="form-control" id="addFund" placeholder="Fund" />
+            </div>
+            <div class="form-group">
+                <label for="addOrg">Org</label>
+                <input type="text" class="form-control" id="addOrg" placeholder="Org" />
+            </div>
+            <div class="form-group">
+                <label for="addProgram">Program</label>
+                <input type="text" class="form-control" id="addProgram" placeholder="Program" />
+            </div>
+            <div class="form-group">
+                <label for="addDate">Date</label>
+                <input type="text" class="form-control" id="addDate" placeholder="MM/DD/YY" />
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="addSubmit">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="editModalLabel">Edit A Charge</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+            
+                <input id="editId" hidden="hidden" disabled />
+            
+
+            <div class="form-group">
+                <label for="editGID">GID</label>
+                <input type="text" class="form-control" id="editGID" placeholder="GID" />
+            </div>
+            <div class="form-group">
+                <label for="editAmount">Amount</label>
+                <input type="text" class="form-control" id="editAmount" placeholder="Amount" />
+            </div>
+            <div class="form-group">
+                <label for="editNote">Description</label>
+                <input type="text" class="form-control" id="editNote" placeholder="Description" />
+            </div>
+            <div class="form-group">
+                <label for="editFund">Fund</label>
+                <input type="text" class="form-control" id="editFund" placeholder="Fund" />
+            </div>
+            <div class="form-group">
+                <label for="editOrg">Org</label>
+                <input type="text" class="form-control" id="editOrg" placeholder="Org" />
+            </div>
+            <div class="form-group">
+                <label for="editProgram">Program</label>
+                <input type="text" class="form-control" id="editProgram" placeholder="Program" />
+            </div>
+            <div class="form-group">
+                <label for="editDate">Date</label>
+                <input type="text" class="form-control" id="editDate" placeholder="MM/DD/YY" />
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="editSubmit">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="delModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="delModalLabel">Delete A Charge</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure?</p>
+          <input id="idNum" disabled hidden="hidden"/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" id="delSubmit">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    $("#addSubmit").click(function () {
+        $.ajax({
+            type: "POST",
+            url: "SingleCharge/Create",
+            data:
+                {
+                    GID: $("#addGID").val(),
+                    Amount: $("#addAmount").val(),
+                    Note: $("#addNote").val(),
+                    Fund: $("#addFund").val(),
+                    Org: $("#addOrg").val(),
+                    Program: $("#addProgram").val(),
+                    Date: $("#addDate").val()
+                },
+            success: function () { location.reload(); }
+        });
+    });
+
+    $("#editSubmit").click(function () {
+        $.ajax({
+            type: "POST",
+            url: "SingleCharge/Edit",
+            data:
+                {
+                    id: $("#editId").val(),
+                    GID: $("#editGID").val(),
+                    Amount: $("#editAmount").val(),
+                    Note: $("#editNote").val(),
+                    Fund: $("#editFund").val(),
+                    Org: $("#editOrg").val(),
+                    Program: $("#editProgram").val(),
+                    Date: $("#editDate").val()
+                },
+            success: function () { location.reload(); }
+        });
+    });
+
+    $("#delSubmit").click(function () {
+        $.ajax({
+            type: "POST",
+            url: "SingleCharge/Delete",
+            data:
+                {
+                    id: $("#idNum").val()
+                },
+            success: function () { location.reload(); }
+        });
+    });
+
+    $("#Excel").click(function () {
+        window.open('@Url.Action("Excel", "SingleCharge")', "_blank");
+    });
+
+    function enableEditModal(id, GID, Amount, Note, Fund, Org, Program, Date) {
+        $("#editModal").modal('show');
+        $("#editId").val(id);
+        $("#editGID").val(GID);
+        $("#editAmount").val(Amount);
+        $("#editNote").val(Note);
+        $("#editFund").val(Fund);
+        $("#editOrg").val(Org);
+        $("#editProgram").val(Program);
+        $("#editDate").val(Date);
+    }
+
+    function enableDelModal(id) {
+        $("#delModal").modal('show');
+        $("#idNum").val(id);
+    }
+</script>

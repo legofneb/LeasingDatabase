@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "Create New Task";
+}
+
+@section extras {
+	<link href="~/Content/bootstrap-forms.css" rel="stylesheet" />
+	<link href="~/Content/Dashboard/bootstrap-button.css" rel="stylesheet" />
+}
+
+<br />
+<div class="container">
+	<div class="row">
+		<div class="span5 offset3 well">
+@using (Html.BeginForm("SubmitTask", "Task", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+	<fieldset>
+		<legend>Create New Task</legend>
+		<div class="control-group">
+			<label class="control-label">Task</label>
+			<div class="controls">
+				<input type="text" name="Task" id="Task" placeholder="Task Name" />
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">Assignee</label>
+			<div class="controls">
+				<input type="text" name="GID" id="GID" placeholder="Username" />
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">Notes</label>
+			<div class="controls">
+				<textarea rows="3" name="Notes"></textarea>
+			</div>
+		</div>
+
+		<div class="control-group">
+						<div class="controls">
+							<button type="submit" class="btn btn-primary btn-large">Create Task</button>
+						</div>
+					</div>
+	</fieldset> 
+}
+			</div>
+		</div>
+	</div>
