@@ -19,11 +19,6 @@
     <div class="row">
       <div class="col-xs-12 col-sm-3 sidebar">
         <div class="list-group" style="margin:0 -1.5em;">
-
-          <a class="list-group-item" href="javascript:void(0);">
-            <h4 class="list-group-item-heading"><i class="fa fa-plus-square-o fa-lg"></i> Create a New Order</h4>
-          </a>
-
           <div ng-repeat="order in vm.orders">
             <a href="" class="list-group-item" ng-click="vm.setSelectedOrder(order, $index)" ng-class="{active: $index == vm.selected}">
               <h4 class="list-group-item-heading">
