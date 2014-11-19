@@ -490,7 +490,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\loading-bar.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\NG\app.js" />
     <Content Include="Scripts\NG\bfApp.js" />
     <Content Include="Scripts\NG\ordersByPO\ordersController.js" />
     <Content Include="Scripts\NG\orders\ordersController.js" />

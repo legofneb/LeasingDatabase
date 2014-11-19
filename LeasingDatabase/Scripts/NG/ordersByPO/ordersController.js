@@ -4,99 +4,99 @@
   initialize();
  
 
-  $scope.selected = -1;
-  $scope.selectedRow = -1;
-  $scope.editingOrder = false;
-  $scope.cart = [];
+  self.selected = -1;
+  self.selectedRow = -1;
+  self.editingOrder = false;
+  self.cart = [];
 
-  $scope.addEOLSystem = { text: undefined };
+  self.addEOLSystem = { text: undefined };
 
-  $scope.setSelectedOrder = function (order, index) {
-    $scope.editingOrder = false;
-    $scope.selectedSystem = undefined;
-    $scope.selectedRow = undefined;
+  self.setSelectedOrder = function (order, index) {
+    self.editingOrder = false;
+    self.selectedSystem = undefined;
+    self.selectedRow = undefined;
 
-    $scope.selectedOrder = angular.copy(order);
-    $scope.selected = index;
+    self.selectedOrder = angular.copy(order);
+    self.selected = index;
 
   }
 
-  $scope.addToCart = function (order) {
-    $scope.cart.push(order);
+  self.addToCart = function (order) {
+    self.cart.push(order);
   }
 
-  $scope.clearCart = function () {
-    $scope.cart = [];
-    $scope.newSR = undefined;
+  self.clearCart = function () {
+    self.cart = [];
+    self.newSR = undefined;
   }
 
-  $scope.editOrder = function () {
-    $scope.oldOrder = angular.copy($scope.selectedOrder);
-    $scope.backupUsers = angular.copy($scope.users);
-    $scope.backupDepts = angular.copy($scope.depts);
-    $scope.editingOrder = true;
+  self.editOrder = function () {
+    self.oldOrder = angular.copy(self.selectedOrder);
+    self.backupUsers = angular.copy(self.users);
+    self.backupDepts = angular.copy(self.depts);
+    self.editingOrder = true;
   }
 
-  $scope.saveOrder = function () {
-    $scope.editingOrder = false;
+  self.saveOrder = function () {
+    self.editingOrder = false;
   }
 
-  $scope.cancelOrder = function () {
-    $scope.editingOrder = false;
-    $scope.selectedOrder = $scope.oldOrder;
-    $scope.users = $scope.backupUsers;
-    $scope.depts = $scope.backupDepts;
-    $scope.$apply;
+  self.cancelOrder = function () {
+    self.editingOrder = false;
+    self.selectedOrder = self.oldOrder;
+    self.users = self.backupUsers;
+    self.depts = self.backupDepts;
+    self.$apply;
   }
 
-  $scope.setSelectedSystem = function (component, index) {
-    $scope.selectedSystem = component;
-    $scope.selectedRow = index;
+  self.setSelectedSystem = function (component, index) {
+    self.selectedSystem = component;
+    self.selectedRow = index;
   }
 
-  $scope.AddEOL = function () {
-    $scope.selectedSystem.EOLComponents.push({ SerialNumber: "", LeaseTag: "" });
+  self.AddEOL = function () {
+    self.selectedSystem.EOLComponents.push({ SerialNumber: "", LeaseTag: "" });
   }
 
-  $scope.AddComponent = function () {
-    $scope.selectedOrder.Configuration.push({ Type: "Monitor", Make: "Dell", Model: "P2414" });
-    console.log($scope.selectedOrder);
+  self.AddComponent = function () {
+    self.selectedOrder.Configuration.push({ Type: "Monitor", Make: "Dell", Model: "P2414" });
+    console.log(self.selectedOrder);
   }
 
-  $scope.NewUserForComponent = function (component) {
+  self.NewUserForComponent = function (component) {
     var newUser = { GID: "", Phone: "" };
-    $scope.users.push(newUser);
+    self.users.push(newUser);
 
     component.User = newUser;
   }
 
-  $scope.NewFOPForComponent = function (component) {
+  self.NewFOPForComponent = function (component) {
     var newFOP = { DepartmentName: "", FOP: "" };
-    $scope.depts.push(newFOP);
+    self.depts.push(newFOP);
 
     component.Department = newFOP;
   }
 
-  $scope.FindEOLSystem = function () {
-    if ($scope.addEOLSystem.text.length > 3) {
-      var text = $scope.addEOLSystem.text;
+  self.FindEOLSystem = function () {
+    if (self.addEOLSystem.text.length > 3) {
+      var text = self.addEOLSystem.text;
       $http.get('api/EOLSystem?text=' + text).success(function (data) {
         $.each(data, function (index, value) {
-          $scope.selectedSystem.EOLComponents.push(value);
+          self.selectedSystem.EOLComponents.push(value);
         })
 
-        $scope.addEOLSystem.text = undefined;
+        self.addEOLSystem.text = undefined;
       });
     }
   }
 
-  $scope.addValueToMake = function (id) {
+  self.addValueToMake = function (id) {
     if ($("#" + id).find('.highlighted').length == 0) {
       var value = $("#" + id).find('input[type="text"]').val();
       //alert(value);
-      $scope.makes.push({ Name: value })
+      self.makes.push({ Name: value })
       //alert(id);
-      $scope.$apply;
+      self.$apply;
       $timeout(function () {
 
         $("#" + id + " select").val(value);
@@ -107,15 +107,16 @@
     }
   }
 
-  $scope.generateSR = function () {
+  self.generateSR = function () {
     $http.get('api/PO?condition=new').success(function (data) {
-      $scope.newSR = data.split("\"").join(""); //removing leading and trailing quotes
+      self.newSR = data.split("\"").join(""); //removing leading and trailing quotes
     });
   }
 
   function initialize() {
     $http.get('api/NewOrdersByPO').success(function (data) {
       self.orders = data;
+      console.log(data);
     });
 
     $http.get('api/make').success(function (data) {
