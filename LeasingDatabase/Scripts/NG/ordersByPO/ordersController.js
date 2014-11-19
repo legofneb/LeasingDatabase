@@ -133,24 +133,6 @@
   };
 
 }])
-.directive('auSelect', function ($timeout) {
-  return {
-    restrict: 'AE',
-    template: '<select ng-Model="ngModel" class="componentType"><option ng-repeat="n in ngList" ng-selected="ngModel === n.Name" value="{{n.Name}}">{{n.Name}}</option></select>',
-    link: function ($scope, el, attr) {
-      $timeout(function () {
-        $(".componentType").chosen({
-          width: "100%",
-          no_results_text: "Press Enter to add ",
-        });
-      }, 0);
-    },
-    scope: {
-      ngModel: '=',
-      ngList: '='
-    }
-  }
-})
 .directive('ngEnter', function () {
   return function (scope, element, attrs) {
     element.bind("keydown keypress", function (event) {
