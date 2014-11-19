@@ -9,6 +9,9 @@
 
   @Html.Partial("~/Views/Shared/_NGStyles.cshtml")
   @Html.Partial("~/Views/Shared/_NGScripts.cshtml")
+  <script type="text/javascript">
+    angular.module("SROrders", ["bfApp", "ngRoute"]).constant('rootUrl', "@Url.Content("~/")");
+  </script>
   
 </head>
 <body>

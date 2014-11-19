@@ -1,5 +1,5 @@
-﻿angular.module('SROrders', [])
-.controller('SRController', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
+﻿angular.module('SROrders')
+.controller('SRController', ['rootUrl', '$http', '$timeout', function (rootUrl, $http, $timeout) {
   var self = this;
   initialize();
  
