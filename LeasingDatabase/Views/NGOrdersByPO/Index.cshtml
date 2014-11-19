@@ -53,40 +53,50 @@
           <i class="fa fa-save fa-4x pull-right orangeHover" id="save" data-toggle="tooltip" data-placement="bottom" title="Save" ng-click="vm.saveOrder()" ng-show="vm.editingOrder"></i>
         </h3>
 
-        <div class="col-lg-12">
+        <div class="col-sm-12">
           <h4>Component(s)</h4>
           <hr />
 
-          <div class="col-lg-3" ng-repeat="config in vm.selectedOrder.Configuration">
+          <div class="col-sm-3" ng-repeat="component in vm.selectedOrder.Configuration">
             <div ng-if="config.Type.length > 0">
-              <dl class="dl-horizontal">
-                <dd>
-                  <i ng-if="config.Type == 'Laptop'" class="fa fa-laptop fa-4x"></i>
-                  <i ng-if="config.Type == 'CPU'" class="fa fa-hdd-o fa-4x"></i>
-                  <i ng-if="config.Type == 'Monitor'" class="fa fa-desktop fa-4x"></i>
-                </dd>
-              </dl>
-
-              <dl class="dl-horizontal">
-                <dt>Type</dt>
-                <dd ng-if="!editingOrder">{{ config.Type }}</dd>
-                <dd ng-if="editingOrder"><au-select id="Type{{$index}}" ng-list="types" ng-model="config.Type"></au-select></dd>
-              </dl>
-              <dl class="dl-horizontal">
-                <dt>Make</dt>
-                <dd ng-if="!editingOrder"> {{ config.Make }}</dd>
-                <dd ng-if="editingOrder"><au-select id="Make{{$index}}" ng-enter="addValueToMake('Make{{$index}}')" ng-list="makes" ng-model="config.Make"></au-select></dd>
-              </dl>
-              <dl class="dl-horizontal">
-                <dt>Model</dt>
-                <dd ng-if="!editingOrder"> {{ config.Model }}</dd>
-                <dd ng-if="editingOrder"><au-select id="Model{{$index}}" ng-enter="addValueToMake('Model{{$index}}')" ng-list="models" ng-model="config.Model"></au-select></dd>
-              </dl>
+              <div class="row">
+                <div class="col-md-9 col-md-offset-3" ng-if="!vm.editingOrder">
+                  <type-icon component="component.Type" class="fa-4x"></type-icon>
+                </div>
+                <div class="col-md-9 col-md-offset-3 text-center" ng-if="vm.editingOrder">
+                  <type-icon component="component.Type" class="fa-4x"></type-icon>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <p class="text-silver">Type</p>
+                </div>
+                <div class="col-md-9">
+                  <p ng-if="!vm.editingOrder">{{ component.Type }}</p>
+                  <au-select ng-if="vm.editingOrder" id="Type{{$index}}" ng-list="vm.types" ng-model="component.Type"></au-select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <p class="text-silver">Make</p>
+                </div>
+                <div class="col-md-9">
+                  <p ng-if="!vm.editingOrder">{{ component.Make }}</p>
+                  <au-select ng-if="vm.editingOrder" id="Make{{$index}}" ng-enter="vm.addValueToMake('Make{{$index}}')" ng-list="vm.makes" ng-model="component.Make"></au-select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <p class="text-silver">Model</p>
+                </div>
+                <div class="col-md-9">
+                  <p ng-if="!vm.editingOrder">{{ component.Model }}</p>
+                  <au-select ng-if="vm.editingOrder" id="Model{{$index}}" ng-enter="vm.addValueToModel('Model{{$index}}')" ng-list="vm.models" ng-model="component.Model"></au-select>
+                </div>
+              </div>
             </div>
 
-
-
-            <div ng-if="config.Type == null">
+            <div ng-if="component.Type == null">
               <p class="lead">No Configuration</p>
             </div>
           </div>
