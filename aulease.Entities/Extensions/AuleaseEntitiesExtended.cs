@@ -7,6 +7,8 @@ namespace aulease.Entities
 {
 	public partial class AuleaseEntities
 	{
+        public AuleaseEntities(string connectionString) : base(connectionString) { }
+
 		public Type TypesMonitor
 		{
 			get
