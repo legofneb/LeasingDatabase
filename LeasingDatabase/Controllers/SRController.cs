@@ -14,6 +14,8 @@ namespace LeasingDatabase.Controllers
 {
     // TODO: This whole controller is legacy code that needs to be refactored
 
+    // this is an example change
+
 	[AuthorizeUser("Admin", "Users")]
     public class SRController : Controller
     {
