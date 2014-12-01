@@ -16,8 +16,12 @@ namespace LeasingDatabase.API
         {
             AuleaseEntities db = new AuleaseEntities();
 
-            IEnumerable<NGNewOrdersByPOModel> Orders = db.POes.Where(n => n.SystemGroups.Any(o => o.Leases.Any(p => p.MonthlyCharge == null)) && n.SystemGroups.Any(o => o.PO.PONumber != null))
-                                                          .OrderByDescending(n => n.PONumber).ToList()
+            //List<PO> PreBilledPOs = db.POes.Where(n => n.SystemGroups.Any(o => o.Leases.Any(p => p.MonthlyCharge == null)) && n.SystemGroups.Any(o => o.PO.PONumber != null))
+            //                                              .OrderByDescending(n => n.PONumber).ToList();
+
+            List<PO> PreBilledPOs = GetUnBilledPOs(db.POes);
+
+            IEnumerable<NGNewOrdersByPOModel> Orders = PreBilledPOs
                 .Select(n => new NGNewOrdersByPOModel
                 {
                     SR = n.PONumber,
@@ -62,6 +66,12 @@ namespace LeasingDatabase.API
                 });
 
             return Orders;
+        }
+
+        private List<PO> GetUnBilledPOs(IQueryable<PO> query)
+        {
+            return query.Where(n => n.SystemGroups.Any(o => o.Leases.Any(p => p.MonthlyCharge == null)) && n.SystemGroups.Any(o => o.PO.PONumber != null))
+                                                          .OrderByDescending(n => n.PONumber).ToList();
         }
 
         // GET api/newordersbypo/5
