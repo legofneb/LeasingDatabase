@@ -1,5 +1,15 @@
 ﻿angular.module('SROrders')
-.controller('SRController', ['rootUrl', '$http', '$timeout', function (rootUrl, $http, $timeout) {
+.config(function ($routeProvider, rootUrl) {
+
+  $routeProvider.when("/System", {
+    templateUrl: rootUrl + "NGOrdersByPO/System"
+  });
+
+    $routeProvider.otherwise({
+    templateUrl: rootUrl + "NGOrdersByPO/Home"
+  });
+})
+.controller('SRController', ['rootUrl', '$http', '$timeout','$location', function (rootUrl, $http, $timeout, $location) {
   var self = this;
   initialize();
  
@@ -20,14 +30,10 @@
     self.selected = index;
 
   }
-
-  self.addToCart = function (order) {
-    self.cart.push(order);
-  }
-
-  self.clearCart = function () {
-    self.cart = [];
-    self.newSR = undefined;
+  
+  self.setSelectedSystem = function (system) {
+    $location.path('/System');
+    self.selectedSystem = system;
   }
 
   self.editOrder = function () {
@@ -47,11 +53,6 @@
     self.users = self.backupUsers;
     self.depts = self.backupDepts;
     self.$apply;
-  }
-
-  self.setSelectedSystem = function (component, index) {
-    self.selectedSystem = component;
-    self.selectedRow = index;
   }
 
   self.AddEOL = function () {
@@ -113,17 +114,21 @@
     });
   }
 
+  self.backToMain = function () {
+    $location.path("/");
+  }
+
   function initialize() {
-    $http.get('api/NewOrdersByPO').success(function (data) {
+    $http.get(rootUrl + 'api/NewOrdersByPO').success(function (data) {
       self.orders = data;
       console.log(data);
     });
 
-    $http.get('api/make').success(function (data) {
+    $http.get(rootUrl + 'api/make').success(function (data) {
       self.makes = data;
     });
 
-    $http.get('api/type').success(function (data) {
+    $http.get(rootUrl + 'api/type').success(function (data) {
       self.types = data;
     });
 

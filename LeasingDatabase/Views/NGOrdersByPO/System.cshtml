@@ -1,0 +1,171 @@
+﻿<h3>
+  System Details
+  <small><i class="fa fa-pencil orangeHover" id="edit" data-toggle="tooltip" data-placement="right" title="Edit" ng-click="vm.editOrder()"></i></small>
+  <i class="fa fa-trash-o fa-3x trashIcon redHover text-asbestos" id="delete" data-toggle="tooltip" data-placement="bottom" title="Cancel" ng-click="vm.cancelOrder()" ng-show="vm.editingOrder"></i>
+  <i class="fa fa-save fa-3x saveIcon orangeHover text-asbestos" id="save" data-toggle="tooltip" data-placement="bottom" title="Save" ng-click="vm.saveOrder()" ng-show="vm.editingOrder"></i>
+</h3>
+<hr />
+<h4><small><a style="cursor: pointer;" class="text-asbestos" ng-click="vm.backToMain()"><i class="fa fa-long-arrow-left"></i> Back To Order Details</a></small></h4>
+
+<div class="col-sm-12">
+  <h4>Component(s)</h4>
+  <hr />
+
+  <div class="col-sm-4" ng-repeat="component in vm.selectedOrder.Configuration">
+    <div ng-if="component.Type.length > 0">
+      <div class="row">
+        <div class="col-md-9 col-md-offset-3" ng-if="!vm.editingOrder">
+          <type-icon component="component.Type" class="fa-4x"></type-icon>
+        </div>
+        <div class="col-md-9 col-md-offset-3 text-center" ng-if="vm.editingOrder">
+          <type-icon component="component.Type" class="fa-4x"></type-icon>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <p class="text-silver">Type</p>
+        </div>
+        <div class="col-md-9">
+          <p>{{ component.Type }}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <p class="text-silver">Make</p>
+        </div>
+        <div class="col-md-9">
+          <p>{{ component.Make }}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <p class="text-silver">Model</p>
+        </div>
+        <div class="col-md-9">
+          <p>{{ component.Model }}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <p class="text-silver">Serial Number</p>
+        </div>
+        <div class="col-md-9">
+          <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.Components[$index].SerialNumber"></edit-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <p class="text-silver">Lease Tag</p>
+        </div>
+        <div class="col-md-9">
+          <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.Components[$index].LeaseTag"></edit-input>
+        </div>
+      </div>
+    </div>
+
+    <div ng-if="component.Type == null">
+      <p class="lead">No Configuration</p>
+    </div>
+  </div>
+</div>
+
+<div class="col-lg-12">
+  <hr />
+
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Statement Name</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.StatementName"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">GID</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.GID"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Department Name</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.DepartmentName"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">FOP</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.FOP"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Rate Level</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.RateLevel"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Term</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.Term"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Install Hardware</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.InstallHardware"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Install Software</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.InstallSoftware"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Renewal</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.Renewal"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Phone</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.Phone"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Room</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.Room"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Building</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.Building"></edit-input>
+    </div>
+  </div>
+</div>

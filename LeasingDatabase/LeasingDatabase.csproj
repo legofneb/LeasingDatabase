@@ -626,6 +626,8 @@
     <Content Include="Views\Shared\_NGStyles.cshtml" />
     <Content Include="Views\NGOrders\Home.cshtml" />
     <Content Include="Views\NGOrders\System.cshtml" />
+    <Content Include="Views\NGOrdersByPO\Home.cshtml" />
+    <Content Include="Views\NGOrdersByPO\System.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

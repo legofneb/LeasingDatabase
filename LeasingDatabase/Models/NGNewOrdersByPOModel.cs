@@ -62,10 +62,16 @@ namespace LeasingDatabase.Models
 
         public static IEnumerable<NGNewOrdersByPOModel> GetOrdersFromPOs(IQueryable<PO> POs)
         {
-            return GetOrdersFromPOs(POs.AsEnumerable());
+            return GetOrdersFromFilteredPOs(GetUnBilledPOs(POs));
         }
 
         private static IEnumerable<PO> GetUnBilledPOs(IEnumerable<PO> query)
+        {
+            return query.Where(n => n.SystemGroups.Any(o => o.Leases.Any(p => p.MonthlyCharge == null)) && n.SystemGroups.Any(o => o.PO.PONumber != null))
+                                                          .OrderByDescending(n => n.PONumber).ToList();
+        }
+
+        private static IEnumerable<PO> GetUnBilledPOs(IQueryable<PO> query)
         {
             return query.Where(n => n.SystemGroups.Any(o => o.Leases.Any(p => p.MonthlyCharge == null)) && n.SystemGroups.Any(o => o.PO.PONumber != null))
                                                           .OrderByDescending(n => n.PONumber).ToList();
