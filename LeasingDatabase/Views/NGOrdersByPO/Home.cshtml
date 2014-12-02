@@ -8,7 +8,7 @@
 
 
 <div class="col-sm-12">
-  <h4>Component Overview</h4>
+  <h4>Component Overview <small><a style="cursor: pointer;" class="text-concrete" ng-if="vm.editingOrder" ng-click="vm.AddComponent()"><i class="fa fa-plus-square-o"></i> Add Component</a></small></h4>
   <hr />
 
   <div class="col-sm-3" ng-repeat="component in vm.selectedOrder.Configuration">
@@ -52,17 +52,6 @@
 
     <div ng-if="component.Type == null">
       <p class="lead">No Configuration</p>
-    </div>
-  </div>
-
-  <div class="col-lg-3" ng-if="vm.editingOrder && vm.selectedOrder.Configuration.length < 3">
-    <div class="panel panel-default panel-primary">
-      <div class="panel-heading">Add Component</div>
-      <div class="panel-body">
-        <button type="button" class="btn btn-default" ng-click="vm.AddComponent()">
-          <i class="fa fa-plus-square-o"></i> Add Component
-        </button>
-      </div>
     </div>
   </div>
 
