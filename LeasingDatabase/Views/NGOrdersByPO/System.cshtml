@@ -3,6 +3,14 @@
   <small><i class="fa fa-pencil orangeHover" id="edit" data-toggle="tooltip" data-placement="right" title="Edit" ng-click="vm.editOrder()"></i></small>
   <i class="fa fa-trash-o fa-3x trashIcon redHover text-asbestos" id="delete" data-toggle="tooltip" data-placement="bottom" title="Cancel" ng-click="vm.cancelOrder()" ng-show="vm.editingOrder"></i>
   <i class="fa fa-save fa-3x saveIcon orangeHover text-asbestos" id="save" data-toggle="tooltip" data-placement="bottom" title="Save" ng-click="vm.saveOrder()" ng-show="vm.editingOrder"></i>
+
+  <div ng-show="!vm.editingOrder" class="btn-group pull-right">
+    <button class="btn btn-inverse dropdown-toggle" type="button" data-toggle="dropdown">System Actions <i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu dropdown-menu-inverse" role="menu">
+      <li><a ng-click="vm.editOrder()" href="#">Edit Mode</a></li>
+      <li><a href="#">SR Transfer</a></li>
+    </ul>
+  </div>
 </h3>
 <hr />
 <h4><small><a style="cursor: pointer;" class="text-asbestos" ng-click="vm.backToMain()"><i class="fa fa-long-arrow-left"></i> Back To Order Details</a></small></h4>
@@ -166,6 +174,46 @@
     </div>
     <div class="col-md-4">
       <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.Building"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Order Date</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.Date"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Orderer GID</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.OrdererGID"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Orderer Phone</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.OrdererPhone"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Orderer Building</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.OrdererBuilding"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Orderer Room</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.OrdererRoom"></edit-input>
     </div>
   </div>
 </div>

@@ -3,9 +3,17 @@
   <small><i class="fa fa-pencil orangeHover" id="edit" data-toggle="tooltip" data-placement="right" title="Edit" ng-click="vm.editOrder()"></i></small>
   <i class="fa fa-trash-o fa-3x trashIcon redHover text-asbestos" id="delete" data-toggle="tooltip" data-placement="bottom" title="Cancel" ng-click="vm.cancelOrder()" ng-show="vm.editingOrder"></i>
   <i class="fa fa-save fa-3x saveIcon orangeHover text-asbestos" id="save" data-toggle="tooltip" data-placement="bottom" title="Save" ng-click="vm.saveOrder()" ng-show="vm.editingOrder"></i>
+
+  <div ng-show="!vm.editingOrder" class="btn-group pull-right">
+    <button class="btn btn-inverse dropdown-toggle" type="button" data-toggle="dropdown">Order Actions <i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu dropdown-menu-inverse" role="menu">
+      <li><a href="javascript:;" ng-click="vm.editOrder()">Edit Mode</a></li>
+      <li><a href="javascript:;">Process for Billing</a></li>
+    </ul>
+  </div>
+  
 </h3>
 <hr />
-
 
 <div class="col-sm-12">
   <h4>Component Overview <small><a style="cursor: pointer;" class="text-concrete" ng-if="vm.editingOrder" ng-click="vm.AddComponent()"><i class="fa fa-plus-square-o"></i> Add Component</a></small></h4>
@@ -72,23 +80,15 @@
         <th>Term</th>
         <th>I.H.</th>
         <th>I.S.</th>
-        <th>Renewal</th>
       </tr>
     </thead>
     <tbody>
       <tr style="cursor: pointer;" ng-repeat="system in vm.selectedOrder.SystemGroups" ng-class="{info: $index == selectedRow}" ng-click="vm.setSelectedSystem(system)">
 
-        <td ng-if="!editingOrder">{{ system.StatementName}}</td>
-        <td ng-if="editingOrder"><input class="form-control" type="text" ng-model="system.StatementName" /></td>
-
-        <td ng-if="!editingOrder">{{system.User.GID}}</td>
-        <td style="width: 10%;" ng-if="editingOrder"><div class="input-group"><input class="form-control" type="text" ng-model="system.User.GID" /><span class="input-group-btn"><button class="btn btn-default" ng-click="vm.NewUserForsystem(system)"><i class="fa fa-unlink"></i></button></span></div></td>
-
-        <td ng-if="!editingOrder">{{system.Department.DepartmentName}}</td>
-        <td ng-if="editingOrder"><input class="form-control" type="text" ng-model="system.Department.DepartmentName" /></td>
-
-        <td ng-if="!editingOrder">{{system.Department.FOP}}</td>
-        <td style="width: 16%;" ng-if="editingOrder"><div class="input-group"><input class="form-control" type="text" ng-model="system.Department.FOP" /><span class="input-group-btn"><button class="btn btn-default" ng-click="vm.NewFOPForsystem(system)"><i class="fa fa-unlink"></i></button></span></div></td>
+        <td>{{ system.StatementName}}</td>
+        <td>{{system.GID}}</td>
+        <td>{{system.DepartmentName}}</td>
+        <td>{{system.FOP}}</td>
 
         <td>{{system.RateLevel}}</td>
         <td>{{system.Term}}</td>
@@ -98,8 +98,6 @@
         <td ng-if="system.InstallSoftware"><span class="glyphicon glyphicon-ok"></span></td>
         <td ng-if="!system.InstallSoftware"><span class="glyphicon glyphicon-remove"></span></td>
 
-        <td ng-if="system.Renewal"><span class="glyphicon glyphicon-ok"></span></td>
-        <td ng-if="!system.Renewal"><span class="glyphicon glyphicon-remove"></span></td>
       </tr>
     </tbody>
   </table>

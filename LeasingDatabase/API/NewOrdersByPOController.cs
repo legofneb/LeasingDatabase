@@ -28,7 +28,7 @@ namespace LeasingDatabase.API
         }
 
         // POST api/newordersbypo
-        public void Post([FromBody]string value)
+        public void Post(NGNewOrdersByPOModel Order)
         {
         }
 

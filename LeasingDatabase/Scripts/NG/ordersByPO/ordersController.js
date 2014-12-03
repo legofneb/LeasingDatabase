@@ -25,6 +25,7 @@
     self.editingOrder = false;
     self.selectedSystem = undefined;
     self.selectedRow = undefined;
+    $location.path('/');
 
     self.selectedOrder = angular.copy(order);
     self.selected = index;
@@ -45,6 +46,25 @@
 
   self.saveOrder = function () {
     self.editingOrder = false;
+
+    $http.post(rootUrl + 'api/NewOrdersByPO', self.selectedOrder).
+      success(function (data, status, headers, config) {
+        alert("yaaaa");
+      }).
+      error(function (data, status, headers, config) {
+      })
+
+    var ind = -1;
+    angular.forEach(self.orders, function (value, key) {
+      if (value.id == self.selectedOrder.id) {
+        ind = self.orders.indexOf(value);
+      }
+    });
+
+    if (ind >= 0) {
+      self.orders[ind] = angular.copy(self.selectedOrder);
+      self.setSelectedOrder(self.orders[ind], ind);
+    }
   }
 
   self.cancelOrder = function () {

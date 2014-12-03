@@ -13,6 +13,7 @@ namespace LeasingDatabase.Models
         {
             return POs.Select(n => new NGNewOrdersByPOModel
                 {
+                    id = n.Id,
                     SR = n.PONumber,
                     Summary = n.SystemGroups.FirstOrDefault().ToString(),
                     Configuration = n.SystemGroups.FirstOrDefault().Leases.Select(o => o.Component).OrderBy(o => o.TypeId).Select(o => new NGConfigurationModel
@@ -21,8 +22,15 @@ namespace LeasingDatabase.Models
                         Make = o.Make != null ? o.Make.Name : null,
                         Model = o.Model != null ? o.Model.Name : null
                     }),
-                    SystemGroups = n.SystemGroups.Select(o => new NGOrderSystemGroupModel
+                    SystemGroups = n.SystemGroups.Select(o => new NGOrderSystemGroupByPOModel
                     {
+                        Date = o.Order.Date.ToString("d"),
+                        OrderNumber = o.Leases.FirstOrDefault().Component.OrderNumber,
+                        OrdererGID = o.Order.User.GID,
+                        OrdererBuilding = o.Order.User.Location.Building,
+                        OrdererRoom = o.Order.User.Location.Room,
+                        OrdererPhone = o.Order.User.Phone,
+
                         StatementName = o.Leases.FirstOrDefault().StatementName,
                         GID = o.User.GID,
                         DepartmentName = o.Leases.FirstOrDefault().Department.Name,
@@ -77,11 +85,39 @@ namespace LeasingDatabase.Models
                                                           .OrderByDescending(n => n.PONumber).ToList();
         }
 
+        public int id { get; set; }
         public string SR { get; set; }
         public string Summary { get; set; }
 
         public IEnumerable<NGConfigurationModel> Configuration { get; set; }
-        public IEnumerable<NGOrderSystemGroupModel> SystemGroups { get; set; }
+        public IEnumerable<NGOrderSystemGroupByPOModel> SystemGroups { get; set; }
+    }
+
+    public class NGOrderSystemGroupByPOModel
+    {
+        public string Date { get; set; }
+        public string OrderNumber { get; set; }
+        public string OrdererGID { get; set; }
+        public string OrdererBuilding { get; set; }
+        public string OrdererRoom { get; set; }
+        public string OrdererPhone { get; set; }
+
+        public string StatementName { get; set; }
+        public string GID { get; set; }
+        public string DepartmentName { get; set; }
+        public string FOP { get; set; }
+        public string RateLevel { get; set; }
+        public string Term { get; set; }
+        public bool InstallHardware { get; set; }
+        public bool InstallSoftware { get; set; }
+        public bool Renewal { get; set; }
+        public string Phone { get; set; }
+        public string Room { get; set; }
+        public string Building { get; set; }
+        public IEnumerable<NGComponentModel> Components { get; set; }
+        public IEnumerable<NGComponentModel> EOLComponents { get; set; }
+
+        public string Notes { get; set; }
     }
 
     public  class NGConfigurationModel

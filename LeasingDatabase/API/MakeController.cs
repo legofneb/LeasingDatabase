@@ -24,10 +24,15 @@ namespace LeasingDatabase.API
 
             DateTime SearchDate = DateTime.Now.AddMonths(-36);
 
-            // Get Makes from the last 36 months
-            IEnumerable<Make> Makes = db.Leases.Where(n => n.MonthlyCharge != null && n.EndDate.HasValue && n.EndDate.Value > SearchDate).Select(n => n.Component).Select(n => n.Make).Distinct();
+            IEnumerable<Make> Makes = db.Orders.Where(n => n.Date >= SearchDate).SelectMany(n => n.SystemGroups).SelectMany(n => n.Leases).Select(n => n.Component).Where(n => n.MakeId != null).Select(n => n.Make).Distinct();
 
-            return Makes.Select(n => new MakeViewModel() {Id=n.Id, Name=n.Name});
+            // Get Makes from the last 36 months
+            //IEnumerable<Make> Makes = db.Leases.Where(n => n.MonthlyCharge !=null && n.EndDate.HasValue && n.EndDate.Value > SearchDate).Select(n => n.Component).Select(n => n.Make).Distinct().ToList();
+
+            // Get Makes from new leases
+            //IEnumerable<Make> NewMakes = db.Leases.Where(n => n.MonthlyCharge == null || !n.EndDate.HasValue).Select(n => n.Component).Where(n => n.MakeId != null).Select(n => n.Make).Distinct().ToList();
+
+            return Makes.Distinct().Select(n => new MakeViewModel() {Id=n.Id, Name=n.Name});
         }
 
         // GET api/make/5

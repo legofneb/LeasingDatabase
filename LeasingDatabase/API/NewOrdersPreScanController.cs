@@ -28,7 +28,7 @@ namespace LeasingDatabase.API
                         Make = o.Make != null ? o.Make.Name : null,
                         Model = o.Model != null ? o.Model.Name : null
                     }),
-                    SystemGroups = n.SystemGroups.Select(o => new NGOrderSystemGroupModel
+                    SystemGroups = n.SystemGroups.Select(o => new NGOrderSystemGroupByPOModel
                     {
                         StatementName = o.Leases.FirstOrDefault().StatementName,
                         GID = o.User.GID,

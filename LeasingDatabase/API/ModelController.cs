@@ -24,7 +24,13 @@ namespace LeasingDatabase.API
             DateTime SearchDate = DateTime.Now.AddMonths(-36);
 
             // Get Model from the last 36 months
-            IEnumerable<Model> Models = db.Leases.Where(n => n.MonthlyCharge != null && n.EndDate.HasValue && n.EndDate.Value > SearchDate).Select(n => n.Component).Select(n => n.Model).Distinct();
+            IEnumerable<Model> Models = db.Orders.Where(n => n.Date >= SearchDate).SelectMany(n => n.SystemGroups).SelectMany(n => n.Leases).Select(n => n.Component).Where(n => n.ModelId != null).Select(n => n.Model).Distinct();
+            //IEnumerable<Model> Models = db.Leases.Where(n => n.MonthlyCharge != null && n.EndDate.HasValue && n.EndDate.Value > SearchDate).Select(n => n.Component).Where(n => n.ModelId != null).Select(n => n.Model).Distinct().ToList();
+
+            // Get Models that have yet to be financed
+            //IEnumerable<Model> NewModels = db.Leases.Where(n => n.MonthlyCharge == null).Select(n => n.Component).Select(n => n.Model).Distinct().ToList();
+
+            //Models.Concat(NewModels);
 
             return Models.Select(n => new ModelViewModel() { Id = n.Id, Name = n.Name });
         }
