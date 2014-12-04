@@ -30,6 +30,7 @@
     self.selectedOrder = angular.copy(order);
     self.selected = index;
 
+    console.log(order);
   }
   
   self.setSelectedSystem = function (system) {
@@ -84,6 +85,10 @@
     console.log(self.selectedOrder);
   }
 
+  self.AddEOLComponent = function () {
+    self.selectedSystem.EOLComponents.push({});
+  }
+
   self.NewUserForComponent = function (component) {
     var newUser = { GID: "", Phone: "" };
     self.users.push(newUser);
@@ -109,6 +114,28 @@
         self.addEOLSystem.text = undefined;
       });
     }
+  }
+
+  self.validateEOLComponent = function (component, $index) {
+    if (self.inputTimeout) { $timeout.cancel(self.inputTimeout);}
+
+    self.inputTimeout = $timeout(function () {
+      $http.post(rootUrl + 'api/NewOrdersEOL', component).
+        success(function (data, status, headers, config) {
+          if (status != 200)
+          {
+            // No Component found
+          }
+          else
+          {
+            component = data;
+            self.selectedSystem.EOLComponents[$index] = component;
+          }
+        }).
+        error(function (data, status, headers, config) {
+          // Some other error occurred
+        });
+    }, 1000);
   }
 
   self.addValueToMake = function (id) {

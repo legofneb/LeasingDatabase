@@ -49,10 +49,9 @@ namespace LeasingDatabase.API
                         {
                             SerialNumber = p.Component.SerialNumber,
                             LeaseTag = p.Component.LeaseTag,
-                            Type = p.Component.TypeId.HasValue ? p.Component.Type.Name : null
                         }),
 
-                        EOLComponents = o.EOLComponents.Select(p => new NGComponentModel
+                        EOLComponents = o.EOLComponents.Select(p => new NGEOLComponentModel
                         {
                             SerialNumber = p.SerialNumber,
                             LeaseTag = p.LeaseTag,

@@ -50,14 +50,15 @@ namespace LeasingDatabase.Models
                         {
                             SerialNumber = p.Component.SerialNumber,
                             LeaseTag = p.Component.LeaseTag,
-                            Type = p.Component.TypeId.HasValue ? p.Component.Type.Name : null
                         }),
 
-                        EOLComponents = o.EOLComponents.Select(p => new NGComponentModel
+                        EOLComponents = o.EOLComponents.Select(p => new NGEOLComponentModel
                         {
                             SerialNumber = p.SerialNumber,
                             LeaseTag = p.LeaseTag,
-                            Type = p.TypeId.HasValue ? p.Type.Name : null
+                            Type = p.TypeId.HasValue ? p.Type.Name : null,
+                            Make = p.MakeId.HasValue ? p.Make.Name : null,
+                            Model = p.ModelId.HasValue ? p.Model.Name : null
                         })
                     })
                 });
@@ -115,7 +116,7 @@ namespace LeasingDatabase.Models
         public string Room { get; set; }
         public string Building { get; set; }
         public IEnumerable<NGComponentModel> Components { get; set; }
-        public IEnumerable<NGComponentModel> EOLComponents { get; set; }
+        public IEnumerable<NGEOLComponentModel> EOLComponents { get; set; }
 
         public string Notes { get; set; }
     }

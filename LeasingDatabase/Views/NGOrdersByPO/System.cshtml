@@ -7,8 +7,9 @@
   <div ng-show="!vm.editingOrder" class="btn-group pull-right">
     <button class="btn btn-inverse dropdown-toggle" type="button" data-toggle="dropdown">System Actions <i class="fa fa-caret-down"></i></button>
     <ul class="dropdown-menu dropdown-menu-inverse" role="menu">
-      <li><a ng-click="vm.editOrder()" href="#">Edit Mode</a></li>
+      <li><a ng-click="vm.editOrder()" href="javascript:;">Edit Mode</a></li>
       <li><a href="#">SR Transfer</a></li>
+      <li><a href="#">Delete System</a></li>
     </ul>
   </div>
 </h3>
@@ -221,11 +222,10 @@
 
 
 <div class="col-sm-12">
-  <h4>EOL Component(s)</h4>
+  <h4>EOL Component(s) <small><a style="cursor: pointer;" class="text-concrete" ng-if="vm.editingOrder" ng-click="vm.AddEOLComponent()"><i class="fa fa-plus-square-o"></i> Add EOL Component</a></small></h4>
   <hr />
 
-  <div class="col-sm-4" ng-repeat="component in vm.selectedOrder.Configuration">
-    <div ng-if="component.Type.length > 0">
+  <div class="col-sm-4" ng-repeat="component in vm.selectedSystem.EOLComponents">
       <div class="row">
         <div class="col-md-9 col-md-offset-3" ng-if="!vm.editingOrder">
           <type-icon component="component.Type" class="fa-4x"></type-icon>
@@ -263,7 +263,8 @@
           <p class="text-silver">Serial Number</p>
         </div>
         <div class="col-md-9">
-          <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.Components[$index].SerialNumber"></edit-input>
+          <p ng-if="component.Type != null"><small>{{ component.SerialNumber }}</small></p>
+          <edit-input ng-if="component.Type == null" editing="vm.editingOrder" ng-model="component.SerialNumber" ng-keyup="vm.validateEOLComponent(component, $index)"></edit-input>
         </div>
       </div>
       <div class="row">
@@ -271,13 +272,10 @@
           <p class="text-silver">Lease Tag</p>
         </div>
         <div class="col-md-9">
-          <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.Components[$index].LeaseTag"></edit-input>
+          <p ng-if="component.Type != null">{{ component.LeaseTag }}</p>
+          <edit-input ng-if="component.Type == null" editing="vm.editingOrder" ng-model="component.LeaseTag" ng-keyup="vm.validateEOLComponent(component, $index)"></edit-input>
         </div>
       </div>
-    </div>
 
-    <div ng-if="component.Type == null">
-      <p class="lead">No Configuration</p>
-    </div>
   </div>
 </div>

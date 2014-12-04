@@ -150,6 +150,7 @@
     <Compile Include="API\ModelController.cs" />
     <Compile Include="API\NewOrdersByPOController.cs" />
     <Compile Include="API\NewOrdersController.cs" />
+    <Compile Include="API\NewOrdersEOLController.cs" />
     <Compile Include="API\NewOrdersPreScanController.cs" />
     <Compile Include="API\OrdersController.cs" />
     <Compile Include="API\POController.cs" />

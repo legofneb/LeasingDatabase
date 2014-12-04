@@ -44,7 +44,6 @@ namespace LeasingDatabase.API
 
                 EOLSystem = db.Components.Where(n => n.LeaseTag == Text).FirstOrDefault().Leases.FirstOrDefault().SystemGroup.Leases.Select(n => new NGComponentModel
                 {
-                    Type = n.Component.TypeId.HasValue ? n.Component.Type.Name : null,
                     SerialNumber = n.Component.SerialNumber,
                     LeaseTag = n.Component.LeaseTag
                 });
@@ -63,7 +62,6 @@ namespace LeasingDatabase.API
 
                 EOLSystem = db.Components.Where(n => n.LeaseTag == Text).FirstOrDefault().Leases.FirstOrDefault().SystemGroup.Leases.Select(n => new NGComponentModel
                 {
-                    Type = n.Component.TypeId.HasValue ? n.Component.Type.Name : null,
                     SerialNumber = n.Component.SerialNumber,
                     LeaseTag = n.Component.LeaseTag
                 });
