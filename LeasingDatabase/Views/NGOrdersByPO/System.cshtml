@@ -217,3 +217,67 @@
     </div>
   </div>
 </div>
+
+
+
+<div class="col-sm-12">
+  <h4>EOL Component(s)</h4>
+  <hr />
+
+  <div class="col-sm-4" ng-repeat="component in vm.selectedOrder.Configuration">
+    <div ng-if="component.Type.length > 0">
+      <div class="row">
+        <div class="col-md-9 col-md-offset-3" ng-if="!vm.editingOrder">
+          <type-icon component="component.Type" class="fa-4x"></type-icon>
+        </div>
+        <div class="col-md-9 col-md-offset-3 text-center" ng-if="vm.editingOrder">
+          <type-icon component="component.Type" class="fa-4x"></type-icon>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <p class="text-silver">Type</p>
+        </div>
+        <div class="col-md-9">
+          <p>{{ component.Type }}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <p class="text-silver">Make</p>
+        </div>
+        <div class="col-md-9">
+          <p>{{ component.Make }}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <p class="text-silver">Model</p>
+        </div>
+        <div class="col-md-9">
+          <p>{{ component.Model }}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <p class="text-silver">Serial Number</p>
+        </div>
+        <div class="col-md-9">
+          <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.Components[$index].SerialNumber"></edit-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <p class="text-silver">Lease Tag</p>
+        </div>
+        <div class="col-md-9">
+          <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.Components[$index].LeaseTag"></edit-input>
+        </div>
+      </div>
+    </div>
+
+    <div ng-if="component.Type == null">
+      <p class="lead">No Configuration</p>
+    </div>
+  </div>
+</div>

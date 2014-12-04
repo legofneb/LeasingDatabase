@@ -69,7 +69,7 @@
   <hr />
   <h3>Systems</h3>
 
-  <table class="table table-striped table-bordered table-hover" ng-class="{'table-condensed': vm.editingOrder}">
+  <table class="table table-striped table-bordered table-hover">
     <thead>
       <tr>
         <th>Statement Name</th>
@@ -83,7 +83,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr style="cursor: pointer;" ng-repeat="system in vm.selectedOrder.SystemGroups" ng-class="{info: $index == selectedRow}" ng-click="vm.setSelectedSystem(system)">
+      <tr style="cursor: pointer;" ng-repeat="system in vm.selectedOrder.SystemGroups" ng-click="vm.setSelectedSystem(system)">
 
         <td>{{ system.StatementName}}</td>
         <td>{{system.GID}}</td>
