@@ -144,6 +144,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\BillingController.cs" />
+    <Compile Include="API\BillingRatesController.cs" />
     <Compile Include="API\EOLSystemController.cs" />
     <Compile Include="API\InventoryController.cs" />
     <Compile Include="API\MakeController.cs" />
@@ -237,6 +239,7 @@
     <Compile Include="Models\Grid\FileJqGridModel.cs" />
     <Compile Include="Models\Grid\OrdersJqGridModel.cs" />
     <Compile Include="Models\Grid\VendorRateJqGridModel.cs" />
+    <Compile Include="Models\NGRateInfoModel.cs" />
     <Compile Include="Models\NGNewOrdersByPOModel.cs" />
     <Compile Include="Models\NGNewOrdersModel.cs" />
     <Compile Include="Models\OrderModel.cs" />
@@ -629,6 +632,7 @@
     <Content Include="Views\NGOrders\System.cshtml" />
     <Content Include="Views\NGOrdersByPO\Home.cshtml" />
     <Content Include="Views\NGOrdersByPO\System.cshtml" />
+    <Content Include="Views\NGOrdersByPO\Billing.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

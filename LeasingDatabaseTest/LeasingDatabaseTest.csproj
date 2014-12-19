@@ -63,6 +63,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BillingTests\ChargeBuilderTest.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -70,6 +71,10 @@
     <ProjectReference Include="..\aulease.Entities\aulease.Entities.csproj">
       <Project>{be1834e0-5361-46af-9787-853e6e9f30be}</Project>
       <Name>aulease.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LeasingDatabase.Billing\LeasingDatabase.Billing.csproj">
+      <Project>{35c8e411-f13f-430a-8c2f-4ac13bb2accc}</Project>
+      <Name>LeasingDatabase.Billing</Name>
     </ProjectReference>
     <ProjectReference Include="..\LeasingDatabase\LeasingDatabase.csproj">
       <Project>{0ccc7b54-8888-46a2-85fa-fe24ad7e262a}</Project>

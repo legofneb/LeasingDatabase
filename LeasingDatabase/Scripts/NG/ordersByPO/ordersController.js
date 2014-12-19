@@ -5,7 +5,11 @@
     templateUrl: rootUrl + "NGOrdersByPO/System"
   });
 
-    $routeProvider.otherwise({
+  $routeProvider.when("/Billing", {
+    templateUrl: rootUrl + "NGOrdersByPO/Billing"
+  });
+
+  $routeProvider.otherwise({
     templateUrl: rootUrl + "NGOrdersByPO/Home"
   });
 })
@@ -103,19 +107,6 @@
     component.Department = newFOP;
   }
 
-  self.FindEOLSystem = function () {
-    if (self.addEOLSystem.text.length > 3) {
-      var text = self.addEOLSystem.text;
-      $http.get('api/EOLSystem?text=' + text).success(function (data) {
-        $.each(data, function (index, value) {
-          self.selectedSystem.EOLComponents.push(value);
-        })
-
-        self.addEOLSystem.text = undefined;
-      });
-    }
-  }
-
   self.validateEOLComponent = function (component, $index) {
     if (self.inputTimeout) { $timeout.cancel(self.inputTimeout);}
 
@@ -161,8 +152,26 @@
     });
   }
 
+  self.decrementBillingIndex = function () {
+    self.billingIndex--;
+  }
+
+  self.setBillingIndex = function ($index) {
+    self.billingIndex = $index;
+    console.log(self.billingIndex);
+  }
+
+  self.incrementBillingIndex = function () {
+    self.billingIndex++;
+  }
+
   self.backToMain = function () {
     $location.path("/");
+  }
+
+  self.navigateToBilling = function () {
+    $location.path("/Billing");
+    getBillingRates();
   }
 
   function initialize() {
@@ -183,6 +192,13 @@
       self.models = data;
     });
   };
+
+  function getBillingRates() {
+    $http.get('api/BillingRates').success(function (data) {
+      self.billingRates = data;
+      console.log(self.billingRates);
+    });
+  }
 
 }])
 .directive('ngEnter', function () {

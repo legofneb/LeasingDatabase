@@ -11,11 +11,6 @@ namespace LeasingDatabaseTest
         [TestMethod]
         public void TestMethod1()
         {
-            AuleaseEntities db = new AuleaseEntities("TestDB");
-            int count = db.Components.Count();
-
-            Assert.Equals(count, 0);
-
         }
     }
 }
