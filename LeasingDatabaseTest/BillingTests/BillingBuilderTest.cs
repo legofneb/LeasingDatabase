@@ -7,19 +7,19 @@ using aulease.Entities;
 namespace LeasingDatabaseTest.BillingTests
 {
     [TestClass]
-    public class ChargeBuilderTest
+    public class BillingBuilderTest
     {
-        public static ChargeBuilder CreateDefaultChargeBuilder()
+        public static BillingBuilder CreateDefaultChargeBuilder()
         {
-            return new ChargeBuilder().SetComponentCosts(new System.Collections.Generic.List<decimal>())
+            return new BillingBuilder().SetComponentCosts(new System.Collections.Generic.List<decimal>())
                                                              .SetDateRange(DateTime.Now, DateTime.Now.AddMonths(5))
                                                              .SetSystemGroup(new SystemGroup());           
         }
 
         [TestMethod]
-        public void ChargeBuilderInstantiates()
+        public void BillingBuilderInstantiates()
         {
-            ChargeBuilder chargeBuilder = new ChargeBuilder();
+            BillingBuilder chargeBuilder = new BillingBuilder();
 
             if (chargeBuilder == null)
             {
@@ -29,29 +29,29 @@ namespace LeasingDatabaseTest.BillingTests
 
         [TestMethod]
         [ExpectedException(typeof(MissingFieldException))]
-        public void ChargeBuilderException_NoDatabaseSet()
+        public void BillingBuilderException_NoDatabaseSet()
         {
-            ChargeBuilder ChargeBuilder = CreateDefaultChargeBuilder();
+            BillingBuilder ChargeBuilder = CreateDefaultChargeBuilder();
             ChargeBuilder.Build();
             ChargeBuilder.Apply();
         }
 
         [TestMethod]
         [ExpectedException(typeof(MissingFieldException))]
-        public void ChargeBuilderException_MissingMainFields()
+        public void BillingBuilderException_MissingMainFields()
         {
-            ChargeBuilder ChargeBuilder = new ChargeBuilder();
+            BillingBuilder ChargeBuilder = new BillingBuilder();
             ChargeBuilder.Build();
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void ChargeBuilderException_BeforeDate_OccursAfter_AfterDate()
+        public void BillingBuilderException_BeforeDate_OccursAfter_AfterDate()
         {
             DateTime BeforeDate = DateTime.MaxValue;
             DateTime AfterDate = DateTime.MinValue;
 
-            ChargeBuilder ChargeBuilder = CreateDefaultChargeBuilder();
+            BillingBuilder ChargeBuilder = CreateDefaultChargeBuilder();
             ChargeBuilder.SetDateRange(BeforeDate, AfterDate);
 
             ChargeBuilder.Build();
@@ -59,9 +59,9 @@ namespace LeasingDatabaseTest.BillingTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void ChargeBuilderException_ComponentListCount_NotEqualTo_ComponentCostCount()
+        public void BillingBuilderException_ComponentListCount_NotEqualTo_ComponentCostCount()
         {
-            ChargeBuilder ChargeBuilder = CreateDefaultChargeBuilder();
+            BillingBuilder ChargeBuilder = CreateDefaultChargeBuilder();
 
             List<decimal> Costs = new List<decimal>();
             Costs.Add(2.00M);
@@ -80,7 +80,7 @@ namespace LeasingDatabaseTest.BillingTests
         }
 
         [TestMethod]
-        public void ChargeBuilderException_NoOperation_OnListWith_ZeroComponents()
+        public void BillingBuilderException_NoOperation_OnListWith_ZeroComponents()
         {
             
         }

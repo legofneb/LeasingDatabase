@@ -1,6 +1,5 @@
 ﻿using aulease.Entities;
 using CWSToolkit;
-using LeasingDatabase.Core;
 using LeasingDatabase.Models;
 using System;
 using System.Collections.Generic;
@@ -380,7 +379,7 @@ namespace LeasingDatabase.Controllers
             Component singleComp = db.Components.Where(n => n.Id == Id).Single();
 
 
-            // The condition checks if any billing charges exist in the new database
+            // The condition checks if any Core.Billing charges exist in the new database
             // If no charges exist then fetch info from old db.
             if (singleComp.Leases.OrderByDescending(n => n.EndDate).First().Charges.Where(n => n.Type == singleComp.Type).Count() < 1 || singleComp.Leases.OrderByDescending(n => n.EndDate).First().Charges.Where(n => n.Type == singleComp.Type).Single().Tax == null)
             {
@@ -420,18 +419,18 @@ namespace LeasingDatabase.Controllers
             if (comp != null)
             {
                 ViewBag.Component1 = comp.Type.Name;
-                ViewBag.MonthlyCharge1 = Billing.CalculateMonthlyCharge(comp.Leases.OrderByDescending(n => n.EndDate).First().Id);
-                ViewBag.ComponentCost1 = Billing.GetComponentCost(comp.Id);
-                ViewBag.InsuranceCost1 = Billing.GetInsuranceCost(comp.Id);
-                ViewBag.WarrantyCost1 = Billing.GetWarrantyCost(comp.Id);
-                ViewBag.ShippingCost1 = Billing.GetShippingCost(comp.Id);
-                ViewBag.LeasingRate1 = Billing.CalculateLeasingRate(comp.Id);
-                ViewBag.ChargedRate1 = Billing.CalculateChargedRate(comp.Id);
-                ViewBag.InsuranceRate1 = Billing.CalculateSecondaryChargeRate(comp.Id, "Insurance");
-                ViewBag.WarrantyRate1 = Billing.CalculateSecondaryChargeRate(comp.Id, "Warranty");
-                ViewBag.ShippingRate1 = Billing.CalculateSecondaryChargeRate(comp.Id, "Shipping");
-                ViewBag.Tax1 = Billing.CalculateTax(comp.Id);
-                ViewBag.IGFRate1 = Billing.GetIGFRate(comp.Id);
+                ViewBag.MonthlyCharge1 = Core.Billing.CalculateMonthlyCharge(comp.Leases.OrderByDescending(n => n.EndDate).First().Id);
+                ViewBag.ComponentCost1 = Core.Billing.GetComponentCost(comp.Id);
+                ViewBag.InsuranceCost1 = Core.Billing.GetInsuranceCost(comp.Id);
+                ViewBag.WarrantyCost1 = Core.Billing.GetWarrantyCost(comp.Id);
+                ViewBag.ShippingCost1 = Core.Billing.GetShippingCost(comp.Id);
+                ViewBag.LeasingRate1 = Core.Billing.CalculateLeasingRate(comp.Id);
+                ViewBag.ChargedRate1 = Core.Billing.CalculateChargedRate(comp.Id);
+                ViewBag.InsuranceRate1 = Core.Billing.CalculateSecondaryChargeRate(comp.Id, "Insurance");
+                ViewBag.WarrantyRate1 = Core.Billing.CalculateSecondaryChargeRate(comp.Id, "Warranty");
+                ViewBag.ShippingRate1 = Core.Billing.CalculateSecondaryChargeRate(comp.Id, "Shipping");
+                ViewBag.Tax1 = Core.Billing.CalculateTax(comp.Id);
+                ViewBag.IGFRate1 = Core.Billing.GetIGFRate(comp.Id);
 
                 ViewBag.Term = comp.Leases.OrderByDescending(n => n.EndDate).FirstOrDefault().Overhead.Term;
 
@@ -440,18 +439,18 @@ namespace LeasingDatabase.Controllers
                     Component mon1 = monitors.OrderBy(n => n.Id).First();
 
                     ViewBag.Component2 = mon1.Type.Name;
-                    ViewBag.MonthlyCharge2 = Billing.CalculateMonthlyCharge(mon1.Leases.OrderByDescending(n => n.EndDate).First().Id);
-                    ViewBag.ComponentCost2 = Billing.GetComponentCost(mon1.Id);
-                    ViewBag.InsuranceCost2 = Billing.GetInsuranceCost(mon1.Id);
-                    ViewBag.WarrantyCost2 = Billing.GetWarrantyCost(mon1.Id);
-                    ViewBag.ShippingCost2 = Billing.GetShippingCost(mon1.Id);
-                    ViewBag.LeasingRate2 = Billing.CalculateLeasingRate(mon1.Id);
-                    ViewBag.ChargedRate2 = Billing.CalculateChargedRate(mon1.Id);
-                    ViewBag.InsuranceRate2 = Billing.CalculateSecondaryChargeRate(mon1.Id, "Insurance");
-                    ViewBag.WarrantyRate2 = Billing.CalculateSecondaryChargeRate(mon1.Id, "Warranty");
-                    ViewBag.ShippingRate2 = Billing.CalculateSecondaryChargeRate(mon1.Id, "Shipping");
-                    ViewBag.Tax2 = Billing.CalculateTax(mon1.Id);
-                    ViewBag.IGFRate2 = Billing.GetIGFRate(mon1.Id);
+                    ViewBag.MonthlyCharge2 = Core.Billing.CalculateMonthlyCharge(mon1.Leases.OrderByDescending(n => n.EndDate).First().Id);
+                    ViewBag.ComponentCost2 = Core.Billing.GetComponentCost(mon1.Id);
+                    ViewBag.InsuranceCost2 = Core.Billing.GetInsuranceCost(mon1.Id);
+                    ViewBag.WarrantyCost2 = Core.Billing.GetWarrantyCost(mon1.Id);
+                    ViewBag.ShippingCost2 = Core.Billing.GetShippingCost(mon1.Id);
+                    ViewBag.LeasingRate2 = Core.Billing.CalculateLeasingRate(mon1.Id);
+                    ViewBag.ChargedRate2 = Core.Billing.CalculateChargedRate(mon1.Id);
+                    ViewBag.InsuranceRate2 = Core.Billing.CalculateSecondaryChargeRate(mon1.Id, "Insurance");
+                    ViewBag.WarrantyRate2 = Core.Billing.CalculateSecondaryChargeRate(mon1.Id, "Warranty");
+                    ViewBag.ShippingRate2 = Core.Billing.CalculateSecondaryChargeRate(mon1.Id, "Shipping");
+                    ViewBag.Tax2 = Core.Billing.CalculateTax(mon1.Id);
+                    ViewBag.IGFRate2 = Core.Billing.GetIGFRate(mon1.Id);
 
                 }
 
@@ -460,18 +459,18 @@ namespace LeasingDatabase.Controllers
                     Component mon2 = monitors.OrderBy(n => n.Id).Skip(1).First();
 
                     ViewBag.Component3 = mon2.Type.Name;
-                    ViewBag.MonthlyCharge3 = Billing.CalculateMonthlyCharge(mon2.Leases.OrderByDescending(n => n.EndDate).First().Id);
-                    ViewBag.ComponentCost3 = Billing.GetComponentCost(mon2.Id);
-                    ViewBag.InsuranceCost3 = Billing.GetInsuranceCost(mon2.Id);
-                    ViewBag.WarrantyCost3 = Billing.GetWarrantyCost(mon2.Id);
-                    ViewBag.ShippingCost3 = Billing.GetShippingCost(mon2.Id);
-                    ViewBag.LeasingRate3 = Billing.CalculateLeasingRate(mon2.Id);
-                    ViewBag.ChargedRate3 = Billing.CalculateChargedRate(mon2.Id);
-                    ViewBag.InsuranceRate3 = Billing.CalculateSecondaryChargeRate(mon2.Id, "Insurance");
-                    ViewBag.WarrantyRate3 = Billing.CalculateSecondaryChargeRate(mon2.Id, "Warranty");
-                    ViewBag.ShippingRate3 = Billing.CalculateSecondaryChargeRate(mon2.Id, "Shipping");
-                    ViewBag.Tax3 = Billing.CalculateTax(mon2.Id);
-                    ViewBag.IGFRate3 = Billing.GetIGFRate(mon2.Id);
+                    ViewBag.MonthlyCharge3 = Core.Billing.CalculateMonthlyCharge(mon2.Leases.OrderByDescending(n => n.EndDate).First().Id);
+                    ViewBag.ComponentCost3 = Core.Billing.GetComponentCost(mon2.Id);
+                    ViewBag.InsuranceCost3 = Core.Billing.GetInsuranceCost(mon2.Id);
+                    ViewBag.WarrantyCost3 = Core.Billing.GetWarrantyCost(mon2.Id);
+                    ViewBag.ShippingCost3 = Core.Billing.GetShippingCost(mon2.Id);
+                    ViewBag.LeasingRate3 = Core.Billing.CalculateLeasingRate(mon2.Id);
+                    ViewBag.ChargedRate3 = Core.Billing.CalculateChargedRate(mon2.Id);
+                    ViewBag.InsuranceRate3 = Core.Billing.CalculateSecondaryChargeRate(mon2.Id, "Insurance");
+                    ViewBag.WarrantyRate3 = Core.Billing.CalculateSecondaryChargeRate(mon2.Id, "Warranty");
+                    ViewBag.ShippingRate3 = Core.Billing.CalculateSecondaryChargeRate(mon2.Id, "Shipping");
+                    ViewBag.Tax3 = Core.Billing.CalculateTax(mon2.Id);
+                    ViewBag.IGFRate3 = Core.Billing.GetIGFRate(mon2.Id);
                 }
             }
             else
@@ -481,15 +480,15 @@ namespace LeasingDatabase.Controllers
                     Component mon1 = monitors.OrderBy(n => n.Id).First();
 
                     ViewBag.Component1 = mon1.Type.Name;
-                    ViewBag.MonthlyCharge1 = Billing.CalculateMonthlyCharge(mon1.Leases.OrderByDescending(n => n.EndDate).First().Id);
-                    ViewBag.ComponentCost1 = Billing.GetComponentCost(mon1.Id);
-                    ViewBag.InsuranceCost1 = Billing.GetInsuranceCost(mon1.Id);
-                    ViewBag.WarrantyCost1 = Billing.GetWarrantyCost(mon1.Id);
-                    ViewBag.ShippingCost1 = Billing.GetShippingCost(mon1.Id);
-                    ViewBag.LeasingRate1 = Billing.CalculateLeasingRate(mon1.Id);
-                    ViewBag.ChargedRate1 = Billing.CalculateChargedRate(mon1.Id);
-                    ViewBag.Tax1 = Billing.CalculateTax(mon1.Id);
-                    ViewBag.IGFRate1 = Billing.GetIGFRate(mon1.Id);
+                    ViewBag.MonthlyCharge1 = Core.Billing.CalculateMonthlyCharge(mon1.Leases.OrderByDescending(n => n.EndDate).First().Id);
+                    ViewBag.ComponentCost1 = Core.Billing.GetComponentCost(mon1.Id);
+                    ViewBag.InsuranceCost1 = Core.Billing.GetInsuranceCost(mon1.Id);
+                    ViewBag.WarrantyCost1 = Core.Billing.GetWarrantyCost(mon1.Id);
+                    ViewBag.ShippingCost1 = Core.Billing.GetShippingCost(mon1.Id);
+                    ViewBag.LeasingRate1 = Core.Billing.CalculateLeasingRate(mon1.Id);
+                    ViewBag.ChargedRate1 = Core.Billing.CalculateChargedRate(mon1.Id);
+                    ViewBag.Tax1 = Core.Billing.CalculateTax(mon1.Id);
+                    ViewBag.IGFRate1 = Core.Billing.GetIGFRate(mon1.Id);
 
                 }
 
@@ -498,15 +497,15 @@ namespace LeasingDatabase.Controllers
                     Component mon2 = monitors.OrderBy(n => n.Id).Skip(1).First();
 
                     ViewBag.Component2 = mon2.Type.Name;
-                    ViewBag.MonthlyCharge2 = Billing.CalculateMonthlyCharge(mon2.Leases.OrderByDescending(n => n.EndDate).First().Id);
-                    ViewBag.ComponentCost2 = Billing.GetComponentCost(mon2.Id);
-                    ViewBag.InsuranceCost2 = Billing.GetInsuranceCost(mon2.Id);
-                    ViewBag.WarrantyCost2 = Billing.GetWarrantyCost(mon2.Id);
-                    ViewBag.ShippingCost2 = Billing.GetShippingCost(mon2.Id);
-                    ViewBag.LeasingRate2 = Billing.CalculateLeasingRate(mon2.Id);
-                    ViewBag.ChargedRate2 = Billing.CalculateChargedRate(mon2.Id);
-                    ViewBag.Tax2 = Billing.CalculateTax(mon2.Id);
-                    ViewBag.IGFRate2 = Billing.GetIGFRate(mon2.Id);
+                    ViewBag.MonthlyCharge2 = Core.Billing.CalculateMonthlyCharge(mon2.Leases.OrderByDescending(n => n.EndDate).First().Id);
+                    ViewBag.ComponentCost2 = Core.Billing.GetComponentCost(mon2.Id);
+                    ViewBag.InsuranceCost2 = Core.Billing.GetInsuranceCost(mon2.Id);
+                    ViewBag.WarrantyCost2 = Core.Billing.GetWarrantyCost(mon2.Id);
+                    ViewBag.ShippingCost2 = Core.Billing.GetShippingCost(mon2.Id);
+                    ViewBag.LeasingRate2 = Core.Billing.CalculateLeasingRate(mon2.Id);
+                    ViewBag.ChargedRate2 = Core.Billing.CalculateChargedRate(mon2.Id);
+                    ViewBag.Tax2 = Core.Billing.CalculateTax(mon2.Id);
+                    ViewBag.IGFRate2 = Core.Billing.GetIGFRate(mon2.Id);
                 }
             }
 

@@ -34,6 +34,11 @@
   cursor: pointer;
 }
 
+.vertical-center {
+   vertical-align: middle;
+   display: inline;
+}
+
 @media (min-width: 768px) {
   .sidebar {
     position: fixed;

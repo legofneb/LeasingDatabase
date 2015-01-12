@@ -190,19 +190,19 @@
   }
 
   function initialize() {
-    $http.get('api/NewOrders').success(function (data) {
+    $http.get(rootUrl + 'api/NewOrders').success(function (data) {
       self.orders = data;
     });
 
-    $http.get('api/make').success(function (data) {
+    $http.get(rootUrl + 'api/make').success(function (data) {
       self.makes = data;
     });
 
-    $http.get('api/type').success(function (data) {
+    $http.get(rootUrl + 'api/type').success(function (data) {
       self.types = data;
     });
 
-    $http.get('api/model').success(function (data) {
+    $http.get(rootUrl + 'api/model').success(function (data) {
       self.models = data;
     });
   };

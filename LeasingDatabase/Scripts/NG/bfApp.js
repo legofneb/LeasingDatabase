@@ -17,6 +17,20 @@
     }
   }
 })
+.directive("checkbox", function ($timeout) {
+  return {
+    restrict: 'AE',
+    template: '<input ng-Model="ngModel" type="checkbox" data-toggle="checkbox" class="custom-checkbox" />',
+    link: function ($scope, el, attr) {
+      $timeout(function () {
+        $('.custom-checkbox').radiocheck();
+      }, 0);
+    },
+    scope: {
+      ngModel: '='
+    }
+  }
+})
 .directive("typeIcon", function (rootUrl) {
   return {
     restrict: 'E',

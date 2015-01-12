@@ -16,14 +16,6 @@
 .controller('SRController', ['rootUrl', '$http', '$timeout','$location', function (rootUrl, $http, $timeout, $location) {
   var self = this;
   initialize();
- 
-
-  self.selected = -1;
-  self.selectedRow = -1;
-  self.editingOrder = false;
-  self.cart = [];
-
-  self.addEOLSystem = { text: undefined };
 
   self.setSelectedOrder = function (order, index) {
     self.editingOrder = false;
@@ -33,13 +25,6 @@
 
     self.selectedOrder = angular.copy(order);
     self.selected = index;
-
-    console.log(order);
-  }
-  
-  self.setSelectedSystem = function (system) {
-    $location.path('/System');
-    self.selectedSystem = system;
   }
 
   self.editOrder = function () {
@@ -78,6 +63,11 @@
     self.users = self.backupUsers;
     self.depts = self.backupDepts;
     self.$apply;
+  }
+
+  self.setSelectedSystem = function (system) {
+    $location.path('/System');
+    self.selectedSystem = system;
   }
 
   self.AddEOL = function () {
@@ -153,16 +143,75 @@
   }
 
   self.decrementBillingIndex = function () {
-    self.billingIndex--;
+    if (self.billingIndex > 0) {
+      self.billingIndex--;
+    }
   }
 
   self.setBillingIndex = function ($index) {
     self.billingIndex = $index;
-    console.log(self.billingIndex);
   }
 
   self.incrementBillingIndex = function () {
-    self.billingIndex++;
+    if (self.billingIndex < self.selectedOrder.SystemGroups.length -1) {
+      self.billingIndex++;
+    }
+  }
+
+  self.usePreviousBillingRate = function () {
+    self.billingRate = "previous";
+  }
+
+  self.useCurrentBillingRate = function () {
+    self.billingRate = "current";
+  }
+
+  self.processBilling = function () {
+    var billingData = {
+      SR: self.selectedOrder.SR,
+      useCurrentRates: self.billingRate == "current",
+      usePreviousRates: self.billingRate == "previous",
+      costList: self.costList,
+      insurance: self.insurance,
+      warrantyOrShipping: self.warrantyOrShipping,
+      beginBillDate: self.beginBillDate,
+      billingNotes: self.billingNotes,
+      suppressEmail: self.suppressEmail,
+      confirmed: false
+    };
+    
+    $http.post(rootUrl + 'api/Billing', billingData).success(function (data) {
+      self.billingSummary = data;
+    })
+    .error(function (data) {
+      alert("failure");
+    });
+
+    console.log(billingData);
+  }
+
+  self.confirmBilling = function () {
+    var billingData = {
+      SR: self.selectedOrder.SR,
+      useCurrentRates: self.billingRate == "current",
+      usePreviousRates: self.billingRate == "previous",
+      costList: self.costList,
+      insurance: self.insurance,
+      warrantyOrShipping: self.warrantyOrShipping,
+      beginBillDate: self.beginBillDate,
+      billingNotes: self.billingNotes,
+      suppressEmail: self.suppressEmail,
+      confirmed: true
+    };
+
+    $http.post(rootUrl + 'api/Billing', billingData).success(function (data) {
+      alert("TODO: Remove This billing data from FrontEnd array");
+      $location.path("/");
+    })
+    .error(function (data) {
+      alert("failure");
+    });
+
   }
 
   self.backToMain = function () {
@@ -170,14 +219,43 @@
   }
 
   self.navigateToBilling = function () {
+    self.billingIndex = 0;
+    self.billingRate = "current";
+    self.costList = [];
+    self.insurance = 0.00;
+    self.warrantyOrShipping = 0.00;
+    self.billingNotes = undefined;
+    self.suppressEmail = false;
+    self.beginBillDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+    self.incrementBillDate();
     $location.path("/Billing");
+
     getBillingRates();
+  }
+
+  self.cancelBilling = function () {
+    $location.path("/");
+  }
+
+  self.incrementBillDate = function () {
+    if (self.beginBillDate.getMonth() < 11) {
+      self.beginBillDate = new Date(self.beginBillDate.getFullYear(), self.beginBillDate.getMonth() + 1, 1);
+    } else {
+      self.beginBillDate = new Date(self.beginBillDate.getFullYear() + 1, 0, 1);
+    }
+  }
+
+  self.decrementBillDate = function () {
+    if (self.beginBillDate.getMonth() > 0) {
+      self.beginBillDate = new Date(self.beginBillDate.getFullYear(), self.beginBillDate.getMonth() - 1, 1);
+    } else {
+      self.beginBillDate = new Date(self.beginBillDate.getFullYear() - 1, 11, 1);
+    }
   }
 
   function initialize() {
     $http.get(rootUrl + 'api/NewOrdersByPO').success(function (data) {
       self.orders = data;
-      console.log(data);
     });
 
     $http.get(rootUrl + 'api/make').success(function (data) {
@@ -191,6 +269,15 @@
     $http.get('api/model').success(function (data) {
       self.models = data;
     });
+
+    self.selected = -1;
+    self.selectedRow = -1;
+    self.editingOrder = false;
+    self.cart = [];
+
+    self.addEOLSystem = { text: undefined };
+
+    $location.path("/");
   };
 
   function getBillingRates() {

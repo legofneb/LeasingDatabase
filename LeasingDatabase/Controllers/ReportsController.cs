@@ -378,6 +378,225 @@ namespace LeasingDatabase.Controllers
 			//return RedirectToAction("GenerateOITBilling");
 		}
 
+        public ActionResult GetIGFReport()
+        {
+            AuleaseEntities db = new AuleaseEntities();
+
+            DateTime aMonthFromNow = DateTime.Now.AddMonths(1);
+
+            List<Component> Components = db.Components.Where(n => n.Type.Name == "CPU" || n.Type.Name == "Laptop").Where(n => n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name != null)
+                                                             .Where(n => n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().EndDate >= aMonthFromNow).ToList();
+            Components = Components.OrderBy(n => n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().DepartmentId).ToList();
+
+            MemoryStream OutputStream = new MemoryStream();
+
+            ExcelPackage p = new ExcelPackage();
+
+            p.Workbook.Properties.Author = "Ben Fogel";
+            p.Workbook.Properties.Title = "IGF Report";
+            p.Workbook.Properties.Company = "AU Lease";
+
+            p.Workbook.Worksheets.Add("Milly");
+            p.Workbook.Worksheets.Add("Dudley");
+            p.Workbook.Worksheets.Add("David");
+            p.Workbook.Worksheets.Add("David and Ursula");
+            p.Workbook.Worksheets.Add("MillyAndDavid");
+
+            ExcelWorksheet ws1 = p.Workbook.Worksheets[1];
+            ExcelWorksheet ws2 = p.Workbook.Worksheets[2];
+            ExcelWorksheet ws3 = p.Workbook.Worksheets[3];
+            ExcelWorksheet ws4 = p.Workbook.Worksheets[4];
+            ExcelWorksheet ws5 = p.Workbook.Worksheets[5];
+
+            ws1.Name = "Milly";
+
+            List<Component> ComponentsForMilly = Components.Where(n => n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Diversity Center") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Multicultural Affairs" )||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Undergraduatestudies") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Study Partners") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Study Smart Program") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Auburn University Career Center") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("International Programs") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Undergrad Research Competitive Fel") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Office of Research Compliance")
+                                                                  ).ToList();
+
+            for (int i = 0; i < ComponentsForMilly.Count(); i++)
+            {
+                Component comp = ComponentsForMilly[i];
+                Lease ActiveLease = comp.Leases.OrderByDescending(n => n.EndDate).FirstOrDefault();
+
+                ws1.Cells[i + 1, 1].Value = ActiveLease.StatementName;
+                ws1.Cells[i + 1, 2].Value = comp.Type.Name;
+                ws1.Cells[i + 1, 3].Value = comp.SerialNumber;
+                ws1.Cells[i + 1, 4].Value = comp.LeaseTag;
+                ws1.Cells[i + 1, 5].Value = ActiveLease.EndDate.Value.ToString("d");
+                ws1.Cells[i + 1, 6].Value = ActiveLease.Department.Name;
+                ws1.Cells[i + 1, 7].Value = comp.IPAddress;
+            }
+
+            ws1.Column(1).AutoFit();
+            ws1.Column(2).AutoFit();
+            ws1.Column(3).AutoFit();
+            ws1.Column(4).AutoFit();
+            ws1.Column(5).AutoFit();
+            ws1.Column(6).AutoFit();
+            ws1.Column(7).AutoFit();
+
+            List<Component> ComponentsForDudley = Components.Where(n => n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Office of Communications&Marketing") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Air Force ROTC") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Army ROTC") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Navy ROTC") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Course Fee Army ROTC") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Recreation and Wellness Center") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Communications & Video Production") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Office of AU in Huntsville") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("External Program Development") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Institute for collaboration and Tech") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Institute for CollaborationandTech") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Research Constituency Development") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Communications & Video Production")
+                                                                  ).ToList();
+            for (int i = 0; i < ComponentsForDudley.Count(); i++)
+            {
+                Component comp = ComponentsForDudley[i];
+                Lease ActiveLease = comp.Leases.OrderByDescending(n => n.EndDate).FirstOrDefault();
+
+                ws2.Cells[i + 1, 1].Value = ActiveLease.StatementName;
+                ws2.Cells[i + 1, 2].Value = comp.Type.Name;
+                ws2.Cells[i + 1, 3].Value = comp.SerialNumber;
+                ws2.Cells[i + 1, 4].Value = comp.LeaseTag;
+                ws2.Cells[i + 1, 5].Value = ActiveLease.EndDate.Value.ToString("d");
+                ws2.Cells[i + 1, 6].Value = ActiveLease.Department.Name;
+                ws2.Cells[i + 1, 7].Value = comp.IPAddress;
+            }
+
+            ws2.Column(1).AutoFit();
+            ws2.Column(2).AutoFit();
+            ws2.Column(3).AutoFit();
+            ws2.Column(4).AutoFit();
+            ws2.Column(5).AutoFit();
+            ws2.Column(6).AutoFit();
+            ws2.Column(7).AutoFit();
+
+            List<Component> ComponentsForDavid = Components.Where(n => n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Cntr Sustainability") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("University Senate") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("VP Student Affairs Admin") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Plainsman") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Impact") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Tuition Fee Student Union Fall '98") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("University Program Council") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Student Government Assoc") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Black Student Union") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("International Student Organization") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Student Leadership") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Panhellic Council") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("InterFraternity Council") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Student Center Department") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Health Promotions-Wellness Services") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Academic ActivitiesinSustainability") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("AUVeterans-Trans Stdts Resource Ctr") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Student Publications and Medi") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("International Student and Scholar") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Center for Leadership and Ethics") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Student Publications and Medi") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Student Publications and Medi") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Student Publications and Medi") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Student Publications and Medi")
+                                                                  ).ToList();
+            for (int i = 0; i < ComponentsForDavid.Count(); i++)
+            {
+                Component comp = ComponentsForDavid[i];
+                Lease ActiveLease = comp.Leases.OrderByDescending(n => n.EndDate).FirstOrDefault();
+
+                ws3.Cells[i + 1, 1].Value = ActiveLease.StatementName;
+                ws3.Cells[i + 1, 2].Value = comp.Type.Name;
+                ws3.Cells[i + 1, 3].Value = comp.SerialNumber;
+                ws3.Cells[i + 1, 4].Value = comp.LeaseTag;
+                ws3.Cells[i + 1, 5].Value = ActiveLease.EndDate.Value.ToString("d");
+                ws3.Cells[i + 1, 6].Value = ActiveLease.Department.Name;
+                ws3.Cells[i + 1, 7].Value = comp.IPAddress;
+            }
+
+            ws3.Column(1).AutoFit();
+            ws3.Column(2).AutoFit();
+            ws3.Column(3).AutoFit();
+            ws3.Column(4).AutoFit();
+            ws3.Column(5).AutoFit();
+            ws3.Column(6).AutoFit();
+            ws3.Column(7).AutoFit();
+
+            List<Component> ComponentsForDavidAndUrsula = Components.Where(n => n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("President's Office") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("WPB Constituency") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Cooperative Education") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Office of Technology Transfer") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("VP for Research") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Communications and Special Events") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("VP Student Affairs Div Chief Staff") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Parents and Family Programs") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Center Student Orgs - Welcome Week") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Student Affairs Development") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("SA Assessment and Strategic Plan") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Student Conduct")
+                                                                  ).ToList();
+            for (int i = 0; i < ComponentsForDavidAndUrsula.Count(); i++)
+            {
+                Component comp = ComponentsForDavidAndUrsula[i];
+                Lease ActiveLease = comp.Leases.OrderByDescending(n => n.EndDate).FirstOrDefault();
+
+                ws4.Cells[i + 1, 1].Value = ActiveLease.StatementName;
+                ws4.Cells[i + 1, 2].Value = comp.Type.Name;
+                ws4.Cells[i + 1, 3].Value = comp.SerialNumber;
+                ws4.Cells[i + 1, 4].Value = comp.LeaseTag;
+                ws4.Cells[i + 1, 5].Value = ActiveLease.EndDate.Value.ToString("d");
+                ws4.Cells[i + 1, 6].Value = ActiveLease.Department.Name;
+                ws4.Cells[i + 1, 7].Value = comp.IPAddress;
+            }
+
+            ws4.Column(1).AutoFit();
+            ws4.Column(2).AutoFit();
+            ws4.Column(3).AutoFit();
+            ws4.Column(4).AutoFit();
+            ws4.Column(5).AutoFit();
+            ws4.Column(6).AutoFit();
+            ws4.Column(7).AutoFit();
+
+            List<Component> ComponentsForMillyAndDavid = Components.Where(n => n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("ePortfolio Project") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Risk Management") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Safety and Environmental Health") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Writing Initiative") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Risk Management") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Risk Management")
+                                                                  ).ToList();
+            for (int i = 0; i < ComponentsForMillyAndDavid.Count(); i++)
+            {
+                Component comp = ComponentsForMillyAndDavid[i];
+                Lease ActiveLease = comp.Leases.OrderByDescending(n => n.EndDate).FirstOrDefault();
+
+                ws5.Cells[i + 1, 1].Value = ActiveLease.StatementName;
+                ws5.Cells[i + 1, 2].Value = comp.Type.Name;
+                ws5.Cells[i + 1, 3].Value = comp.SerialNumber;
+                ws5.Cells[i + 1, 4].Value = comp.LeaseTag;
+                ws5.Cells[i + 1, 5].Value = ActiveLease.EndDate.Value.ToString("d");
+                ws5.Cells[i + 1, 6].Value = ActiveLease.Department.Name;
+                ws5.Cells[i + 1, 7].Value = comp.IPAddress;
+            }
+
+            ws5.Column(1).AutoFit();
+            ws5.Column(2).AutoFit();
+            ws5.Column(3).AutoFit();
+            ws5.Column(4).AutoFit();
+            ws5.Column(5).AutoFit();
+            ws5.Column(6).AutoFit();
+            ws5.Column(7).AutoFit();
+
+            p.SaveAs(OutputStream);
+
+            OutputStream.Position = 0;
+
+            return File(OutputStream, "application/xlsx", "IGFReport.xlsx");
+        }
+
 		public List<SelectListItem> FillDropDownListDates()
 		{
 			List<string> list = new List<string>();

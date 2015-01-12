@@ -109,5 +109,10 @@ namespace aulease.Entities
                 return this.Model.Name;
             }
         }
+
+        public bool isMonitor()
+        {
+            return this.Type.Name.Equals("Monitor", StringComparison.OrdinalIgnoreCase);
+        }
 	}
 }
