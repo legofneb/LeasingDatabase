@@ -22,12 +22,19 @@
     <div class="row">
       <div class="col-xs-12 col-sm-3 sidebar">
         <div class="list-group" style="margin:0 -1.5em;">
-          <div ng-repeat="order in vm.orders">
-            <a href="" class="list-group-item" ng-click="vm.setSelectedOrder(order, $index)" ng-class="{active: $index == vm.selected}">
+          <div class="list-group-item">
+            <div class="form-group" style="margin-bottom:0;">
+              <input type="text" class="form-control" ng-model="vm.searchTerm" />
+              <span class="form-control-feedback"><i class="fa fa-search"></i></span>
+            </div>
+          </div>
+
+          <div ng-repeat="order in filtered = (vm.orders | searchOrdersByPO:vm.searchTerm)">
+            <a href="" class="list-group-item" ng-click="vm.setSelectedOrder(order, $index)" ng-class="{active: $index == vm.indexForFiltered()}">
               <h4 class="list-group-item-heading">
-                {{ order.SR }}
+                {{ order.SR }} <span class="badge">{{order.SystemGroups.length}}</span>
                 <span ng-class="{'hidden': vm.cart.indexOf(order) == -1}"><i class="fa fa-check"></i></span>
-                <small>
+                <small ng-class="{'text-wet-asphalt': vm.orderHasAllSerials(order)}">
                   <span ng-repeat="component in order.Configuration">
                     <i ng-if="component.Type == 'Laptop'" class="fa fa-laptop"></i>
                     <i ng-if="component.Type == 'CPU'" class="fa fa-hdd-o"></i>

@@ -90,8 +90,8 @@ namespace aulease.Entities {
             if (this.ComponentCount > 1)
             {
                 string SecondaryCount = this.GetMonitors().Count().ToString();
-                string SecondaryCompMake = this.GetMonitors().FirstOrDefault().CurrentLease.Component.Make.Name.ToString();
-                string SecondaryCompModel = this.GetMonitors().FirstOrDefault().CurrentLease.Component.Model.Name.ToString();
+                string SecondaryCompMake = HasNoNullMembersForMake(this) ? this.GetMonitors().FirstOrDefault().CurrentLease.Component.Make.Name.ToString() : "";
+                string SecondaryCompModel = HasNoNullMembersForModel(this) ? this.GetMonitors().FirstOrDefault().CurrentLease.Component.Model.Name.ToString() : "";
                 if (this.GetMonitors().Count() == 1)
                 {
                     finalString += String.Format(", 1 x {0} {1}", SecondaryCompMake, SecondaryCompModel);
@@ -102,6 +102,28 @@ namespace aulease.Entities {
                 }
             }
             return finalString;
+        }
+
+        private bool HasNoNullMembersForMake(SystemGroup group)
+        {
+            if (group.GetMonitors() == null) { return false; }
+            if (group.GetMonitors().FirstOrDefault() == null) { return false; }
+            if (group.GetMonitors().FirstOrDefault().CurrentLease == null) { return false; }
+            if (group.GetMonitors().FirstOrDefault().CurrentLease.Component == null) { return false; }
+            if (group.GetMonitors().FirstOrDefault().CurrentLease.Component.Make == null) { return false; }
+
+            return true;
+        }
+
+        private bool HasNoNullMembersForModel(SystemGroup group)
+        {
+            if (group.GetMonitors() == null) { return false; }
+            if (group.GetMonitors().FirstOrDefault() == null) { return false; }
+            if (group.GetMonitors().FirstOrDefault().CurrentLease == null) { return false; }
+            if (group.GetMonitors().FirstOrDefault().CurrentLease.Component == null) { return false; }
+            if (group.GetMonitors().FirstOrDefault().CurrentLease.Component.Model == null) { return false; }
+
+            return true;
         }
 	}
 }

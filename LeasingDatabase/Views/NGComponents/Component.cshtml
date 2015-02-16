@@ -1,0 +1,195 @@
+﻿<h3>
+  System Details
+  <small><i class="fa fa-pencil orangeHover" id="edit" data-toggle="tooltip" data-placement="right" title="Edit" ng-click="vm.editOrder()"></i></small>
+  <i class="fa fa-trash-o fa-3x trashIcon redHover text-asbestos" id="delete" data-toggle="tooltip" data-placement="bottom" title="Cancel" ng-click="vm.cancelOrder()" ng-show="vm.editingOrder"></i>
+  <i class="fa fa-save fa-3x saveIcon orangeHover text-asbestos" id="save" data-toggle="tooltip" data-placement="bottom" title="Save" ng-click="vm.saveOrder()" ng-show="vm.editingOrder"></i>
+
+  <div ng-show="!vm.editingOrder" class="btn-group pull-right">
+    <button class="btn btn-inverse dropdown-toggle" type="button" data-toggle="dropdown">System Actions <i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu dropdown-menu-inverse" role="menu">
+      <li><a ng-click="vm.editOrder()" href="javascript:;">Edit Mode</a></li>
+      <li><a ng-click="vm.transferSystem()" href="javascript:;">SR Transfer</a></li>
+      <li><a href="#">Delete System</a></li>
+      <li><a href="javascript:;">Print SR Form</a></li>
+    </ul>
+  </div>
+</h3>
+<hr />
+<h4><small><a style="cursor: pointer;" class="text-asbestos" ng-click="vm.backToMain()"><i class="fa fa-long-arrow-left"></i> Back To SR Details</a></small></h4>
+
+<div class="col-lg-12">
+  <hr />
+
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Type</p>
+    </div>
+    <div class="col-md-4">
+      <p ng-if="!vm.editingOrder">{{ vm.selectedComponent.Type }}</p>
+      <au-select ng-if="vm.editingOrder" id="Type{{$index}}" ng-list="vm.types" ng-model="component.Type"></au-select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Make</p>
+    </div>
+    <div class="col-md-4">
+      <p ng-if="!vm.editingOrder">{{ vm.selectedComponent.Make }}</p>
+      <au-select ng-if="vm.editingOrder" id="Make{{$index}}" ng-enter="vm.addValueToMake('Make{{$index}}')" ng-list="vm.makes" ng-model="component.Make"></au-select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Model</p>
+    </div>
+    <div class="col-md-4">
+      <p ng-if="!vm.editingOrder">{{ vm.selectedComponent.Model }}</p>
+      <au-select ng-if="vm.editingOrder" id="Model{{$index}}" ng-enter="vm.addValueToModel('Model{{$index}}')" ng-list="vm.models" ng-model="component.Model"></au-select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Statement Name</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedComponent.StatementName"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Serial Number</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedComponent.SerialNumber"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Lease Tag</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedComponent.LeaseTag"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Department Name</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedComponent.DepartmentName"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">FOP</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedComponent.FOP"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Rate Level</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedComponent.RateLevel"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Term</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedComponent.Term"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Contract Number</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedComponent.ContractNumber"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Order Number</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedComponent.OrderNumber"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Install Hardware</p>
+    </div>
+    <div class="col-md-4">
+      <edit-checkbox editing="vm.editingOrder" ng-model="vm.selectedComponent.InstallHardware"></edit-checkbox>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Install Software</p>
+    </div>
+    <div class="col-md-4">
+      <edit-checkbox editing="vm.editingOrder" ng-model="vm.selectedComponent.InstallSoftware"></edit-checkbox>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Renewal</p>
+    </div>
+    <div class="col-md-4">
+      <edit-checkbox editing="vm.editingOrder" ng-model="vm.selectedComponent.Renewal"></edit-checkbox>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Begin Billing Date</p>
+    </div>
+    <div class="col-md-4">
+      <p>{{ vm.selectedComponent.BeginDate | date:'longDate'}}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">End Billing Date</p>
+    </div>
+    <div class="col-md-4">
+      <p>{{ vm.selectedComponent.EndDate | date:'longDate'}}</p>
+    </div>
+  </div>
+
+  <hr />
+  <h3>Billing Data</h3>
+
+  <div class="row">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Begin Date</th>
+          <th>End Date</th>
+          <th>Statement Name</th>
+          <th>Contract Number</th>
+          <th>FOP</th>
+          <th>Rate Level</th>
+          <th>Monthly Charge</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="bill in vm.billingData">
+          <td>{{bill.BeginDate | date:'longDate'}}</td>
+          <td>{{bill.EndDate | date:'longDate'}}</td>
+          <td>{{bill.StatementName}}</td>
+          <td>{{bill.ContractNumber}}</td>
+          <td>{{bill.FOP}}</td>
+          <td>{{bill.RateLevel}}</td>
+          <td>{{bill.MonthlyCharge}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

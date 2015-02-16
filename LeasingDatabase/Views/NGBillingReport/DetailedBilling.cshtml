@@ -1,0 +1,77 @@
+﻿@{
+  Layout = "~/Views/Shared/_NGLayout.cshtml";
+}
+
+  <!DOCTYPE html>
+  <html ng-app="billingReport">
+  <head>
+    <title>Detailed Report</title>
+
+    @Html.Partial("~/Views/Shared/_NGStyles.cshtml")
+    @Html.Partial("~/Views/Shared/_NGScripts.cshtml")
+    <script type="text/javascript">
+    angular.module("billingReport", ["bfApp", "ngRoute"]).constant('rootUrl', "@Url.Content("~/")");
+    </script>
+
+  </head>
+  <body>
+
+    @Html.Partial("~/Views/Shared/_NGMenu.cshtml")
+
+    <div class="container-fluid" ng-controller="billingReportController as vm">
+      <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div class="row">
+                <h3 class="text-center"><i class="fa fa-file-excel-o fa-2x"></i></h3>
+                <h3 class="text-center">Detailed Billing</h3>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-8 col-sm-offset-3">
+                  <p class="lead">Generates an excel file containing New, Current, and Expiring leases for a FOP on a given date.</p>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="text-asbestos text-center">FOP</p>
+                </div>
+
+                <div class="col-sm-8">
+                  <input type="text" class="form-control text-center" ng-model="vm.FOP"/>
+                </div>
+              </div>
+
+              <div class="row">
+
+                <div class="col-sm-3">
+                  <p class="text-asbestos text-center">Bill Date:</p>
+                </div>
+
+                <div class="col-sm-8">
+                  <div class="input-group">
+                    <span class="input-group-btn"><button type="button" class="btn" ng-click="vm.decrementBillDate()"><i class="fa fa-minus"></i></button></span>
+                    <span class="form-control text-center">
+                      {{vm.BillDate | date:'MMMM y'}}
+                    </span>
+                    <span class="input-group-btn"><button type="button" class="btn" ng-click="vm.incrementBillDate()"><i class="fa fa-plus"></i></button></span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-8 col-sm-offset-3">
+                  <button type="button" class="btn btn-primary btn-block btn-hg" ng-click="vm.generateDetailedBilling()">Generate Billing (.xlsx)</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="~/Scripts/NG/billingReport/billingReportController.js"></script>
+  </body>
+
+</html>

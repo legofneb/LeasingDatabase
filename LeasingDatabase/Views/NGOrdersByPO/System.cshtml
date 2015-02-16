@@ -8,7 +8,7 @@
     <button class="btn btn-inverse dropdown-toggle" type="button" data-toggle="dropdown">System Actions <i class="fa fa-caret-down"></i></button>
     <ul class="dropdown-menu dropdown-menu-inverse" role="menu">
       <li><a ng-click="vm.editOrder()" href="javascript:;">Edit Mode</a></li>
-      <li><a href="#">SR Transfer</a></li>
+      <li><a ng-click="vm.transferSystem()" href="javascript:;">SR Transfer</a></li>
       <li><a href="#">Delete System</a></li>
       <li><a href="javascript:;">Print SR Form</a></li>
     </ul>
@@ -119,7 +119,15 @@
       <p class="text-silver">Rate Level</p>
     </div>
     <div class="col-md-4">
-      <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.RateLevel"></edit-input>
+      <edit-select editing="vm.editingOrder" ng-list="vm.rateLevels" ng-model="vm.selectedSystem.RateLevel"></edit-select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Term</p>
+    </div>
+    <div class="col-md-4">
+      <edit-select editing="vm.editingOrder" ng-list="vm.terms" ng-model="vm.selectedSystem.Term"></edit-select>
     </div>
   </div>
   <div class="row">
@@ -216,6 +224,22 @@
     </div>
     <div class="col-md-4">
       <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.OrdererRoom"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Order Number</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.OrderNumber"></edit-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="text-silver">Order Notes</p>
+    </div>
+    <div class="col-md-4">
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.Notes"></edit-input>
     </div>
   </div>
 </div>

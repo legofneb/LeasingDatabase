@@ -1,0 +1,11 @@
+﻿<div class="col-sm-4 col-sm-offset-3">
+  <h4>Transfer System</h4>
+  <hr />
+  <p>Old SR: {{vm.transfer.oldSR}}</p>
+  <p>Statement Name: {{vm.selectedSystem.StatementName}}</p>
+  <hr />
+  <input type="text" placeholder="New SR" class="form-control" ng-model="vm.transfer.newSR" />
+  <br />
+  <button type="button" class="btn btn-primary btn-wide" ng-click="vm.transferSystemPOST()">Transfer</button>
+  <button class="btn btn-default btn-wide" ng-click="vm.backToSystem();">Cancel</button>
+</div>

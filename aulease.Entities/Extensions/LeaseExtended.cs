@@ -49,5 +49,20 @@ namespace aulease.Entities
                 return this.Overhead.Term.ToString();
             }
         }
+
+        public Lease Clone()
+        {
+            Lease lease = new Lease();
+            lease.BeginDate = this.BeginDate;
+            lease.EndDate = this.EndDate;
+            lease.StatementName = this.StatementName;
+            lease.Timestamp = this.Timestamp;
+            lease.ContractNumber = this.ContractNumber;
+            lease.Department = this.Department;
+            lease.MonthlyCharge = this.MonthlyCharge;
+            lease.Overhead = this.Overhead;
+
+            return lease;
+        }
     }
 }

@@ -30,5 +30,10 @@ namespace LeasingDatabase.Controllers
         {
             return PartialView();
         }
+
+        public PartialViewResult Transfer()
+        {
+            return PartialView();
+        }
     }
 }

@@ -11,11 +11,6 @@ namespace LeasingDatabase.Controllers
         //
         // GET: /Common/
 
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         public PartialViewResult Type()
         {
             return PartialView();

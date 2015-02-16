@@ -92,4 +92,23 @@
     },
     template: '<span ng-show="!editing"><span ng-if="bindModel" class="glyphicon glyphicon-ok"></span><span ng-if="!bindModel" class="glyphicon glyphicon-remove"></span></span><span ng-show="editing"><input type="checkbox" ng-model="bindModel" /></span>'
   }
+})
+.directive('editSelect', function ($timeout) {
+  return {
+    restrict: 'AE',
+    template: '<span ng-show="!editing">{{bindModel}}</span><select ng-Model="bindModel" ng-show="editing" class="editSelect"><option ng-repeat="n in ngList" ng-selected="bindModel === n.Name" value="{{n.Name}}">{{n.Name}}</option></select>',
+    link: function ($scope, el, attr) {
+      $timeout(function () {
+        $(".editSelect").chosen({
+          width: "100%",
+          disable_search: true
+        });
+      }, 0);
+    },
+    scope: {
+      bindModel: '=ngModel',
+      ngList: '=',
+      editing: '=editing'
+    }
+  }
 });

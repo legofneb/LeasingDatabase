@@ -1,0 +1,115 @@
+﻿@{
+  ViewBag.Title = "Index";
+  Layout = "~/Views/Shared/_NGLayout.cshtml";
+}
+<!DOCTYPE html>
+<html ng-app="billingRates">
+<head>
+  <title>New Orders</title>
+
+  @Html.Partial("~/Views/Shared/_NGStyles.cshtml")
+  @Html.Partial("~/Views/Shared/_NGScripts.cshtml")
+  <script type="text/javascript">
+    angular.module("billingRates", ["bfApp", "ngRoute"]).constant('rootUrl', "@Url.Content("~/")");
+  </script>
+
+</head>
+<body>
+
+  @Html.Partial("~/Views/Shared/_NGMenu.cshtml")
+
+  <div class="container-fluid" ng-controller="billingRatesController as vm">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="row">
+              <h3 class="text-center"><i class="fa fa-usd fa-2x"></i></h3>
+              <h3 class="text-center">Billing Rates</h3>
+            </div>
+            <hr />
+
+            <div class="row">
+              <div class="col-sm-8 col-sm-offset-2">
+                <button type="button" class="btn btn-primary btn-block" ng-click="vm.addNewRate()">Add New Rates</button>
+                <button type="button" class="btn btn-primary btn-block">Edit Current Rates</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Rate Information</h3>
+          </div>
+          <div class="panel-body">
+            <div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th class="text-center" ng-repeat="rates in vm.billingRates">
+                      {{rates.Type}}<br />{{rates.Term}}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="text-center"><strong>Effective Date</strong></td>
+                    <td class="text-center" ng-repeat="rates in vm.billingRates" ng-if="vm.billingRate == 'current'">
+                      {{rates.CurrentRate.Month}}<br />{{rates.CurrentRate.Year}}
+                    </td>
+                    <td class="text-center" ng-repeat="rates in vm.billingRates" ng-if="vm.billingRate == 'previous'">
+                      {{rates.PreviousRate.Month}}<br />{{rates.PreviousRate.Year}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-center"><strong>Rate</strong></td>
+                    <td class="text-center" ng-repeat="rates in vm.billingRates" ng-if="vm.billingRate == 'current'">
+                      ${{rates.CurrentRate.Rate}}
+                    </td>
+                    <td class="text-center" ng-repeat="rates in vm.billingRates" ng-if="vm.billingRate == 'previous'">
+                      ${{rates.PreviousRate.Rate}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default" ng-class="{active: vm.billingRate == 'previous'}" ng-click="vm.usePreviousBillingRate()">Previous Rate</button>
+              <button type="button" class="btn btn-default" ng-class="{active: vm.billingRate == 'current'}" ng-click="vm.useCurrentBillingRate()">Current Rate</button>
+            </div>
+          </div>
+
+          <div class="panel-body" ng-if="vm.editing">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th class="text-center" ng-repeat="rates in vm.modifyRates">
+                    {{rates.Type}}<br />{{rates.Term}}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center"><strong>Rate</strong></td>
+                  <td class="text-center" ng-repeat="rates in vm.modifyRates">
+                    {{rates.CurrentRate.Rate}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="~/Scripts/NG/billingRates/billingRates.js"></script>
+</body>
+</html>

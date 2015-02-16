@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "GetDepartmentList";
+}
+
+<h2>GetDepartmentList</h2>
+
+<ul>
+@{
+  foreach (aulease.Entities.Department dept in ViewBag.Departments)
+  {
+    if (!String.IsNullOrWhiteSpace(dept.Name))
+    { 
+      @Html.Raw("<li>" + dept.Name.ToString() + "</li>");
+    }
+  }
+}
+</ul>

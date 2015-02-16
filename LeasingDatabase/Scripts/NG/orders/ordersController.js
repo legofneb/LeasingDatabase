@@ -10,15 +10,9 @@
   });
 })
 
-.controller('OrdersController', ['rootUrl', '$http', '$timeout', '$location', function (rootUrl, $http, $timeout, $location) {
+.controller('OrdersController', ['rootUrl', '$http', '$timeout', '$location', 'searchOrdersFilter', function (rootUrl, $http, $timeout, $location,searchOrdersFilter) {
   var self = this;
   initialize();
-
-  self.selected = -1;
-  self.editingOrder = false;
-  self.cart = [];
-  self.collapseSidebar = false;
-  self.newSR = "";
 
   self.toggleSidebar = function () {
     if (self.collapseSidebar) {
@@ -50,8 +44,9 @@
 
   self.setSelectedOrder = function (order, index) {
     self.selectedOrder = angular.copy(order);
+    self.backupOrder = angular.copy(order); // meant to denote a "backup" of the selectedOrder
+    self.backToMain();
     self.selected = index;
-    console.log(index);
   }
 
   self.createNewOrder = function () {
@@ -66,9 +61,10 @@
   }
 
   self.submitCart = function () {
-    $http.post(rootUrl + 'api/PO', self.cart).
+    $http.post(rootUrl + 'api/PO', { cart: self.cart, newSR: self.newSR }).
       success(function (data, status, headers, config) {
-
+        initialize();
+        self.selectedOrder = undefined;
       }).
       error(function (data, status, headers, config) {
 
@@ -85,7 +81,7 @@
   }
 
   self.editOrder = function () {
-    self.oldOrder = angular.copy(self.selectedOrder);
+    self.backupOrder = angular.copy(self.selectedOrder);
     self.editingOrder = true;
 
   }
@@ -116,16 +112,26 @@
 
   self.cancelOrder = function () {
     self.editingOrder = false;
-    self.selectedOrder = self.oldOrder;
+    self.selectedOrder = self.backupOrder;
     self.$apply;
 
     if (self.collapseSidebar) { self.toggleSidebar(); }
 
-    if (!angular.isDefined(self.selectedOrder.id)) {
+    if (!angular.isDefined(self.selectedOrder) || (!angular.isDefined(self.selectedOrder.id))) {
       self.orders.pop(); self.selected = -1;
     }
 
     $location.path("/");
+  }
+
+  self.deleteOrder = function () {
+    $http.delete(rootUrl + 'api/NewOrders/' + vm.selectedOrder.id).
+      success(function () {
+
+      }).
+      error(function () {
+
+      });
   }
 
   self.addNewComponent = function (selectedOrder) {
@@ -146,13 +152,13 @@
     self.selectedOrder.Configuration.splice(ind, 1);
   }
 
-  self.addNewSystem = function (selectedOrder) {
+  self.addNewSystem = function (selectedOrder) { 
     self.selectedSystem = pushElementOnArray({}, self.selectedOrder.Components);
     $location.path("/System");
   }
 
   self.generateSR = function () {
-    $http.get('api/PO?condition=new').success(function (data) {
+    $http.get(rootUrl + 'api/PO?condition=new').success(function (data) {
       self.newSR = data.split("\"").join(""); //removing leading and trailing quotes
     });
   }
@@ -182,11 +188,21 @@
     $location.path("/");
   }
 
+  self.indexForFiltered = function () {
+    orders = searchOrdersFilter(self.orders, self.searchTerm);
+    var ind = -1;
+
+    for (var i = 0; i < orders.length; i++) {
+      if (orders[i].id != null && self.backupOrder != null && orders[i].id == self.backupOrder.id) {
+        ind = i;
+      }
+    }
+    return ind;
+  }
+
   function pushElementOnArray(element, arr) {
-    // pushes an element onto an array and returns the object
     arr.push(element);
     return arr[arr.length - 1];
-
   }
 
   function initialize() {
@@ -205,6 +221,70 @@
     $http.get(rootUrl + 'api/model').success(function (data) {
       self.models = data;
     });
+
+    $location.path("/");
+
+    self.selected = -1;
+    self.editingOrder = false;
+    self.cart = [];
+    self.collapseSidebar = false;
+    self.newSR = "";
   };
 
-}]);
+}])
+.filter('searchOrders', function () {
+  return function (orders, searchTerm) {
+
+    if (angular.isDefined(orders)) {
+      var filteredOrders = [];
+      
+      angular.forEach(orders, function (order) {
+        if (angular.isDefined(searchTerm) && searchTerm.length > 0) {
+        
+          var hasMatch = false;
+
+          // check top level fields
+          if (OrderContains(order, searchTerm)) {
+            hasMatch = true;
+          }
+          
+          if (hasMatch) {
+            filteredOrders.push(order);
+          }
+        } else {
+          filteredOrders.push(order);
+        }
+      });
+
+      return filteredOrders;
+    }
+  };
+});
+
+function OrderContains(order, searchTerm) {
+  var searchArray = searchTerm.split(" ");
+  var result = true;
+
+  for (var i = 0; i < searchArray.length; i++) {
+
+
+
+    var fuzzySearchFindsMatch = Contains(order.OrdererGID, searchArray[i]) || Contains(order.OrdererGID, searchArray[i]) || Contains(order.OrdererBuilding, searchArray[i]) || Contains(order.OrdererRoom, searchArray[i]);
+
+    if (angular.isDefined(order.Components)) {
+      angular.forEach(order.Components, function (component) {
+        fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(component.GID, searchArray[i]) || Contains(component.StatementName, searchArray[i]) || Contains(component.DepartmentName, searchArray[i]);
+      });
+    }
+
+    if (!fuzzySearchFindsMatch) {
+      result = false;
+    }
+  }
+
+  return result;
+}
+
+function Contains(field, searchTerm) {
+  return ((field != null) && (field.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1));
+}

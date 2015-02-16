@@ -20,14 +20,22 @@
       <div id="sidebar" class="col-xs-12 col-md-3 sidebar">
         <div class="list-group" style="margin:0 -25px;">
 
+          <div class="list-group-item">
+            <div class="form-group" style="margin-bottom:0;">
+              <input type="text" class="form-control" ng-model="vm.searchTerm" />
+              <span class="form-control-feedback"><i class="fa fa-search"></i></span>
+            </div>
+          </div>
+
           <a href="" class="list-group-item" ng-click="vm.createNewOrder()">
             <h4 class="list-group-item-heading"><i class="fa fa-plus-square-o fa-lg"></i> Create a New Order</h4>
           </a>
 
-          <div ng-repeat="order in vm.orders">
-            <a href="" class="list-group-item" ng-click="vm.setSelectedOrder(order, $index)" ng-class="{active: $index == vm.selected}">
+
+          <div ng-repeat="order in filtered = (vm.orders | searchOrders:vm.searchTerm)">
+            <a href="" class="list-group-item" ng-click="vm.setSelectedOrder(order, $index)" ng-class="{active: $index == vm.indexForFiltered()}">
               <h4 class="list-group-item-heading">
-                {{ order.OrdererGID }}
+                {{ order.OrdererGID }} <span class="badge">{{order.Components.length}}</span> <small ng-if="angular.isDefined(order.Notes) && order.Notes.length > 3">*</small>
                 <span ng-class="{hidden: vm.cart.indexOf(order.id) == -1}"><i class="fa fa-check"></i></span>
                 <small>
                   <span ng-repeat="component in vm.order.Configuration">
@@ -78,112 +86,23 @@
           <small><i class="fa fa-pencil orangeHover" id="edit" data-toggle="tooltip" data-placement="right" title="Edit" ng-click="vm.editOrder()"></i></small>
           <i class="fa fa-trash-o fa-3x trashIcon redHover text-asbestos" id="delete" data-toggle="tooltip" data-placement="bottom" title="Cancel" ng-click="vm.cancelOrder()" ng-show="vm.editingOrder"></i>
           <i class="fa fa-save fa-3x saveIcon orangeHover text-asbestos" id="save" data-toggle="tooltip" data-placement="bottom" title="Save" ng-click="vm.saveOrder()" ng-show="vm.editingOrder"></i>
+
+          <div ng-show="!vm.editingOrder" class="btn-group pull-right">
+            <button class="btn btn-inverse dropdown-toggle" type="button" data-toggle="dropdown">Order Actions <i class="fa fa-caret-down"></i></button>
+            <ul class="dropdown-menu dropdown-menu-inverse" role="menu">
+              <li><a href="javascript:;" ng-click="vm.editOrder()">Edit Order</a></li>
+              <li><a href="javascript:;" ng-click="vm.addToCart(vm.selectedOrder)">Add to New SR</a></li>
+              <li><a href="javascript:;" ng-click="vm.deleteOrder()">Delete Order</a></li>
+            </ul>
+          </div>
         </h3>
-        <hr />
-        <div class="col-md-12">
-          <div class="col-md-8">
-            <div class="row">
-              <div class="col-md-3">
-                <p class="text-silver">Order Date</p>
-              </div>
-              <div class="col-md-6">
-                <p>{{ vm.selectedOrder.Date}}</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-3">
-                <p class="text-silver">Orderer GID</p>
-              </div>
-              <div class="col-md-6">
-                <p><edit-input editing="vm.editingOrder" ng-model="vm.selectedOrder.OrdererGID"></edit-input></p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-3">
-                <p class="text-silver">Order Notes</p>
-              </div>
-              <div class="col-md-6">
-                <p><edit-textarea editing="vm.editingOrder" ng-model="vm.selectedOrder.Notes" rows="5"></edit-textarea></p>
-              </div>
-            </div>
-          </div>
-
-
-
-          <div class="col-md-4">
-            <button type="button" class="btn btn-large btn-primary btn-block" ng-click="vm.addToCart(vm.selectedOrder)"><i class="fa fa-plus-square fa-lg"></i> Add to New SR</button>
-            <button type="button" class="btn btn-large btn-primary btn-block" ng-click="vm.editOrder()" id="changeConfiguration"><i class="fa fa-lg fa-edit"></i> Change Configuration</button>
-          </div>
-        </div>
-
-
-        <div class="col-md-12">
-          <h4>Component(s) <small><a style="cursor: pointer;" class="text-concrete" ng-if="vm.editingOrder" ng-click="vm.addNewComponent(vm.selectedOrder)"><i class="fa fa-plus-square-o"></i> Add Component</a></small></h4>
-          <hr />
-
-          <div class="col-md-3" ng-repeat="component in vm.selectedOrder.Configuration">
-            <div ng-if="component.Type.length > 0">
-              <div class="row">
-                <div class="col-md-9 col-md-offset-3" ng-if="!vm.editingOrder">
-                  <type-icon component="component.Type" class="fa-4x"></type-icon>
-                </div>
-                <div class="col-md-9 col-md-offset-3 text-center" ng-if="vm.editingOrder">
-                  <type-icon component="component.Type" class="fa-4x"></type-icon>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-3">
-                  <p class="text-silver">Type</p>
-                </div>
-                <div class="col-md-9">
-                  <p ng-if="!vm.editingOrder">{{ component.Type }}</p>
-                  <au-select ng-if="vm.editingOrder" id="Type{{$index}}" ng-list="vm.types" ng-model="component.Type"></au-select>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-3">
-                  <p class="text-silver">Make</p>
-                </div>
-                <div class="col-md-9">
-                  <p ng-if="!vm.editingOrder">{{ component.Make }}</p>
-                  <au-select ng-if="vm.editingOrder" id="Make{{$index}}" ng-enter="vm.addValueToMake('Make{{$index}}')" ng-list="vm.makes" ng-model="component.Make"></au-select>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-3">
-                  <p class="text-silver">Model</p>
-                </div>
-                <div class="col-md-9">
-                  <p ng-if="!vm.editingOrder">{{ component.Model }}</p>
-                  <au-select ng-if="vm.editingOrder" id="Model{{$index}}" ng-enter="vm.addValueToModel('Model{{$index}}')" ng-list="vm.models" ng-model="component.Model"></au-select>
-                </div>
-              </div>
-              <div class="row" ng-if="vm.editingOrder">
-                <div class="col-md-offset-3 col-md-9">
-                  <button type="button" class="btn btn-link" ng-click="vm.removeComponent(component)">Remove Component</button>
-                </div>
-              </div>
-            </div>
-
-            <div ng-if="component.Type == null">
-              <p class="lead">No Configuration</p>
-            </div>
-          </div>
-
-          <div class="col-md-3" ng-if="vm.selectedOrder.Configuration.length < 1">
-            <p class="lead">No Configuration</p>
-          </div>
-
-        </div>
-
-
 
 
         <div class="col-md-12">
           <hr />
           <ng-view></ng-view>
-          </div>
         </div>
+      </div>
 
     </div>
   </div>

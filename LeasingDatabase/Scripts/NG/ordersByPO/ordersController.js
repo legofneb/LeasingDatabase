@@ -9,11 +9,15 @@
     templateUrl: rootUrl + "NGOrdersByPO/Billing"
   });
 
+  $routeProvider.when("/Transfer", {
+    templateUrl: rootUrl + "NGOrdersByPO/Transfer"
+  });
+
   $routeProvider.otherwise({
     templateUrl: rootUrl + "NGOrdersByPO/Home"
   });
 })
-.controller('SRController', ['rootUrl', '$http', '$timeout','$location', function (rootUrl, $http, $timeout, $location) {
+.controller('SRController', ['rootUrl', '$http', '$timeout','$location', 'searchOrdersByPOFilter', function (rootUrl, $http, $timeout, $location, searchOrdersByPOFilter) {
   var self = this;
   initialize();
 
@@ -21,14 +25,18 @@
     self.editingOrder = false;
     self.selectedSystem = undefined;
     self.selectedRow = undefined;
+    self.globalOrderNumber = undefined;
+    self.globalFOP = undefined;
+    self.globalDepartmentName = undefined;
     $location.path('/');
 
     self.selectedOrder = angular.copy(order);
+    self.backupOrder = angular.copy(order);
     self.selected = index;
   }
 
   self.editOrder = function () {
-    self.oldOrder = angular.copy(self.selectedOrder);
+    self.backupOrder = angular.copy(self.selectedOrder);
     self.backupUsers = angular.copy(self.users);
     self.backupDepts = angular.copy(self.depts);
     self.editingOrder = true;
@@ -59,7 +67,7 @@
 
   self.cancelOrder = function () {
     self.editingOrder = false;
-    self.selectedOrder = self.oldOrder;
+    self.selectedOrder = self.backupOrder;
     self.users = self.backupUsers;
     self.depts = self.backupDepts;
     self.$apply;
@@ -68,6 +76,24 @@
   self.setSelectedSystem = function (system) {
     $location.path('/System');
     self.selectedSystem = system;
+  }
+
+  self.setOrderNumber = function () {
+    angular.forEach(self.selectedOrder.SystemGroups, function (systemGroup, key) {
+      systemGroup.OrderNumber = self.globalOrderNumber;
+    });
+  }
+
+  self.setFOP = function () {
+    angular.forEach(self.selectedOrder.SystemGroups, function (systemGroup, key) {
+      systemGroup.FOP = self.globalFOP;
+    });
+  }
+
+  self.setDepartmentName = function () {
+    angular.forEach(self.selectedOrder.SystemGroups, function (systemGroup, key) {
+      systemGroup.DepartmentName = self.globalDepartmentName;
+    });
   }
 
   self.AddEOL = function () {
@@ -123,7 +149,45 @@
     if ($("#" + id).find('.highlighted').length == 0) {
       var value = $("#" + id).find('input[type="text"]').val();
       //alert(value);
-      self.makes.push({ Name: value })
+
+      var found = false;
+      angular.forEach(self.makes, function (make) {
+        if (make.Name == value) {
+          found = true;
+        }
+      });
+      if (!found) {
+        self.makes.push({ Name: value })
+      }
+      
+      //alert(id);
+      self.$apply;
+      $timeout(function () {
+
+        $("#" + id + " select").val(value);
+        $(".componentType").trigger('chosen:updated'); // Performance improvement: should limit this to just id Type on update
+        $("#" + id + " select").trigger('chosen:close');
+
+      }, 0);
+    }
+  }
+
+  self.addValueToModel = function (id) {
+    if ($("#" + id).find('.highlighted').length == 0) {
+      var value = $("#" + id).find('input[type="text"]').val();
+      //alert(value);
+
+      var found = false;
+      angular.forEach(self.models, function (model) {
+        if (model.Name == value) {
+          found = true;
+        }
+      });
+      if (!found) {
+        self.models.push({ Name: value })
+      }
+
+      
       //alert(id);
       self.$apply;
       $timeout(function () {
@@ -137,7 +201,7 @@
   }
 
   self.generateSR = function () {
-    $http.get('api/PO?condition=new').success(function (data) {
+    $http.get(rootUrl + 'api/PO?condition=new').success(function (data) {
       self.newSR = data.split("\"").join(""); //removing leading and trailing quotes
     });
   }
@@ -164,6 +228,29 @@
 
   self.useCurrentBillingRate = function () {
     self.billingRate = "current";
+  }
+
+  self.transferSystem = function () {
+    $location.path('/Transfer');
+    self.transfer = new Transfer();
+    self.transfer.oldSR = self.selectedOrder.SR;
+    self.transfer.id = self.selectedSystem.id;
+    self.transfer.newSR = "";
+  }
+
+  function Transfer() {
+    this.oldSR = "";
+    this.id = 0;
+    this.newSR = "";
+  }
+
+  self.transferSystemPOST = function () {
+    $http.post(rootUrl + 'api/Transfer', self.transfer).success(function (data) {
+      alert("yay");
+    })
+    .error(function (data) {
+      alert("boo");
+    })
   }
 
   self.processBilling = function () {
@@ -218,6 +305,10 @@
     $location.path("/");
   }
 
+  self.backToSystem = function () {
+    $location.path("/System");
+  }
+
   self.navigateToBilling = function () {
     self.billingIndex = 0;
     self.billingRate = "current";
@@ -253,6 +344,40 @@
     }
   }
 
+  self.indexForFiltered = function () {
+    orders = searchOrdersByPOFilter(self.orders, self.searchTerm);
+    var ind = -1;
+
+    for (var i = 0; i < orders.length; i++) {
+      if (orders[i].id != null && self.backupOrder != null && orders[i].id == self.backupOrder.id) {
+        ind = i;
+      }
+    }
+    return ind;
+  }
+
+  self.groupMatches = function (group) {
+    if (self.searchTerm == null || self.searchTerm.length < 1) {
+      return false;
+    }
+
+    var searchArray = self.searchTerm.split(" ");
+    return groupMatches(group, searchArray);
+  }
+
+  self.orderHasAllSerials = function (order) {
+    hasAllSerials = true;
+    angular.forEach(order.SystemGroups, function (group) {
+      angular.forEach(group.Components, function (component) {
+        if (!angular.isDefined(component.SerialNumber) || component.SerialNumber == null || component.SerialNumber.length < 1) {
+          hasAllSerials = false;
+        }
+      })
+    });
+
+    return hasAllSerials;
+  }
+
   function initialize() {
     $http.get(rootUrl + 'api/NewOrdersByPO').success(function (data) {
       self.orders = data;
@@ -266,9 +391,13 @@
       self.types = data;
     });
 
-    $http.get('api/model').success(function (data) {
+    $http.get(rootUrl + 'api/model').success(function (data) {
       self.models = data;
     });
+
+    self.rateLevels = [{ Name: 'Base' }, { Name: 'Support' }];
+    self.terms = [{ Name: 24 }, { Name: 36 }];
+
 
     self.selected = -1;
     self.selectedRow = -1;
@@ -281,7 +410,7 @@
   };
 
   function getBillingRates() {
-    $http.get('api/BillingRates').success(function (data) {
+    $http.get(rootUrl + 'api/BillingRates').success(function (data) {
       self.billingRates = data;
       console.log(self.billingRates);
     });
@@ -300,4 +429,105 @@
       }
     });
   };
+})
+.filter('searchOrdersByPO', function () {
+  return function (orders, searchTerm) {
+
+    if (angular.isDefined(orders)) {
+      var filteredOrders = [];
+
+      angular.forEach(orders, function (order) {
+        if (angular.isDefined(searchTerm) && searchTerm.length > 0) {
+
+          var hasMatch = false;
+
+          // check top level fields
+          if (OrderContains(order, searchTerm)) {
+            hasMatch = true;
+          }
+
+          if (hasMatch) {
+            filteredOrders.push(order);
+          }
+        } else {
+          filteredOrders.push(order);
+        }
+      });
+
+      return filteredOrders;
+    }
+  };
 });
+
+function OrderContains(order, searchTerm) {
+  var searchArray = searchTerm.split(" ");
+  var result = true;
+
+  for (var i = 0; i < searchArray.length; i++) {
+
+
+
+    var fuzzySearchFindsMatch = Contains(order.SR, searchArray[i]) || Contains(order.OrdererGID, searchArray[i]) || Contains(order.OrdererBuilding, searchArray[i]) || Contains(order.OrdererRoom, searchArray[i]);
+    
+    if (angular.isDefined(order.Configuration)) {
+      angular.forEach(order.Configuration, function(component) {
+        fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(component.Type, searchArray[i]) || Contains(component.Make, searchArray[i]) || Contains(component.Model, searchArray[i]);
+      });
+    }
+
+    if (angular.isDefined(order.SystemGroups)) {
+      angular.forEach(order.SystemGroups, function (group) {
+        fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(group.OrdererGID, searchArray[i]) || Contains(group.OrdererBuilding, searchArray[i]) || Contains(group.OrdererRoom, searchArray[i]);
+        fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(group.StatementName, searchArray[i]) || Contains(group.GID, searchArray[i]) || Contains(group.DepartmentName, searchArray[i]);
+        fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(group.FOP, searchArray[i]) || Contains(group.RateLevel, searchArray[i]) || Contains(group.Term, searchArray[i]);
+        fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(group.Room, searchArray[i]) || Contains(group.Building, searchArray[i]) || Contains(group.OrderNumber, searchArray[i]);
+
+        if (angular.isDefined(group.Components)) {
+          angular.forEach(group.Components, function (comp) {
+            fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(comp.SerialNumber, searchArray[i]) || Contains(comp.LeaseTag, searchArray[i]);
+          });
+        }
+
+        if (angular.isDefined(group.EOLComponents)) {
+          angular.forEach(group.EOLComponents, function (comp) {
+            fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(comp.SerialNumber, searchArray[i]) || Contains(comp.LeaseTag, searchArray[i]);
+          });
+        };
+      });
+    }
+
+    if (!fuzzySearchFindsMatch) {
+      result = false;
+    }
+  }
+
+  return result;
+}
+
+function groupMatches(group, searchArray) {
+  var fuzzySearchFindsMatch = false;
+  for (var i = 0; i < searchArray.length; i++) {
+    fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(group.OrdererGID, searchArray[i]) || Contains(group.OrdererBuilding, searchArray[i]) || Contains(group.OrdererRoom, searchArray[i]);
+    fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(group.StatementName, searchArray[i]) || Contains(group.GID, searchArray[i]) || Contains(group.DepartmentName, searchArray[i]);
+    fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(group.FOP, searchArray[i]) || Contains(group.RateLevel, searchArray[i]) || Contains(group.Term, searchArray[i]);
+    fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(group.Room, searchArray[i]) || Contains(group.Building, searchArray[i]) || Contains(group.OrderNumber, searchArray[i]);
+
+    if (angular.isDefined(group.Components)) {
+      angular.forEach(group.Components, function (comp) {
+        fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(comp.SerialNumber, searchArray[i]) || Contains(comp.LeaseTag, searchArray[i]);
+      });
+    }
+
+    if (angular.isDefined(group.EOLComponents)) {
+      angular.forEach(group.EOLComponents, function (comp) {
+        fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(comp.SerialNumber, searchArray[i]) || Contains(comp.LeaseTag, searchArray[i]);
+      });
+    }
+  }
+
+  return fuzzySearchFindsMatch;
+}
+
+function Contains(field, searchTerm) {
+  return ((field != null) && (field.toString().toLowerCase().indexOf(searchTerm.toLowerCase()) > -1));
+};

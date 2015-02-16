@@ -66,6 +66,35 @@
 
 </div>
 
+<div class="col-lg-12" ng-if="vm.editingOrder">
+  <hr />
+  <h4>SR Actions</h4>
+  <div class="row">
+    <div class="col-md-2">
+      <p class="text-silver">Set OrderNumber for SR</p>
+    </div>
+    <div class="col-md-2">
+      <input type="text" class="form-control" ng-keyup="vm.setOrderNumber()" ng-model="vm.globalOrderNumber" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <p class="text-silver">Set Department Name</p>
+    </div>
+    <div class="col-md-2">
+      <input type="text" class="form-control" ng-keyup="vm.setDepartmentName()" ng-model="vm.globalDepartmentName" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <p class="text-silver">Set FOP For SR</p>
+    </div>
+    <div class="col-md-2">
+      <input type="text" class="form-control" ng-keyup="vm.setFOP()" ng-model="vm.globalFOP" />
+    </div>
+  </div>
+</div>
+
 <div class="col-lg-12">
   <hr />
   <h4>Systems</h4>
@@ -84,7 +113,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr style="cursor: pointer;" ng-repeat="system in vm.selectedOrder.SystemGroups" ng-click="vm.setSelectedSystem(system)">
+      <tr style="cursor: pointer;" ng-repeat="system in vm.selectedOrder.SystemGroups" ng-click="vm.setSelectedSystem(system)" ng-class="{info: vm.groupMatches(system)}">
 
         <td>{{ system.StatementName}}</td>
         <td>{{system.GID}}</td>

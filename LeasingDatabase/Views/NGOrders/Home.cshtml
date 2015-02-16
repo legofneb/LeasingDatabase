@@ -1,4 +1,92 @@
-﻿
+﻿<div class="col-md-12">
+  <div class="col-md-8">
+    <div class="row">
+      <div class="col-md-3">
+        <p class="text-silver">Order Date</p>
+      </div>
+      <div class="col-md-6">
+        <p>{{ vm.selectedOrder.Date}}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <p class="text-silver">Orderer GID</p>
+      </div>
+      <div class="col-md-6">
+        <p><edit-input editing="vm.editingOrder" ng-model="vm.selectedOrder.OrdererGID"></edit-input></p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <p class="text-silver">Order Notes</p>
+      </div>
+      <div class="col-md-6">
+        <p><edit-textarea editing="vm.editingOrder" ng-model="vm.selectedOrder.Notes" rows="5"></edit-textarea></p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="col-md-12">
+  <h4>Component(s) <small><a style="cursor: pointer;" class="text-concrete" ng-if="vm.editingOrder" ng-click="vm.addNewComponent(vm.selectedOrder)"><i class="fa fa-plus-square-o"></i> Add Component</a></small></h4>
+  <hr />
+
+  <div class="col-md-3" ng-repeat="component in vm.selectedOrder.Configuration">
+    <div ng-if="component.Type.length > 0">
+      <div class="row">
+        <div class="col-md-9 col-md-offset-3" ng-if="!vm.editingOrder">
+          <type-icon component="component.Type" class="fa-4x"></type-icon>
+        </div>
+        <div class="col-md-9 col-md-offset-3 text-center" ng-if="vm.editingOrder">
+          <type-icon component="component.Type" class="fa-4x"></type-icon>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <p class="text-silver">Type</p>
+        </div>
+        <div class="col-md-9">
+          <p ng-if="!vm.editingOrder">{{ component.Type }}</p>
+          <au-select ng-if="vm.editingOrder" id="Type{{$index}}" ng-list="vm.types" ng-model="component.Type"></au-select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <p class="text-silver">Make</p>
+        </div>
+        <div class="col-md-9">
+          <p ng-if="!vm.editingOrder">{{ component.Make }}</p>
+          <au-select ng-if="vm.editingOrder" id="Make{{$index}}" ng-enter="vm.addValueToMake('Make{{$index}}')" ng-list="vm.makes" ng-model="component.Make"></au-select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <p class="text-silver">Model</p>
+        </div>
+        <div class="col-md-9">
+          <p ng-if="!vm.editingOrder">{{ component.Model }}</p>
+          <au-select ng-if="vm.editingOrder" id="Model{{$index}}" ng-enter="vm.addValueToModel('Model{{$index}}')" ng-list="vm.models" ng-model="component.Model"></au-select>
+        </div>
+      </div>
+      <div class="row" ng-if="vm.editingOrder">
+        <div class="col-md-offset-3 col-md-9">
+          <button type="button" class="btn btn-link" ng-click="vm.removeComponent(component)">Remove Component</button>
+        </div>
+      </div>
+    </div>
+
+    <div ng-if="component.Type == null">
+      <p class="lead">No Configuration</p>
+    </div>
+  </div>
+
+  <div class="col-md-3" ng-if="vm.selectedOrder.Configuration.length < 1">
+    <p class="lead">No Configuration</p>
+  </div>
+
+</div>
+
   <h3>Systems <small><a style="cursor: pointer;" class="text-concrete" ng-if="vm.editingOrder" ng-click="vm.addNewSystem(vm.selectedOrder)"><i class="fa fa-plus-square-o"></i> Add System</a></small></h3>
 
   <table class="table table-striped table-bordered table-hover">
@@ -16,7 +104,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr style="cursor: pointer;" ng-repeat="component in vm.selectedOrder.Components" ng-dblclick="vm.componentDetails(component)">
+      <tr style="cursor: pointer;" ng-repeat="component in vm.selectedOrder.Components" ng-click="vm.componentDetails(component)">
         <td>{{ component.StatementName }}</td>
         <td>{{ component.GID }}</td>
         <td>{{ component.DepartmentName }}</td>

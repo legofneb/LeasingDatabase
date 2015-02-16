@@ -112,15 +112,15 @@ namespace LeasingDatabase.Billing
                 ComponentCost.Make = lease.Component.Make.Name;
                 ComponentCost.Model = lease.Component.Model.Name;
 
-                ComponentCost.UnitCost = lease.Charges.Where(n => n.Type == lease.Component.Type).Single().Price;
-                ComponentCost.LeasingRate = CalculateLeasingRate(lease);
-                ComponentCost.SecondaryCosts = CalculateSecondaryCosts(lease);
-                ComponentCost.OverheadRate = lease.Overhead.Rate;
-                ComponentCost.VendorRate = lease.Charges.Where(n => n.Type == lease.Component.Type).Single().VendorRate.Rate;
-                ComponentCost.VendorInsuranceRate = lease.Charges.Where(n => n.Type.Name == "Insurance").Count() > 0 ? (decimal?)lease.Charges.Where(n => n.Type.Name == "Insurance").FirstOrDefault().VendorRate.Rate : null;
-                ComponentCost.Tax = CalculateTax(lease);
-                ComponentCost.MonthlyCharge = lease.MonthlyCharge.Value;
-                TotalMonthlyCharge += lease.MonthlyCharge.Value;
+                ComponentCost.UnitCost = Math.Round(lease.Charges.Where(n => n.Type == lease.Component.Type).Single().Price, 2);
+                ComponentCost.LeasingRate = Math.Round(CalculateLeasingRate(lease), 2);
+                ComponentCost.SecondaryCosts = Math.Round(CalculateSecondaryCosts(lease), 2);
+                ComponentCost.OverheadRate = Math.Round(lease.Overhead.Rate, 2);
+                ComponentCost.VendorRate = Math.Round(lease.Charges.Where(n => n.Type == lease.Component.Type).Single().VendorRate.Rate, 2);
+                ComponentCost.VendorInsuranceRate = lease.Charges.Where(n => n.Type.Name == "Insurance").Count() > 0 ? (decimal?)Math.Round(lease.Charges.Where(n => n.Type.Name == "Insurance").FirstOrDefault().VendorRate.Rate, 2) : null;
+                ComponentCost.Tax = Math.Round(CalculateTax(lease), 2);
+                ComponentCost.MonthlyCharge = Math.Round(lease.MonthlyCharge.Value, 2);
+                TotalMonthlyCharge += Math.Round(lease.MonthlyCharge.Value, 2);
 
                 Summary.Components.Add(ComponentCost);
             }
@@ -157,11 +157,11 @@ namespace LeasingDatabase.Billing
                 {
                     if (isNonFinanceType(charge.Type))
                     {
-                        MonthlyCharge += ((((charge.Price * charge.VendorRate.Rate / 1000) * (1 + charge.Tax.Price)) + (lease.Overhead.Rate)) * ((_term + 1) / _term));
+                        MonthlyCharge += (((charge.Price * charge.VendorRate.Rate / 1000) * (1 + charge.Tax.Price)) + (lease.Overhead.Rate)) * ((decimal)_term + 1) / (decimal)_term;
                     }
                     else
                     {
-                        MonthlyCharge += (charge.Price * charge.VendorRate.Rate / 1000) * ((_term+1) / _term);
+                        MonthlyCharge += (charge.Price / 1000 * charge.VendorRate.Rate) * ((decimal)_term+1) / (decimal)_term;
                     }
                 }
 
@@ -172,7 +172,7 @@ namespace LeasingDatabase.Billing
         private bool isNonFinanceType(aulease.Entities.Type type)
         {
             string Name = type.Name.ToUpper();
-            return (Name == "CPU" || Name == "MONITOR" || Name == "SERVER" || Name == "MONITOR");
+            return (Name == "CPU" || Name == "LAPTOP" || Name == "SERVER" || Name == "MONITOR");
         }
 
         private void SetBillingFields()
@@ -201,7 +201,6 @@ namespace LeasingDatabase.Billing
             aulease.Entities.Type Warranty = _db.Types.Where(n => n.Name == "Warranty").Single();
             aulease.Entities.Type Shipping = _db.Types.Where(n => n.Name == "Shipping").Single();
 
-            int index = _systemGroup.Leases.ToList().IndexOf(lease);
             lease.Charges.Add(new Charge { Price = DequeueCost(), VendorRate = GetVendorRate(lease), Type = lease.Component.Type, Tax = GetTaxRate() });
 
             if (_insuranceCost > Decimal.Zero && isPrimaryLease)

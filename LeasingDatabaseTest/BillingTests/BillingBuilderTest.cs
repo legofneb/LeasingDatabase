@@ -84,6 +84,15 @@ namespace LeasingDatabaseTest.BillingTests
         {
             
         }
+
+        [TestMethod]
+        public void BillingBuilder_IsNonFinanceType()
+        {
+            BillingBuilder NewBuilder = CreateDefaultChargeBuilder();
+            PrivateObject obj = new PrivateObject(NewBuilder);
+            var retVal = obj.Invoke("IsNonFinanceType", new aulease.Entities.Type { Name = "CPU" });
+            Assert.AreEqual(Convert.ToBoolean(retVal), true);
+        }
         
     }
 }

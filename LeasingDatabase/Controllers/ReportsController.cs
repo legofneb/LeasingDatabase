@@ -378,6 +378,22 @@ namespace LeasingDatabase.Controllers
 			//return RedirectToAction("GenerateOITBilling");
 		}
 
+        public ActionResult GetDepartmentList()
+        {
+            AuleaseEntities db = new AuleaseEntities();
+
+            DateTime aMonthFromNow = DateTime.Now.AddMonths(1);
+
+            List<Component> Components = db.Components.Where(n => n.Type.Name == "CPU" || n.Type.Name == "Laptop").Where(n => n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name != null)
+                                                             .Where(n => n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().EndDate >= aMonthFromNow).ToList();
+
+            List<Department> Departments = Components.SelectMany(n => n.Leases).Select(n => n.Department).ToList();
+
+            ViewBag.Departments = Departments.Distinct();
+
+            return View();
+        }
+
         public ActionResult GetIGFReport()
         {
             AuleaseEntities db = new AuleaseEntities();
@@ -537,7 +553,9 @@ namespace LeasingDatabase.Controllers
                                                                        n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Center Student Orgs - Welcome Week") ||
                                                                        n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Student Affairs Development") ||
                                                                        n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("SA Assessment and Strategic Plan") ||
-                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Student Conduct")
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Student Conduct") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Admissions and Records") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Student Counseling Services")
                                                                   ).ToList();
             for (int i = 0; i < ComponentsForDavidAndUrsula.Count(); i++)
             {
@@ -594,7 +612,7 @@ namespace LeasingDatabase.Controllers
 
             OutputStream.Position = 0;
 
-            return File(OutputStream, "application/xlsx", "IGFReport.xlsx");
+            return File(OutputStream, "application/xlsx", "IDFReport.xlsx");
         }
 
 		public List<SelectListItem> FillDropDownListDates()

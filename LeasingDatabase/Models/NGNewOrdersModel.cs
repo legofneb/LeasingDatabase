@@ -22,12 +22,13 @@ namespace LeasingDatabase.Models
 
     public class NGOrderSystemGroupModel
     {
+        public int id { get; set; }
         public string StatementName { get; set; }
         public string GID { get; set; }
         public string DepartmentName { get; set; }
         public string FOP { get; set; }
         public string RateLevel { get; set; }
-        public string Term { get; set; }
+        public int? Term { get; set; }
         public bool InstallHardware { get; set; }
         public bool InstallSoftware { get; set; }
         public bool Renewal { get; set; }
@@ -38,20 +39,5 @@ namespace LeasingDatabase.Models
         public IEnumerable<NGComponentModel> EOLComponents { get; set; }
 
         public string Notes { get; set; }
-    }
-
-    public class NGComponentModel
-    {
-        public string SerialNumber { get; set; }
-        public string LeaseTag { get; set; }
-    }
-
-    public class NGEOLComponentModel
-    {
-        public string SerialNumber { get; set; }
-        public string LeaseTag { get; set; }
-        public string Type { get; set; }
-        public string Make { get; set; }
-        public string Model { get; set; }
     }
 }

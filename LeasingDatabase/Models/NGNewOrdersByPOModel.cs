@@ -24,6 +24,7 @@ namespace LeasingDatabase.Models
                     }),
                     SystemGroups = n.SystemGroups.Select(o => new NGOrderSystemGroupByPOModel
                     {
+                        id = o.Id,
                         Date = o.Order.Date.ToString("d"),
                         OrderNumber = o.Leases.FirstOrDefault().Component.OrderNumber,
                         OrdererGID = o.Order.User.GID,
@@ -36,7 +37,7 @@ namespace LeasingDatabase.Models
                         DepartmentName = o.Leases.FirstOrDefault().Department.Name,
                         FOP = o.Leases.FirstOrDefault().Department.GetFOP(),
                         RateLevel = o.Leases.FirstOrDefault().Overhead != null ? o.Leases.FirstOrDefault().Overhead.RateLevel : null,
-                        Term = o.Leases.FirstOrDefault().Overhead != null ? o.Leases.FirstOrDefault().Overhead.Term.ToString() : null,
+                        Term = o.Leases.FirstOrDefault().Overhead != null ? o.Leases.FirstOrDefault().Overhead.Term : (int?)null,
                         InstallHardware = o.Leases.FirstOrDefault().Component.InstallHardware,
                         InstallSoftware = o.Leases.FirstOrDefault().Component.InstallSoftware,
                         Renewal = o.Leases.FirstOrDefault().Component.Renewal,
@@ -46,10 +47,10 @@ namespace LeasingDatabase.Models
                         Building = o.Location.Building,
                         Notes = o.Leases.FirstOrDefault().Component.Note,
 
-                        Components = o.Leases.Select(p => new NGComponentModel
+                        Components = o.Leases.Select(p => p.Component).Distinct().OrderByDescending(p => p.TypeId).Select(p => new NGComponentModel
                         {
-                            SerialNumber = p.Component.SerialNumber,
-                            LeaseTag = p.Component.LeaseTag,
+                            SerialNumber = p.SerialNumber,
+                            LeaseTag = p.LeaseTag,
                         }),
 
                         EOLComponents = o.EOLComponents.Select(p => new NGEOLComponentModel
@@ -96,6 +97,7 @@ namespace LeasingDatabase.Models
 
     public class NGOrderSystemGroupByPOModel
     {
+        public int id { get; set; }
         public string Date { get; set; }
         public string OrderNumber { get; set; }
         public string OrdererGID { get; set; }
@@ -108,7 +110,7 @@ namespace LeasingDatabase.Models
         public string DepartmentName { get; set; }
         public string FOP { get; set; }
         public string RateLevel { get; set; }
-        public string Term { get; set; }
+        public int? Term { get; set; }
         public bool InstallHardware { get; set; }
         public bool InstallSoftware { get; set; }
         public bool Renewal { get; set; }
@@ -119,13 +121,6 @@ namespace LeasingDatabase.Models
         public IEnumerable<NGEOLComponentModel> EOLComponents { get; set; }
 
         public string Notes { get; set; }
-    }
-
-    public  class NGConfigurationModel
-    {
-        public string Type { get; set; }
-        public string Make { get; set; }
-        public string Model { get; set; }
     }
 
     public class NGDepartmentModel

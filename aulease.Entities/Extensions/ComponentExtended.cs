@@ -114,5 +114,17 @@ namespace aulease.Entities
         {
             return this.Type.Name.Equals("Monitor", StringComparison.OrdinalIgnoreCase);
         }
+
+        public Component Clone()
+        {
+            Component comp = new Component();
+            comp.OrderNumber = this.OrderNumber;
+            comp.InstallSoftware = this.InstallSoftware;
+            comp.InstallHardware = this.InstallHardware;
+            comp.Note = this.Note;
+            comp.Renewal = this.Renewal;
+
+            return comp;
+        }
 	}
 }

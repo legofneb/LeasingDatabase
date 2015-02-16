@@ -43,7 +43,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CWSToolkit, Version=2.0.5296.18850, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="CWSToolkit, Version=4.0.5519.27866, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>\\ducnt34\cws-dll$\CWSToolkit\CWSToolkit.dll</HintPath>
     </Reference>
@@ -55,17 +55,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.2\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="EPPlus, Version=3.1.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+    <Reference Include="EPPlus, Version=4.0.2.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\SkyDrive\Libraries\EPPlus.dll</HintPath>
+      <HintPath>..\packages\EPPlus.4.0.2\lib\net20\EPPlus.dll</HintPath>
     </Reference>
     <Reference Include="itextsharp, Version=5.3.3.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\SkyDrive\Libraries\itextsharp.dll</HintPath>
-    </Reference>
-    <Reference Include="LeasingDatabase.Billing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\LeasingDatabase.Billing\bin\Debug\LeasingDatabase.Billing.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -149,20 +145,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\BillingController.cs" />
+    <Compile Include="API\BillingCoordinatorByFOPController.cs" />
+    <Compile Include="API\BillingCoordinatorByGIDController.cs" />
     <Compile Include="API\BillingRatesController.cs" />
+    <Compile Include="API\BillingReportController.cs" />
+    <Compile Include="API\ComponentBillingController.cs" />
+    <Compile Include="API\ComponentsController.cs" />
+    <Compile Include="API\DepartmentsController.cs" />
+    <Compile Include="API\EOLController.cs" />
+    <Compile Include="API\EOLReportController.cs" />
     <Compile Include="API\EOLSystemController.cs" />
-    <Compile Include="API\InventoryController.cs" />
+    <Compile Include="API\DatabaseReport.cs" />
+    <Compile Include="API\LeaseReportController.cs" />
     <Compile Include="API\MakeController.cs" />
     <Compile Include="API\ModelController.cs" />
     <Compile Include="API\NewOrdersByPOController.cs" />
     <Compile Include="API\NewOrdersController.cs" />
     <Compile Include="API\NewOrdersEOLController.cs" />
-    <Compile Include="API\NewOrdersPreScanController.cs" />
-    <Compile Include="API\OrdersController.cs" />
+    <Compile Include="API\ParseIGFController.cs" />
     <Compile Include="API\POController.cs" />
     <Compile Include="API\RepairsController.cs" />
     <Compile Include="API\ScanController.cs" />
+    <Compile Include="API\StatementManagementController.cs" />
+    <Compile Include="API\TransferController.cs" />
     <Compile Include="API\TypeController.cs" />
+    <Compile Include="API\VendorEmailsController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -205,10 +212,22 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NewOrdersController.cs" />
     <Compile Include="Controllers\NewSRsController.cs" />
+    <Compile Include="Controllers\NGBillingCoordinatorController.cs" />
+    <Compile Include="Controllers\NGBillingRatesController.cs" />
+    <Compile Include="Controllers\NGBillingReportController.cs" />
+    <Compile Include="Controllers\NGComponentsController.cs" />
+    <Compile Include="Controllers\NGController.cs" />
+    <Compile Include="Controllers\NGDatabaseReportController.cs" />
+    <Compile Include="Controllers\NGDepartmentsController.cs" />
+    <Compile Include="Controllers\NGEOLController.cs" />
+    <Compile Include="Controllers\NGLeaseReportController.cs" />
     <Compile Include="Controllers\NGOrdersByPOController.cs" />
     <Compile Include="Controllers\NGOrdersController.cs" />
+    <Compile Include="Controllers\NGParseIGFController.cs" />
     <Compile Include="Controllers\NGRepairController.cs" />
     <Compile Include="Controllers\NGScanController.cs" />
+    <Compile Include="Controllers\NGStatementManagementController.cs" />
+    <Compile Include="Controllers\NGVendorEmailController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\OverheadRateController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
@@ -231,6 +250,8 @@
     <Compile Include="Models\BillingCoordinatorModel.cs" />
     <Compile Include="Models\BillingModel.cs" />
     <Compile Include="Models\ComponentModel.cs" />
+    <Compile Include="Models\NGComponentModel.cs" />
+    <Compile Include="Models\NGComponentsModel.cs" />
     <Compile Include="Models\DepartmentModel.cs" />
     <Compile Include="Models\EOLModel.cs" />
     <Compile Include="Models\Grid\BillingCoordinatorJqGridModel.cs" />
@@ -243,6 +264,8 @@
     <Compile Include="Models\Grid\FileJqGridModel.cs" />
     <Compile Include="Models\Grid\OrdersJqGridModel.cs" />
     <Compile Include="Models\Grid\VendorRateJqGridModel.cs" />
+    <Compile Include="Models\NGConfigurationModel.cs" />
+    <Compile Include="Models\NGEOLComponentModel.cs" />
     <Compile Include="Models\NGRateInfoModel.cs" />
     <Compile Include="Models\NGNewOrdersByPOModel.cs" />
     <Compile Include="Models\NGNewOrdersModel.cs" />
@@ -499,10 +522,19 @@
     <Content Include="Scripts\loading-bar.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\NG\bfApp.js" />
+    <Content Include="Scripts\NG\billingCoordinator\billingCoordinatorController.js" />
+    <Content Include="Scripts\NG\billingRates\billingRates.js" />
+    <Content Include="Scripts\NG\billingReport\billingReportController.js" />
+    <Content Include="Scripts\NG\components\componentsController.js" />
+    <Content Include="Scripts\NG\departments\departmentsController.js" />
+    <Content Include="Scripts\NG\eol\eolController.js" />
     <Content Include="Scripts\NG\ordersByPO\ordersController.js" />
     <Content Include="Scripts\NG\orders\ordersController.js" />
+    <Content Include="Scripts\NG\parseIGF\parseIGF.js" />
     <Content Include="Scripts\NG\repairs\repairsController.js" />
     <Content Include="Scripts\NG\scan\scanController.js" />
+    <Content Include="Scripts\NG\statementManagement\statementManagementController.js" />
+    <Content Include="Scripts\NG\vendorEmails\vendorEmails.js" />
     <Content Include="Scripts\trirand\i18n\grid.locale-ar.js" />
     <Content Include="Scripts\trirand\i18n\grid.locale-bg.js" />
     <Content Include="Scripts\trirand\i18n\grid.locale-bg1251.js" />
@@ -637,6 +669,25 @@
     <Content Include="Views\NGOrdersByPO\Home.cshtml" />
     <Content Include="Views\NGOrdersByPO\System.cshtml" />
     <Content Include="Views\NGOrdersByPO\Billing.cshtml" />
+    <Content Include="Views\Reports\GetDepartmentList.cshtml" />
+    <Content Include="Views\NGOrdersByPO\Transfer.cshtml" />
+    <Content Include="Views\NG\Index.cshtml" />
+    <Content Include="Views\NGBillingReport\SimpleBilling.cshtml" />
+    <Content Include="Views\NGBillingReport\DetailedBilling.cshtml" />
+    <Content Include="Views\NGStatementManagement\Index.cshtml" />
+    <Content Include="Views\NGParseIGF\Index.cshtml" />
+    <Content Include="Views\NGVendorEmail\Index.cshtml" />
+    <Content Include="Views\NGComponents\Index.cshtml" />
+    <Content Include="Views\NGComponents\Home.cshtml" />
+    <Content Include="Views\NGComponents\Component.cshtml" />
+    <Content Include="Views\NGBillingCoordinator\Index.cshtml" />
+    <Content Include="Views\NGBillingCoordinator\FOPView.cshtml" />
+    <Content Include="Views\NGBillingCoordinator\GIDView.cshtml" />
+    <Content Include="Views\NGDepartments\Index.cshtml" />
+    <Content Include="Views\NGEOL\Index.cshtml" />
+    <Content Include="Views\NGLeaseReport\Index.cshtml" />
+    <Content Include="Views\NGBillingRates\Index.cshtml" />
+    <Content Include="Views\NGDatabaseReport\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -648,6 +699,10 @@
     <ProjectReference Include="..\aulease.Entities\aulease.Entities.csproj">
       <Project>{be1834e0-5361-46af-9787-853e6e9f30be}</Project>
       <Name>aulease.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LeasingDatabase.Billing\LeasingDatabase.Billing.csproj">
+      <Project>{35c8e411-f13f-430a-8c2f-4ac13bb2accc}</Project>
+      <Name>LeasingDatabase.Billing</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

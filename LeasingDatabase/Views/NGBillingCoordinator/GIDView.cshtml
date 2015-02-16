@@ -1,0 +1,24 @@
+﻿<div class="col-sm-6 col-sm-offset-3">
+  <button class="pull-right btn btn-default" ng-show="!vm.edit" ng-click="vm.editMode()">Edit</button>
+  <button class="pull-right btn btn-danger" ng-show="vm.edit" ng-click="vm.cancelMode()">Cancel</button>
+  <button class="pull-right btn btn-primary" ng-show="vm.edit" ng-click="vm.saveMode()">Save</button>
+  
+  <div class="col-sm-3"><p>Billing Access:</p></div>
+  <div class="col-sm-2"><edit-checkbox editing="vm.edit" ng-model="vm.GID.BillingAccess"></edit-checkbox></div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="text-center">FOP</th>
+        <th ng-if="vm.edit">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="dept in vm.GID.FOPs">
+        <td class="text-center"><edit-input editing="vm.edit" ng-model="dept"></edit-input></td>
+        <td ng-if="vm.edit"><button class="btn btn-danger" ng-click="vm.removeFromGID(dept)"><i class="fa fa-minus"></i> Remove</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="btn btn-block btn-default" ng-if="vm.edit" ng-click="vm.addToGID()">Add FOP</button>
+</div>
