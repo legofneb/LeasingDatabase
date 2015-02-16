@@ -7,24 +7,14 @@ using System.Web.Http;
 using LeasingDatabase.Models;
 using aulease.Entities;
 using System.Web.Mvc;
+using CWSToolkit;
 
 namespace LeasingDatabase.API
 {
     public class NewOrdersEOLController : ApiController
-    {
-        // GET api/neworderseol
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/neworderseol/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
+    { 
         // POST api/neworderseol
+        [AuthorizeUser("Admin", "Users")]
         public NGEOLComponentModel Post([FromBody]NGEOLComponentModel eolModel)
         {
             AuleaseEntities db = new AuleaseEntities();

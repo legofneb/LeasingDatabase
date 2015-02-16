@@ -1,4 +1,5 @@
 ﻿using aulease.Entities;
+using CWSToolkit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,7 @@ namespace LeasingDatabase.API
         }
 
         // GET api/scan/5
+        [AuthorizeUser("Admin", "Users")]
         public ScanOrder Get(string id)
         {
             AuleaseEntities db = new AuleaseEntities();
@@ -98,6 +100,7 @@ namespace LeasingDatabase.API
         
 
         // POST api/scan
+        [AuthorizeUser("Admin", "Users")]
         public void Post([FromBody]IEnumerable<ScanSystem> value)
         {
             AuleaseEntities db = new AuleaseEntities();

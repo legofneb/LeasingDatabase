@@ -36,6 +36,7 @@ namespace LeasingDatabase.API
     public class RepairsController : ApiController
     {
         // GET api/repairs
+        [AuthorizeUser("Admin", "Users")]
         public IEnumerable<RepairsViewModel> Get()
         {
             AuleaseEntities db = new AuleaseEntities();
@@ -67,13 +68,8 @@ namespace LeasingDatabase.API
             return model;
         }
 
-        // GET api/repairs/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST api/repairs
+        [AuthorizeUser("Admin", "Users")]
         public void Post([FromBody]dynamic repair)
         {
             string SerialNumber = repair.SerialNumber;
@@ -96,6 +92,7 @@ namespace LeasingDatabase.API
         }
 
         // PUT api/repairs/5
+        [AuthorizeUser("Admin", "Users")]
         public void Put(int id, [FromBody]dynamic repair)
         {
             string SerialNumber = repair.SerialNumber;

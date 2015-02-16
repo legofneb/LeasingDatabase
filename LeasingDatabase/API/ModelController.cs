@@ -1,4 +1,5 @@
 ﻿using aulease.Entities;
+using CWSToolkit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace LeasingDatabase.API
         }
 
         // GET api/model
+        [AuthorizeUser("Admin", "Users")]
         public IEnumerable<ModelViewModel> Get()
         {
             AuleaseEntities db = new AuleaseEntities();
@@ -33,27 +35,6 @@ namespace LeasingDatabase.API
             //Models.Concat(NewModels);
 
             return Models.Select(n => new ModelViewModel() { Id = n.Id, Name = n.Name });
-        }
-
-        // GET api/model/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/model
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/model/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/model/5
-        public void Delete(int id)
-        {
         }
     }
 }

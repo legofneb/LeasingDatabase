@@ -1,4 +1,5 @@
 ﻿using aulease.Entities;
+using CWSToolkit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace LeasingDatabase.API
         public string Name { get; set; }
     }
 
+    [AuthorizeUser("Admin", "Users")]
     public class TypeController : ApiController
     {
         // GET api/type
@@ -23,27 +25,6 @@ namespace LeasingDatabase.API
 
             IEnumerable<TypeViewModel> Types = db.Types.Select(n => new TypeViewModel { Id = n.Id, Name = n.Name });
             return Types;
-        }
-
-        // GET api/type/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/type
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/type/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/type/5
-        public void Delete(int id)
-        {
         }
     }
 }

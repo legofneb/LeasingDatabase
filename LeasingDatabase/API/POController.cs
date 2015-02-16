@@ -51,19 +51,31 @@ namespace LeasingDatabase.API
         }
 
         // POST api/po
-        public void Post([FromBody]List<string> orderIds)
+        public void Post(GroupModel req)
         {
+            List<int> cart = req.cart;
+            string newSR = req.newSR;
+
             AuleaseEntities db = new AuleaseEntities();
+
+            List<Order> orders = db.Orders.Where(n => cart.Contains(n.Id)).ToList();
+            PO SR = new PO() { PONumber = newSR.ToUpper().Trim() };
+
+            foreach (var order in orders)
+            {
+                foreach (var systemGroup in order.SystemGroups)
+                {
+                    systemGroup.PO = SR;
+                }
+            }
+
+
         }
 
-        // PUT api/po/5
-        public void Put(int id, [FromBody]string value)
+        public class GroupModel
         {
-        }
-
-        // DELETE api/po/5
-        public void Delete(int id)
-        {
+            public List<int> cart { get; set; }
+            public string newSR { get; set; }
         }
     }
 }

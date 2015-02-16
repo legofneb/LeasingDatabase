@@ -6,24 +6,14 @@ using System.Net.Http;
 using System.Web.Http;
 using LeasingDatabase.Models;
 using aulease.Entities;
+using CWSToolkit;
 
 namespace LeasingDatabase.API
 {
     public class EOLSystemController : ApiController
-    {
-        // GET api/eolsystem
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/eolsystem/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
+    { 
         // GET api/EOLSystem?text={{info}}
+        [AuthorizeUser("Admin", "Users")]
         public IEnumerable<NGComponentModel> Get(string text)
         {
             string Text = text.Trim();

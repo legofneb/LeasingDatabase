@@ -1,4 +1,5 @@
 ﻿using aulease.Entities;
+using CWSToolkit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace LeasingDatabase.API
     {
 
         // GET api/make
+        [AuthorizeUser("Admin", "Users")]
         public IEnumerable<MakeViewModel> Get()
         {
             AuleaseEntities db = new AuleaseEntities();
@@ -33,27 +35,6 @@ namespace LeasingDatabase.API
             //IEnumerable<Make> NewMakes = db.Leases.Where(n => n.MonthlyCharge == null || !n.EndDate.HasValue).Select(n => n.Component).Where(n => n.MakeId != null).Select(n => n.Make).Distinct().ToList();
 
             return Makes.Distinct().Select(n => new MakeViewModel() {Id=n.Id, Name=n.Name});
-        }
-
-        // GET api/make/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/make
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/make/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/make/5
-        public void Delete(int id)
-        {
         }
     }
 }

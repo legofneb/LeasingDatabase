@@ -1,4 +1,5 @@
 ﻿using aulease.Entities;
+using CWSToolkit;
 using LeasingDatabase.Billing;
 using System;
 using System.Collections.Generic;
@@ -28,19 +29,9 @@ namespace LeasingDatabase.API
 
     public class BillingController : ApiController
     {
-        // GET api/billing
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/billing/5
-        public string Get(int id)
-        {
-            return "value";
-        }
 
         // POST api/billing
+        [AuthorizeUser("Admin")]
         public List<BillingSummary> Post([FromBody]BillingJavascriptObject billingData)
         {
             if (String.IsNullOrWhiteSpace(billingData.SR))
@@ -77,16 +68,6 @@ namespace LeasingDatabase.API
             }
 
             return Summaries;
-        }
-
-        // PUT api/billing/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/billing/5
-        public void Delete(int id)
-        {
         }
     }
 }
