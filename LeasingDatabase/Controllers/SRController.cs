@@ -102,7 +102,6 @@ namespace LeasingDatabase.Controllers
 					Phrase Linebreak = new Phrase();
 					Linebreak.Add(new Chunk("\n\n", FontFactory.GetFont(FontFactory.TIMES_ROMAN, 16)));
 
-					document.Open();
 					Paragraph Header = new Paragraph("AU Lease Form\n", FontFactory.GetFont(FontFactory.TIMES_ROMAN, 14));
 					Header.Alignment = Element.ALIGN_CENTER;
 
@@ -267,9 +266,12 @@ namespace LeasingDatabase.Controllers
 					DamagesLine.Add(new Chunk("Damages:   ", FontFactory.GetFont(FontFactory.TIMES_ROMAN, 10)));
 					DamagesLine.Add(new Chunk("                                                                       ", FontFactory.GetFont(FontFactory.TIMES_ROMAN, 10, Font.UNDERLINE)));
 
-					Phrase CustomerInitialsLine = new Phrase();
+		
+                    Phrase CustomerInitialsLine = new Phrase();
 					CustomerInitialsLine.Add(new Chunk("    Customer Initial:   ", FontFactory.GetFont(FontFactory.TIMES_ROMAN, 10)));
 					CustomerInitialsLine.Add(new Chunk("                         ", FontFactory.GetFont(FontFactory.TIMES_ROMAN, 10, Font.UNDERLINE)));
+
+                    document.Open();
 
 					document.Add(Header);
 					document.Add(new Paragraph("\n"));
@@ -376,9 +378,9 @@ namespace LeasingDatabase.Controllers
             Response.OutputStream.Close();
             Response.End();
 
-            //return File(OutputStream, "application/octat-stream", "SRform.pdf");
+            return File(OutputStream, "application/octat-stream", "SRform.pdf");
 
-			return View();
+			//return View();
 		}
 
 		protected string UnderlineFormat(string word, int characters)
