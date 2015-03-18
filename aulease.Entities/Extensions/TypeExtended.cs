@@ -48,6 +48,12 @@ namespace aulease.Entities {
             
         }
 
+        public bool isNonFinanceType()
+        {
+            string Name = this.Name.ToUpper();
+            return (Name == "CPU" || Name == "LAPTOP" || Name == "SERVER" || Name == "MONITOR");
+        }
+
         public override bool Equals(object obj)
         {
             if (obj.GetType() == typeof(Types))

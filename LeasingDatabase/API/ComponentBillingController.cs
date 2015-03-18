@@ -6,20 +6,10 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using LeasingDatabase.Models;
 
 namespace LeasingDatabase.API
 {
-    public class ComponentBillingModel
-    {
-        public int id { get; set; }
-        public DateTime BeginDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public string StatementName { get; set; }
-        public string ContractNumber { get; set; }
-        public string FOP { get; set; }
-        public string RateLevel { get; set; }
-        public decimal MonthlyCharge { get; set; }
-    }
 
     public class ComponentBillingController : ApiController
     {
@@ -34,8 +24,8 @@ namespace LeasingDatabase.API
             return comp.Leases.Select(n => new ComponentBillingModel
             {
                 id = n.Id,
-                BeginDate = n.BeginDate.Value,
-                EndDate = n.EndDate.Value,
+                BeginDate = n.BeginDate.Value.ToJavaScriptMilliseconds(),
+                EndDate = n.EndDate.Value.ToJavaScriptMilliseconds(),
                 StatementName = n.StatementName,
                 ContractNumber = n.ContractNumber,
                 FOP = n.Department.GetFOP(),
@@ -57,8 +47,8 @@ namespace LeasingDatabase.API
             foreach (var billingComp in model)
             {
                 Lease lease = db.Leases.Where(n => n.Id == billingComp.id).FirstOrDefault();
-                lease.BeginDate = billingComp.BeginDate;
-                lease.EndDate = billingComp.EndDate;
+                lease.BeginDate = new DateTime(billingComp.BeginDate);
+                lease.EndDate = new DateTime(billingComp.EndDate);
                 lease.StatementName = billingComp.StatementName;
                 lease.ContractNumber = billingComp.ContractNumber;
                 lease.Department = FindDepartment(db, billingComp.FOP);

@@ -103,13 +103,7 @@
             <div class="form-group">
               <label class="col-sm-4">Begin Bill Date</label>
               <div class="col-sm-8">
-                <div class="input-group">
-                  <span class="input-group-btn"><button type="button" class="btn" ng-click="vm.decrementBillDate()"><i class="fa fa-minus"></i></button></span>
-                  <span class="form-control text-center">
-                    {{vm.beginBillDate | date:'longDate'}}
-                  </span>
-                  <span class="input-group-btn"><button type="button" class="btn" ng-click="vm.incrementBillDate()"><i class="fa fa-plus"></i></button></span>
-                </div>
+                <edit-date ng-model="vm.beginBillDate" start-day="0"></edit-date>
               </div>
             </div>
             <div class="form-group">

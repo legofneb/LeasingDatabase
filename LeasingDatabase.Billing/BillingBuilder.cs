@@ -117,7 +117,7 @@ namespace LeasingDatabase.Billing
                 ComponentCost.SecondaryCosts = Math.Round(CalculateSecondaryCosts(lease), 2);
                 ComponentCost.OverheadRate = Math.Round(lease.Overhead.Rate, 2);
                 ComponentCost.VendorRate = Math.Round(lease.Charges.Where(n => n.Type == lease.Component.Type).Single().VendorRate.Rate, 2);
-                ComponentCost.VendorInsuranceRate = lease.Charges.Where(n => n.Type.Name == "Insurance").Count() > 0 ? (decimal?)Math.Round(lease.Charges.Where(n => n.Type.Name == "Insurance").FirstOrDefault().VendorRate.Rate, 2) : null;
+                ComponentCost.VendorInsuranceRate = lease.Charges.Where(n => n.Type.Name == "Insurance" || n.Type.Name == "Warranty" || n.Type.Name == "Shipping").Count() > 0 ? (decimal?)Math.Round(lease.Charges.Where(n => n.Type.Name == "Insurance" || n.Type.Name == "Warranty" || n.Type.Name == "Shipping").FirstOrDefault().VendorRate.Rate, 2) : null;
                 ComponentCost.Tax = Math.Round(CalculateTax(lease), 2);
                 ComponentCost.MonthlyCharge = Math.Round(lease.MonthlyCharge.Value, 2);
                 TotalMonthlyCharge += Math.Round(lease.MonthlyCharge.Value, 2);
@@ -155,7 +155,7 @@ namespace LeasingDatabase.Billing
 
                 foreach (var charge in lease.Charges)
                 {
-                    if (isNonFinanceType(charge.Type))
+                    if (charge.Type.isNonFinanceType())
                     {
                         MonthlyCharge += (((charge.Price * charge.VendorRate.Rate / 1000) * (1 + charge.Tax.Price)) + (lease.Overhead.Rate)) * ((decimal)_term + 1) / (decimal)_term;
                     }
@@ -167,12 +167,6 @@ namespace LeasingDatabase.Billing
 
                 lease.MonthlyCharge = MonthlyCharge;
             }
-        }
-
-        private bool isNonFinanceType(aulease.Entities.Type type)
-        {
-            string Name = type.Name.ToUpper();
-            return (Name == "CPU" || Name == "LAPTOP" || Name == "SERVER" || Name == "MONITOR");
         }
 
         private void SetBillingFields()
@@ -276,7 +270,7 @@ namespace LeasingDatabase.Billing
 
         private decimal CalculateSecondaryCosts(Lease lease)
         {
-            List<Charge> Charges = lease.Charges.Where(n => !isNonFinanceType(n.Type)).ToList();
+            List<Charge> Charges = lease.Charges.Where(n => !n.Type.isNonFinanceType()).ToList();
             decimal SecondaryCharges = 0M;
             foreach (var charge in Charges)
             {

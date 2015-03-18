@@ -54,12 +54,22 @@ namespace LeasingDatabase.API
         public void Post(GroupModel req)
         {
             List<int> cart = req.cart;
-            string newSR = req.newSR;
+            string newSR = req.newSR.ToUpper().Trim();
 
             AuleaseEntities db = new AuleaseEntities();
 
             List<Order> orders = db.Orders.Where(n => cart.Contains(n.Id)).ToList();
-            PO SR = new PO() { PONumber = newSR.ToUpper().Trim() };
+            PO SR;
+
+            if (db.POes.Any(n => n.PONumber.ToUpper() == newSR))
+            {
+                SR = db.POes.Where(n => n.PONumber.ToUpper() == newSR).Single();
+            }
+            else
+            {
+                SR = new PO() { PONumber = newSR };
+                db.POes.Add(SR);
+            }
 
             foreach (var order in orders)
             {
@@ -69,7 +79,7 @@ namespace LeasingDatabase.API
                 }
             }
 
-
+            db.SaveChanges();
         }
 
         public class GroupModel

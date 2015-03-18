@@ -9,8 +9,8 @@
     <ul class="dropdown-menu dropdown-menu-inverse" role="menu">
       <li><a ng-click="vm.editOrder()" href="javascript:;">Edit Mode</a></li>
       <li><a ng-click="vm.transferSystem()" href="javascript:;">SR Transfer</a></li>
+      <li><a href="javascript:;">More Details</a></li>
       <li><a href="#">Delete System</a></li>
-      <li><a href="javascript:;">Print SR Form</a></li>
     </ul>
   </div>
 </h3>
@@ -26,7 +26,7 @@
     </div>
     <div class="col-md-4">
       <p ng-if="!vm.editingOrder">{{ vm.selectedComponent.Type }}</p>
-      <au-select ng-if="vm.editingOrder" id="Type{{$index}}" ng-list="vm.types" ng-model="component.Type"></au-select>
+      <au-select ng-if="vm.editingOrder" id="Type{{$index}}" ng-list="vm.types" ng-model="vm.selectedComponent.Type"></au-select>
     </div>
   </div>
 
@@ -36,7 +36,7 @@
     </div>
     <div class="col-md-4">
       <p ng-if="!vm.editingOrder">{{ vm.selectedComponent.Make }}</p>
-      <au-select ng-if="vm.editingOrder" id="Make{{$index}}" ng-enter="vm.addValueToMake('Make{{$index}}')" ng-list="vm.makes" ng-model="component.Make"></au-select>
+      <au-select ng-if="vm.editingOrder" id="Make{{$index}}" ng-enter="vm.addValueToMake('Make{{$index}}')" ng-list="vm.makes" ng-model="vm.selectedComponent.Make"></au-select>
     </div>
   </div>
 
@@ -46,7 +46,7 @@
     </div>
     <div class="col-md-4">
       <p ng-if="!vm.editingOrder">{{ vm.selectedComponent.Model }}</p>
-      <au-select ng-if="vm.editingOrder" id="Model{{$index}}" ng-enter="vm.addValueToModel('Model{{$index}}')" ng-list="vm.models" ng-model="component.Model"></au-select>
+      <au-select ng-if="vm.editingOrder" id="Model{{$index}}" ng-enter="vm.addValueToModel('Model{{$index}}')" ng-list="vm.models" ng-model="vm.selectedComponent.Model"></au-select>
     </div>
   </div>
 
@@ -55,7 +55,7 @@
       <p class="text-silver">Statement Name</p>
     </div>
     <div class="col-md-4">
-      <edit-input editing="vm.editingOrder" ng-model="vm.selectedComponent.StatementName"></edit-input>
+      {{ vm.selectedComponent.BillingData[0].StatementName }}
     </div>
   </div>
   <div class="row">
@@ -79,7 +79,7 @@
       <p class="text-silver">Department Name</p>
     </div>
     <div class="col-md-4">
-      <edit-input editing="vm.editingOrder" ng-model="vm.selectedComponent.DepartmentName"></edit-input>
+      <p>{{vm.selectedComponent.DepartmentName}}</p>
     </div>
   </div>
   <div class="row">
@@ -87,7 +87,7 @@
       <p class="text-silver">FOP</p>
     </div>
     <div class="col-md-4">
-      <edit-input editing="vm.editingOrder" ng-model="vm.selectedComponent.FOP"></edit-input>
+      <p>{{ vm.selectedComponent.BillingData[0].FOP | date:'longDate'}}</p>
     </div>
   </div>
   <div class="row">
@@ -95,7 +95,8 @@
       <p class="text-silver">Rate Level</p>
     </div>
     <div class="col-md-4">
-      <edit-input editing="vm.editingOrder" ng-model="vm.selectedComponent.RateLevel"></edit-input>
+      <span ng-show="!vm.editingOrder">{{vm.selectedComponent.RateLevel}}</span>
+      <edit-select ng-show="vm.editingOrder" ng-list="vm.rateLevels" ng-model="vm.selectedComponent.RateLevel"></edit-select>
     </div>
   </div>
   <div class="row">
@@ -103,7 +104,8 @@
       <p class="text-silver">Term</p>
     </div>
     <div class="col-md-4">
-      <edit-input editing="vm.editingOrder" ng-model="vm.selectedComponent.Term"></edit-input>
+      <span ng-show="!vm.editingOrder">{{vm.selectedComponent.Term}}</span>
+      <edit-select ng-show="vm.editingOrder" ng-list="vm.terms" ng-model="vm.selectedComponent.Term"></edit-select>
     </div>
   </div>
   <div class="row">
@@ -111,7 +113,7 @@
       <p class="text-silver">Contract Number</p>
     </div>
     <div class="col-md-4">
-      <edit-input editing="vm.editingOrder" ng-model="vm.selectedComponent.ContractNumber"></edit-input>
+      <p>{{ vm.selectedComponent.BillingData[vm.selectedComponent.BillingData.length - 1].ContractNumber | date:'longDate'}}</p>
     </div>
   </div>
   <div class="row">
@@ -148,23 +150,116 @@
   </div>
   <div class="row">
     <div class="col-md-3">
-      <p class="text-silver">Begin Billing Date</p>
+      <p class="text-silver">Notes</p>
     </div>
     <div class="col-md-4">
-      <p>{{ vm.selectedComponent.BeginDate | date:'longDate'}}</p>
+      <edit-input editing="vm.editingOrder" ng-model="vm.selectedComponent.Notes"></edit-input>
     </div>
   </div>
   <div class="row">
     <div class="col-md-3">
-      <p class="text-silver">End Billing Date</p>
+      <p class="text-silver">Return Date</p>
     </div>
     <div class="col-md-4">
-      <p>{{ vm.selectedComponent.EndDate | date:'longDate'}}</p>
+      <span ng-show="!vm.editingOrder">{{vm.selectedComponent.ReturnDate | date:'longDate'}}</span><span ng-show="vm.editingOrder"><edit-date start-day="0" ng-model="vm.selectedComponent.ReturnDate"></edit-date></span>
     </div>
   </div>
 
   <hr />
-  <h3>Billing Data</h3>
+  <h3>Billing Data <small><a style="cursor: pointer;" class="text-concrete" ng-if="vm.editingOrder" ng-click="vm.addBillingItem(vm.selectedComponent.BillingData)"><i class="fa fa-plus-square-o"></i> Add Billing Item</a></small></h3>
+
+  <h4 ng-if="vm.editingOrder">Billing Actions <button class="btn btn-link" data-toggle="collapse" data-target="#collapseBilling">Show Actions</button></h4>
+  <div class="collapse" id="collapseBilling" ng-if="vm.editingOrder">
+    <div class="btn-group" data-toggle="buttons">
+      <label class="btn btn-primary active" ng-click="vm.setBillingAction('FOP')">
+        <input type="radio" ng-checked="vm.globalBillingAction == 'FOP'"> Change FOP
+      </label>
+      <label class="btn btn-primary" ng-click="vm.setBillingAction('BuyOut')">
+        <input type="radio" ng-checked="vm.globalBillingAction == 'BuyOut'"> Buy Out Lease
+      </label>
+      <label class="btn btn-primary" ng-click="vm.setBillingAction('Extend')">
+        <input type="radio" ng-checked="vm.globalBillingAction == 'Extend'"> Extend Lease
+      </label>
+    </div>
+
+    <div ng-show="vm.globalBillingAction == 'FOP'">
+      <h6>Change FOP:</h6>
+      <div class="row">
+        <div class="col-md-2">
+          <p class="text-silver">FOP: </p>
+        </div>
+        <div class="col-md-3">
+          <input type="text" class="form-control" ng-keyup="vm.setOrderNumber()" ng-paste="vm.setOrderNumber()" ng-model="vm.globalFOP" placeholder="Enter FOP" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <p class="text-silver">Effective Date: </p>
+        </div>
+        <div class="col-md-3">
+          <edit-date start-day="1" ng-model="vm.globalChangeFOPDate"></edit-date>
+        </div>
+      </div>
+      <div class="col-md-3 col-md-offset-2">
+        <button type="button" class="btn btn-primary btn-block" ng-click="vm.changeFOPForComponent(vm.selectedComponent.BillingData, vm.globalFOP, vm.globalChangeFOPDate)">Change FOP</button>
+      </div>
+    </div>
+    <div ng-show="vm.globalBillingAction == 'BuyOut'">
+      <h6>Buy Out:</h6>
+      <div class="row">
+        <div class="col-md-2">
+          <p class="text-silver">Last Lease Billed Date: </p>
+        </div>
+        <div class="col-md-3">
+          <edit-date start-day="0" ng-model="vm.globalBuyOutEndLeaseDate"></edit-date>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <p class="text-silver">Buy Out Date: </p>
+        </div>
+        <div class="col-md-3">
+          <edit-date start-day="1" ng-model="vm.globalBuyOutDate"></edit-date>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <p class="text-silver">Buy Out Amount: </p>
+        </div>
+        <div class="col-md-3">
+          <input type="text" class="form-control" ng-model="vm.globalBuyOutAmount" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <p class="text-silver">Enter a FOP (optional): </p>
+        </div>
+        <div class="col-md-3">
+          <input type="text" class="form-control" ng-model="vm.globalFOP" placeholder="Enter FOP" />
+        </div>
+      </div>
+      <div class="col-md-3 col-md-offset-2">
+        <button type="button" class="btn btn-primary btn-block" ng-click="vm.buyOutComponent(vm.selectedComponent.BillingData, vm.globalBuyOutAmount, vm.globalBuyOutEndLeaseDate, vm.globalBuyOutDate, vm.globalFOP)">Buy Out</button>
+      </div>
+    </div>
+    <div ng-show="vm.globalBillingAction == 'Extend'">
+      <h6>Extend:</h6>
+      <div class="row">
+        <div class="col-md-2">
+          <p class="text-silver">Months To Extend: </p>
+        </div>
+        <div class="col-md-3">
+          <input type="text" class="form-control" ng-model="vm.globalExtendMonths" />
+        </div>
+      </div>
+      <div class="col-md-3 col-md-offset-2">
+        <button type="button" class="btn btn-primary btn-block" ng-click="vm.extendComponent(vm.selectedComponent.BillingData, vm.globalExtendMonths)">Extend</button>
+      </div>
+    </div>
+    <br></br>
+    <hr />
+  </div>
+
 
   <div class="row">
     <table class="table">
@@ -175,19 +270,19 @@
           <th>Statement Name</th>
           <th>Contract Number</th>
           <th>FOP</th>
-          <th>Rate Level</th>
           <th>Monthly Charge</th>
+          <th ng-if="vm.editingOrder">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="bill in vm.billingData">
-          <td>{{bill.BeginDate | date:'longDate'}}</td>
-          <td>{{bill.EndDate | date:'longDate'}}</td>
-          <td>{{bill.StatementName}}</td>
-          <td>{{bill.ContractNumber}}</td>
-          <td>{{bill.FOP}}</td>
-          <td>{{bill.RateLevel}}</td>
-          <td>{{bill.MonthlyCharge}}</td>
+        <tr ng-repeat="bill in vm.selectedComponent.BillingData">
+          <td style="width: 20%;"><span ng-show="!vm.editingOrder">{{bill.BeginDate | date:'longDate'}}</span><span ng-show="vm.editingOrder"><edit-date start-day="1" ng-model="bill.BeginDate"></edit-date></span></td>
+          <td style="width: 20%;"><span ng-if="!vm.editingOrder">{{bill.EndDate | date:'longDate'}}</span><span ng-if="vm.editingOrder"><edit-date start-day="0" ng-model="bill.EndDate"></edit-date></span></td>
+          <td><edit-input editing="vm.editingOrder" ng-model="bill.StatementName"></edit-input></td>
+          <td><edit-input editing="vm.editingOrder" ng-model="bill.ContractNumber"></edit-input></td>
+          <td><edit-input editing="vm.editingOrder" ng-model="bill.FOP"></edit-input></td>
+          <td><edit-input editing="vm.editingOrder" ng-model="bill.MonthlyCharge"></edit-input></td>
+          <td ng-if="vm.editingOrder"><button class="btn btn-danger" ng-click="vm.removeBillingItem(vm.selectedComponent.BillingData, bill)"><i class="fa fa-minus"></i></button></td>
         </tr>
       </tbody>
     </table>

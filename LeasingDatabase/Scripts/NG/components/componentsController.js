@@ -14,77 +14,68 @@
   initialize();
 
   self.setSelectedOrder = function (order, index) {
+    self.selected = self.orders.indexOf(order);
     self.editingOrder = false;
     self.selectedSystem = undefined;
-    self.selectedRow = undefined;
-    $location.path('/');
 
     self.selectedOrder = angular.copy(order);
     self.backupOrder = angular.copy(order);
-    self.selected = index;
+    
+    console.log(self.selectedOrder);
+    var EndDate = self.selectedOrder.SystemGroups[0].Components[0].BillingData[0].EndDate; // Grab First End Date to reference the default values
+
+    self.globalChangeFOPDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+    self.globalBuyOutEndLeaseDate = new Date(EndDate.getFullYear(), EndDate.getMonth(), 0);
+    self.globalBuyOutDate = new Date(EndDate.getFullYear(), EndDate.getMonth(), 1);
+    self.globalBuyOutAmount = 0;
+    self.globalExtendMonths = 1;
+    self.globalFOP = "";
+    self.globalCharge = "";
+    self.globalBillingAction = 'FOP';
+
+    $location.path('/');
   }
 
   self.editOrder = function () {
-    self.backupOrder = angular.copy(self.selectedOrder);
-    self.backupUsers = angular.copy(self.users);
-    self.backupDepts = angular.copy(self.depts);
     self.editingOrder = true;
   }
 
   self.saveOrder = function () {
     self.editingOrder = false;
 
-    $http.post(rootUrl + 'api/NewOrdersByPO', self.selectedOrder).
+    var order = convertDatesToTicksForSelectedOrder(self.selectedOrder);
+
+    $http.post(rootUrl + 'api/Components', order).
       success(function (data, status, headers, config) {
-        alert("yaaaa");
+        alert("The Order Has Been Saved!");
+        self.searchForComponents();
       }).
       error(function (data, status, headers, config) {
       })
-
-    var ind = -1;
-    angular.forEach(self.orders, function (value, key) {
-      if (value.id == self.selectedOrder.id) {
-        ind = self.orders.indexOf(value);
-      }
-    });
-
-    if (ind >= 0) {
-      self.orders[ind] = angular.copy(self.selectedOrder);
-      self.setSelectedOrder(self.orders[ind], ind);
-    }
   }
 
   self.cancelOrder = function () {
     self.editingOrder = false;
-    self.selectedOrder = self.backupOrder;
-    self.users = self.backupUsers;
-    self.depts = self.backupDepts;
-    self.$apply;
+    self.selectedOrder = angular.copy(self.backupOrder);
+    $location.path('/');
+  }
+
+  self.unfinalizeOrder = function (id) {
+    $http.delete(rootUrl + 'api/Components/' + id).success(function (data) {
+      self.selectedOrder = undefined;
+      self.selected = -1;
+      self.searchForComponents();
+    });
   }
 
   self.setSelectedSystem = function (system) {
     $location.path('/System');
-    self.selectedSystem = system;
+    self.selectedSystem = system;;
   }
 
   self.setSelectedComponent = function (component) {
     $location.path('/Component');
     self.selectedComponent = component;
-    self.getBilling();
-  }
-
-  self.NewUserForComponent = function (component) {
-    var newUser = { GID: "", Phone: "" };
-    self.users.push(newUser);
-
-    component.User = newUser;
-  }
-
-  self.NewFOPForComponent = function (component) {
-    var newFOP = { DepartmentName: "", FOP: "" };
-    self.depts.push(newFOP);
-
-    component.Department = newFOP;
   }
 
   self.addValueToMake = function (id) {
@@ -104,6 +95,127 @@
     }
   }
 
+  self.addBillingItem = function (billingData) {
+    billingData.unshift({
+      BeginDate: billingData[0].BeginDate.getMonth() < 11 ? new Date(billingData[0].EndDate.getFullYear(), billingData[0].EndDate.getMonth()+ 1, 1) : new Date(billingData[0].EndDate.getFullYear() + 1, 0, 1),
+      EndDate: billingData[0].EndDate.getMonth() < 11 ? new Date(billingData[0].EndDate.getFullYear(), billingData[0].EndDate.getMonth() + 2, 0) : new Date(billingData[0].EndDate.getFullYear() + 1, 1, 0),
+      StatementName: billingData[0].StatementName,
+      ContractNumber: billingData[0].ContractNumber,
+      FOP: billingData[0].FOP,
+      RateLevel: billingData[0].RateLevel,
+      MonthlyCharge: billingData[0].MonthlyCharge
+    });
+  }
+
+  self.removeBillingItem = function (billingData, billingItem) {
+    if (billingData.length == 1) {
+      alert("Illegal Operation: Must have at least 1 Billing Item");
+      return;
+    }
+
+    var ind = billingData.indexOf(billingItem);
+    billingData.splice(ind, 1);
+  }
+
+  self.setBillingAction = function (action) {
+    self.globalBillingAction = action;
+    console.log(self.globalBillingAction);
+  }
+
+  self.isBillingAction = function (action) {
+    return action == self.globalBillingAction;
+  }
+
+  self.setContractNumber = function (order, contractNumber) {
+    order.SystemGroups.forEach(function (system) {
+      system.Components.forEach(function (component) {
+        component.BillingData.forEach(function (bill) {
+          bill.ContractNumber = contractNumber;
+        })
+      })
+    })
+  }
+
+  self.changeFOPForComponent = function (billingData, FOP, EffectiveDate) {
+    billingData.unshift({
+      BeginDate: EffectiveDate,
+      EndDate: billingData[0].EndDate,
+      StatementName: billingData[0].StatementName,
+      ContractNumber: billingData[0].ContractNumber,
+      FOP: FOP,
+      RateLevel: billingData[0].RateLevel,
+      MonthlyCharge: billingData[0].MonthlyCharge
+    });
+
+    billingData[1].EndDate = new Date(EffectiveDate.getFullYear(), EffectiveDate.getMonth(), 0);
+  }
+
+  self.changeFOPForSystem = function (system, FOP, EffectiveDate) {
+    system.Components.forEach(function (component) {
+      self.changeFOPForComponent(component.BillingData, FOP, EffectiveDate);
+    })
+  }
+
+  self.changeFOPForOrder = function (order, FOP, EffectiveDate) {
+    order.SystemGroups.forEach(function (system) {
+      self.changeFOPForSystem(system, FOP, EffectiveDate);
+    });
+  }
+  
+  self.buyOutComponent = function (billingData, buyOutAmount, lastLeaseDate, buyOutDate, FOP) {
+
+    billingData[0].EndDate = lastLeaseDate;
+
+    billingData.unshift({
+      BeginDate: new Date(buyOutDate.getFullYear(), buyOutDate.getMonth(), 1),
+      EndDate: buyOutDate,
+      StatementName: billingData[0].StatementName,
+      ContractNumber: billingData[0].ContractNumber,
+      FOP: (FOP != null && FOP.length > 5) ? FOP : billingData[0].FOP,
+      RateLevel: billingData[0].RateLevel,
+      MonthlyCharge: buyOutAmount
+    });
+  }
+
+  self.buyOutSystem = function (system, buyOutAmount, lastLeaseDate, buyOutDate, FOP) {
+    system.Components.forEach(function (component) {
+      self.buyOutComponent(component.BillingData, buyOutAmount, lastLeaseDate, buyOutDate, FOP);
+    })
+  }
+
+  self.buyOutOrder = function (order, buyOutAmount, lastLeaseDate, buyOutDate, FOP) {
+    order.SystemGroups.forEach(function (system) {
+      self.buyOutSystem(system, buyOutAmount, lastLeaseDate, buyOutDate, FOP);
+    });
+  }
+
+  self.extendComponent = function(billingData, ExtendByMonths) {
+    var years = Math.floor(ExtendByMonths/ 12 );
+    var months = ExtendByMonths % 12;
+
+    billingData.unshift({
+      BeginDate: billingData[0].BeginDate.getMonth() < 11 ? new Date(billingData[0].EndDate.getFullYear(), billingData[0].EndDate.getMonth()+ 1, 1) : new Date(billingData[0].EndDate.getFullYear() + 1, 0, 1),
+      EndDate: billingData[0].EndDate.getMonth() + months < 12 ? new Date(billingData[0].EndDate.getFullYear() + years, billingData[0].EndDate.getMonth() + 1 + months, 0) : new Date(billingData[0].EndDate.getFullYear() + 1 + years, months + billingData[0].EndDate.getMonth() - 11, 0),
+      StatementName: billingData[0].StatementName,
+      ContractNumber: billingData[0].ContractNumber,
+      FOP: billingData[0].FOP,
+      RateLevel: billingData[0].RateLevel,
+      MonthlyCharge: billingData[0].MonthlyCharge
+    });
+  }
+
+  self.extendSystem = function (system, ExtendByMonths) {
+    system.Components.forEach(function (component) {
+      self.extendComponent(component.BillingData, ExtendByMonths);
+    })
+  }
+
+  self.extendOrder = function (order, ExtendByMonths) {
+    order.SystemGroups.forEach(function (system) {
+      self.extendSystem(system, ExtendByMonths);
+    });
+  }
+
   self.backToMain = function () {
     $location.path("/");
   }
@@ -112,12 +224,18 @@
     $location.path("/System");
   }
 
+  self.getForm = function (SR) {
+    window.location.href = rootUrl + "SR/Index?SRs=" + SR;
+  }
+
   self.retrieveNextPage = function () {
     if (self.requestInAction == 0) {
       self.requestInAction = 1;
       var currentPageNumber = self.orders.length / 100;
 
       $http.get(rootUrl + 'api/Components/?lastPageNumber=' + currentPageNumber + '&filteredTerms=' + encodeURIComponent(self.searchTerm)).success(function (data) {
+        data = convertTicksToDatesForData(data);
+
         self.orders = self.orders.concat(data);
         self.requestInAction = 0;
       });
@@ -128,19 +246,16 @@
 
   self.searchForComponents = function () {
     if (self.requestInAction == 0) {
+      self.orders = undefined;
       self.requestInAction = 1;
       $http.get(rootUrl + 'api/Components/?lastPageNumber=0&filteredTerms=' + encodeURIComponent(self.searchTerm)).success(function (data) {
+        data = convertTicksToDatesForData(data);
+
         self.orders = data;
         self.requestInAction = 0;
       });
     }
-  }
-
-  self.getBilling = function () {
-    $http.get(rootUrl + 'api/ComponentBilling/' + self.selectedComponent.id).success(function (data) {
-      self.billingData = data;
-    });
-  }
+  };
 
   self.loading = function () {
     return !angular.isObject(self.orders);
@@ -151,12 +266,19 @@
       return false;
     }
 
-    var searchArray = self.searchTerm.split(" ");
+    searchArray = self.searchTerm.match(/\w+|"(?:\\"|[^"])+"/g);
+
+    for (var i = 0; i < searchArray.length; i++) {
+      searchArray[i] = searchArray[i].replace(/['"]+/g, '');
+    }
+
     return componentMatches(component, searchArray);
   }
 
   function initialize() {
     $http.get(rootUrl + 'api/Components').success(function (data) {
+      data = convertTicksToDatesForData(data);
+
       self.orders = data;
     });
 
@@ -172,15 +294,48 @@
       self.models = data;
     });
 
-    self.selected = -1;
-    self.selectedRow = -1;
-    self.editingOrder = false;
-    self.cart = [];
+    self.rateLevels = [{ Name: 'Base' }, { Name: 'Support' }];
+    self.terms = [{ Name: 24 }, { Name: 36 }];
 
-    self.addEOLSystem = { text: undefined };
+    self.editingOrder = false;
 
     $location.path("/");
   };
+
+  function convertTicksToDatesForData(data) {
+    if (data.length > 0) {
+      data.forEach(function (SR) {
+        SR.SystemGroups.forEach(function (group) {
+          group.Components.forEach(function (component) {
+            component.ReturnDate = new Date(component.ReturnDate);
+            component.BillingData.forEach(function (bill) {
+              bill.BeginDate = new Date(bill.BeginDate);
+              bill.EndDate = new Date(bill.EndDate);
+            });
+          });
+        });
+      });
+    }
+
+    return data;
+  }
+
+  function convertDatesToTicksForSelectedOrder(order) {
+    // we don't want to modify the objects, angular might throw an error on one of the date objects
+    var returnOrder = angular.copy(order);
+
+    returnOrder.SystemGroups.forEach(function (group) {
+      group.Components.forEach(function (component) {
+        component.ReturnDate = (component.ReturnDate.getTime() * 10000) + 621355968000000000;
+        component.BillingData.forEach(function (bill) {
+          bill.BeginDate = (bill.BeginDate.getTime() * 10000) + 621355968000000000; // https://stackoverflow.com/questions/7966559/how-to-convert-javascript-date-object-to-ticks
+          bill.EndDate = (bill.EndDate.getTime() * 10000) + 621355968000000000;
+        });
+      });
+    });
+
+    return returnOrder;
+  }
 
 }])
 .directive('ngEnter', function () {
@@ -212,6 +367,8 @@
 });
 
 function componentMatches(component, searchArray) {
+  
+
   var fuzzySearchFindsMatch = false;
   for (var i = 0; i < searchArray.length; i++) {
     fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(component.StatementName, searchArray[i]) || Contains(component.GID, searchArray[i]) || Contains(component.DepartmentName, searchArray[i]);

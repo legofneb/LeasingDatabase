@@ -27,15 +27,20 @@ namespace LeasingDatabase.Models
                         id = o.Id,
                         Date = o.Order.Date.ToString("d"),
                         OrderNumber = o.Leases.FirstOrDefault().Component.OrderNumber,
+                        OrdererFirstName = o.Order.User.FirstName,
+                        OrdererLastName = o.Order.User.LastName,
                         OrdererGID = o.Order.User.GID,
                         OrdererBuilding = o.Order.User.Location.Building,
                         OrdererRoom = o.Order.User.Location.Room,
                         OrdererPhone = o.Order.User.Phone,
 
                         StatementName = o.Leases.FirstOrDefault().StatementName,
+                        FirstName = o.User.FirstName,
+                        LastName = o.User.LastName,
                         GID = o.User.GID,
                         DepartmentName = o.Leases.FirstOrDefault().Department.Name,
                         FOP = o.Leases.FirstOrDefault().Department.GetFOP(),
+                        OperatingSystem = o.Leases.Select(p => p.Component).OrderBy(p => p.TypeId).FirstOrDefault().TypeId.HasValue && (o.Leases.Select(p => p.Component).OrderBy(p => p.TypeId).FirstOrDefault().Type.Name == "CPU" || o.Leases.Select(p => p.Component).OrderBy(p => p.TypeId).FirstOrDefault().Type.Name == "Laptop") && o.Leases.Select(p => p.Component).OrderBy(p => p.TypeId).FirstOrDefault().Properties.Where(p => p.Key == "Operating System").Count() > 0 ? o.Leases.Select(p => p.Component).OrderBy(p => p.TypeId).FirstOrDefault().Properties.Where(p => p.Key == "Operating System").FirstOrDefault().Value : null,
                         RateLevel = o.Leases.FirstOrDefault().Overhead != null ? o.Leases.FirstOrDefault().Overhead.RateLevel : null,
                         Term = o.Leases.FirstOrDefault().Overhead != null ? o.Leases.FirstOrDefault().Overhead.Term : (int?)null,
                         InstallHardware = o.Leases.FirstOrDefault().Component.InstallHardware,
@@ -47,7 +52,7 @@ namespace LeasingDatabase.Models
                         Building = o.Location.Building,
                         Notes = o.Leases.FirstOrDefault().Component.Note,
 
-                        Components = o.Leases.Select(p => p.Component).Distinct().OrderByDescending(p => p.TypeId).Select(p => new NGComponentModel
+                        Components = o.Leases.Select(p => p.Component).Distinct().OrderBy(p => p.TypeId).Select(p => new NGComponentModel
                         {
                             SerialNumber = p.SerialNumber,
                             LeaseTag = p.LeaseTag,
@@ -77,13 +82,13 @@ namespace LeasingDatabase.Models
 
         private static IEnumerable<PO> GetUnBilledPOs(IEnumerable<PO> query)
         {
-            return query.Where(n => n.SystemGroups.Any(o => o.Leases.Any(p => p.MonthlyCharge == null)) && n.SystemGroups.Any(o => o.PO.PONumber != null))
+            return query.Where(n => n.SystemGroups.Any(o => o.Leases.Any(p => p.MonthlyCharge == null)) && n.SystemGroups.Any(o => o.PO.PONumber != null && o.PO.PONumber.Length > 2))
                                                           .OrderByDescending(n => n.PONumber).ToList();
         }
 
         private static IEnumerable<PO> GetUnBilledPOs(IQueryable<PO> query)
         {
-            return query.Where(n => n.SystemGroups.Any(o => o.Leases.Any(p => p.MonthlyCharge == null)) && n.SystemGroups.Any(o => o.PO.PONumber != null))
+            return query.Where(n => n.SystemGroups.Any(o => o.Leases.Any(p => p.MonthlyCharge == null)) && n.SystemGroups.Any(o => o.PO.PONumber != null && o.PO.PONumber.Length > 2))
                                                           .OrderByDescending(n => n.PONumber).ToList();
         }
 
@@ -100,12 +105,16 @@ namespace LeasingDatabase.Models
         public int id { get; set; }
         public string Date { get; set; }
         public string OrderNumber { get; set; }
+        public string OrdererFirstName { get; set; }
+        public string OrdererLastName { get; set; }
         public string OrdererGID { get; set; }
         public string OrdererBuilding { get; set; }
         public string OrdererRoom { get; set; }
         public string OrdererPhone { get; set; }
 
         public string StatementName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string GID { get; set; }
         public string DepartmentName { get; set; }
         public string FOP { get; set; }
@@ -113,6 +122,7 @@ namespace LeasingDatabase.Models
         public int? Term { get; set; }
         public bool InstallHardware { get; set; }
         public bool InstallSoftware { get; set; }
+        public string OperatingSystem { get; set; }
         public bool Renewal { get; set; }
         public string Phone { get; set; }
         public string Room { get; set; }

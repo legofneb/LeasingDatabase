@@ -59,7 +59,59 @@ namespace LeasingDatabase.Models
             return Rates;
         }
 
+        public static List<NGRateInfoModel> GetOverheadRates(AuleaseEntities db)
+        {
+            List<NGRateInfoModel> Rates = new List<NGRateInfoModel>();
+
+            List<Overhead> RatesFromDB = db.Overheads.ToList();
+
+            foreach (aulease.Entities.Type Type in RatesFromDB.Select(n => n.Type).Distinct())
+            {
+                foreach (int Term in RatesFromDB.Select(n => n.Term).Distinct())
+                {
+                    if (!RatesFromDB.Any(n => n.Type == Type && n.Term == Term))
+                    {
+                        continue;
+                    }
+
+                    NGRateInfoModel RateInfoModel = new NGRateInfoModel();
+                    RateInfoModel.Type = Type.Name;
+                    RateInfoModel.Term = Term;
+
+                    List<Overhead> FilteredRates = RatesFromDB.Where(n => n.Type == Type && n.Term == Term).ToList();
+
+                    Overhead CurrentOverheadRate = FilteredRates.OrderByDescending(n => n.BeginDate).Take(1).Single();
+
+                    NGBillingRateModel CurrentRateModel = new NGBillingRateModel();
+                    CurrentRateModel.Month = CurrentOverheadRate.BeginDate.ToString("MMM");
+                    CurrentRateModel.Year = CurrentOverheadRate.BeginDate.ToString("yyyy");
+                    CurrentRateModel.Rate = CurrentOverheadRate.Rate;
+                    RateInfoModel.CurrentRate = CurrentRateModel;
+
+                    if (CheckForPreviousRate(FilteredRates))
+                    {
+                        Overhead PreviousOverheadRate = FilteredRates.OrderByDescending(n => n.BeginDate).Skip(1).Take(1).Single();
+                        NGBillingRateModel PreviousRateModel = new NGBillingRateModel();
+                        PreviousRateModel.Month = PreviousOverheadRate.BeginDate.ToString("MMM");
+                        PreviousRateModel.Year = PreviousOverheadRate.BeginDate.ToString("yyyy");
+                        PreviousRateModel.Rate = PreviousOverheadRate.Rate;
+                        RateInfoModel.PreviousRate = PreviousRateModel;
+                    }
+
+                    Rates.Add(RateInfoModel);
+                }
+
+            }
+            
+            return Rates;
+        }
+
         private static bool CheckForPreviousRate(List<VendorRate> FilteredRates)
+        {
+            return FilteredRates.Count > 1;
+        }
+
+        private static bool CheckForPreviousRate(List<Overhead> FilteredRates)
         {
             return FilteredRates.Count > 1;
         }

@@ -2,7 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
+using System.Collections.Concurrent;
+using System.Text.RegularExpressions;
+using LeasingDatabase.Helpers;
 
 namespace LeasingDatabase.Models
 {
@@ -46,20 +50,27 @@ namespace LeasingDatabase.Models
                             Model = p.Model.Name,
                             SerialNumber = p.SerialNumber,
                             LeaseTag = p.LeaseTag,
-                            StatementName = p.Leases.OrderByDescending(r => r.EndDate).FirstOrDefault().StatementName,
                             DepartmentName = p.Leases.OrderByDescending(r => r.EndDate).FirstOrDefault().Department.Name,
-                            FOP = p.Leases.OrderByDescending(r => r.EndDate).FirstOrDefault().Department.GetFOP(),
                             RateLevel = p.Leases.OrderByDescending(r => r.EndDate).FirstOrDefault().Overhead.RateLevel,
                             Term = p.Leases.OrderByDescending(r => r.EndDate).FirstOrDefault().Overhead.Term,
-                            ContractNumber = p.Leases.OrderByDescending(r => r.EndDate).FirstOrDefault().ContractNumber,
                             Notes = p.Note,
                             OrderNumber = p.OrderNumber,
                             InstallHardware = p.InstallHardware,
                             InstallSoftware = p.InstallSoftware,
                             Renewal = p.Renewal,
-                            BeginDate = p.Leases.OrderByDescending(r => r.EndDate).FirstOrDefault().BeginDate.Value,
-                            EndDate = p.Leases.OrderByDescending(r => r.EndDate).FirstOrDefault().EndDate.Value,
-                            MonthlyCharge = p.Leases.OrderByDescending(r => r.EndDate).FirstOrDefault().MonthlyCharge.Value
+                            ReturnDate = p.ReturnDate.HasValue ? p.ReturnDate.Value.ToJavaScriptMilliseconds() : new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1).ToJavaScriptMilliseconds(),
+                            MonthlyCharge = p.Leases.OrderByDescending(r => r.EndDate).FirstOrDefault().MonthlyCharge.Value,
+                            BillingData = p.Leases.Select(r => new ComponentBillingModel
+                                {
+                                    id = r.Id,
+                                    BeginDate = r.BeginDate.Value.ToJavaScriptMilliseconds(),
+                                    EndDate = r.EndDate.Value.ToJavaScriptMilliseconds(),
+                                    StatementName = r.StatementName,
+                                    ContractNumber = r.ContractNumber,
+                                    FOP = r.Department.GetFOP(),
+                                    RateLevel = r.RateLevel,
+                                    MonthlyCharge = r.MonthlyCharge.Value
+                                })
                         })
                     })
                 });
@@ -77,15 +88,21 @@ namespace LeasingDatabase.Models
         public static IEnumerable<NGComponentsModel> GetPostBillingComponents(AuleaseEntities db, string filteredTerm)
         {
             filteredTerm = filteredTerm.ToUpper();
-            List<string> SearchTerms = filteredTerm.Split(' ').ToList();
+
+
+            //List<string> SearchTerms = filteredTerm.Split(' ').ToList();
+            List<string> SearchTerms = filteredTerm.Split('"')
+                                            .Select((element, index) => index % 2 == 0  // If even index
+                                                ? element.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)  // Split the item
+                                                : new string[] { element })  // Keep the entire item
+                                            .SelectMany(element => element).ToList();
+
             DateTime CutOffDate = DateTime.Now.AddMonths(-6);
 
             IQueryable<Lease> leases = db.Leases.Where(n => n.MonthlyCharge != null).Where(n => n.EndDate > CutOffDate);
 
             string POSearchTerm = "";
             bool filterByPO = true;
-
-            List<string> itemsToRemove = new List<string>();
 
             for (int i =0; i < SearchTerms.Count; i ++)
             {
@@ -96,40 +113,49 @@ namespace LeasingDatabase.Models
                 if (searchTerm == "UNCONTRACTED")
                 {
                     leases = leases.Where(n => n.ContractNumber == null || n.ContractNumber.Length < 1);
-                    itemsToRemove.Add(searchTerm);
                 }
                 else if (db.Users.Any(n => n.GID.ToUpper() == searchTerm))
                 {
                     leases = leases.Where(n => n.SystemGroup.User.GID.ToUpper() == searchTerm || n.SystemGroup.Order.SystemGroups.Select(o => o.Order).Where(o => o.User.GID.ToUpper() == searchTerm).Count() > 0);
-                    itemsToRemove.Add(searchTerm);
+                }
+                else if (db.Leases.Any(n => n.StatementName.Contains(searchTerm)))
+                {
+                    leases = leases.Where(n => n.StatementName.Contains(searchTerm));
                 }
                 else if (db.Components.Any(n => n.LeaseTag.ToUpper().Contains(searchTerm)))
                 {
                     leases = leases.Where(n => n.Component.LeaseTag.ToUpper().Contains(searchTerm));
-                    itemsToRemove.Add(searchTerm);
                 }
                 else if (searchTerm.StartsWith("SR") && searchTerm.Length <= 7)
                 {
                     filterByPO = true;
                     POSearchTerm = searchTerm;
-                    itemsToRemove.Add(searchTerm);
                 }
                 else if (searchTerm.Length == 2 && int.TryParse(searchTerm, out term))
                 {
                     leases = leases.Where(n => n.Overhead.Term == term);
-                    itemsToRemove.Add(searchTerm);
+                }
+                else if (db.Components.Any(n => n.SerialNumber.Contains(searchTerm)))
+                {
+                    leases = leases.Where(n => n.Component.SerialNumber.Contains(searchTerm));
+                }
+                else if (db.Leases.Any(n => n.ContractNumber.Contains(searchTerm)))
+                {
+                    leases = leases.Where(n => n.ContractNumber.Contains(searchTerm));
                 }
                 else if (DateTime.TryParse(searchTerm, out date))
                 {
                     leases = leases.Where(n => (n.BeginDate.HasValue && n.BeginDate.Value.Month == date.Month && n.BeginDate.Value.Year == date.Year) ||
                                                (n.EndDate.HasValue && n.EndDate.Value.Month == date.Month && n.EndDate.Value.Year == date.Year));
-                    itemsToRemove.Add(searchTerm);
                 }
-            }
-
-            foreach (var item in itemsToRemove)
-            {
-                SearchTerms.Remove(item);
+                else if (db.Departments.Any(n => n.Name.Contains(searchTerm)))
+                {
+                    leases = leases.Where(n => n.Department.Name.Contains(searchTerm));
+                }
+                else if (db.Departments.Any(n => n.Fund.Contains(searchTerm) || n.Org.Contains(searchTerm) || n.Program.Contains(searchTerm)))
+                {
+                    leases = leases.Where(n => n.Department.Fund.Contains(searchTerm) || n.Department.Org.Contains(searchTerm) || n.Department.Program.Contains(searchTerm));
+                }
             }
 
             IQueryable<PO> POs = leases.Select(n => n.SystemGroup).Select(n => n.PO).Distinct();
@@ -139,11 +165,12 @@ namespace LeasingDatabase.Models
                 POs = POs.Where(n => n.PONumber.StartsWith(POSearchTerm));
             }
 
-            POs = POs.OrderByDescending(n => n.PONumber);
+            POs = POs.OrderByDescending(n => n.PONumber).Distinct();
 
-            IEnumerable<NGComponentsModel> Components = GetComponentsFromFilteredQuery(POs);
+            IEnumerable<NGComponentsModel> Components = GetComponentsFromFilteredQuery(POs.ToList()).ToList();
 
             List<NGComponentsModel> FilteredComponents = new List<NGComponentsModel>();
+            SearchTerms = SearchTerms.Where(n => n != "UNCONTRACTED").ToList();
 
             if (SearchTerms.Count == 0)
             {
@@ -173,7 +200,7 @@ namespace LeasingDatabase.Models
                                 
                 match = FuzzyStringMatch(comp, singleSearchString.ToUpper());
 
-                if (match) { return match; }
+                if (!match) { return false; }
             }
 
             return match;
@@ -181,9 +208,16 @@ namespace LeasingDatabase.Models
 
         private static bool FuzzyStringMatch(NGComponentsModel comp, string singleSearchString)
         {
+            if (FieldContainsText(comp.SR, singleSearchString))
+            {
+                return true;
+            }
+
             foreach (var systemGroup in comp.SystemGroups)
             {
                 if (FieldMatchesText(systemGroup.Building, singleSearchString) ||
+                    FieldMatchesText(systemGroup.GID, singleSearchString) ||
+                    FieldMatchesText(systemGroup.OrdererGID, singleSearchString) ||
                     FieldMatchesText(systemGroup.OrdererBuilding, singleSearchString) ||
                     FieldMatchesText(systemGroup.OrdererRoom, singleSearchString) ||
                     FieldMatchesText(systemGroup.Room, singleSearchString))
@@ -193,18 +227,27 @@ namespace LeasingDatabase.Models
 
                 foreach (var component in systemGroup.Components)
                 {
-                    if (FieldContainsText(component.ContractNumber, singleSearchString) ||
-                        FieldContainsText(component.DepartmentName, singleSearchString) ||
-                        FieldContainsText(component.FOP, singleSearchString) ||
+                    if (FieldContainsText(component.DepartmentName, singleSearchString) ||
                         FieldMatchesText(component.Make, singleSearchString) ||
                         FieldMatchesText(component.Model, singleSearchString) ||
                         FieldContainsText(component.OrderNumber, singleSearchString) ||
                         FieldMatchesText(component.RateLevel, singleSearchString) ||
                         FieldContainsText(component.SerialNumber, singleSearchString) ||
-                        FieldContainsText(component.StatementName, singleSearchString) ||
+                        FieldContainsText(component.LeaseTag, singleSearchString) ||
                         FieldMatchesText(component.Type, singleSearchString))
                     {
                         return true;
+                    }
+
+                    foreach (var bill in component.BillingData)
+                    {
+                        if (FieldContainsText(bill.ContractNumber, singleSearchString) ||
+                            FieldContainsText(bill.FOP, singleSearchString) ||
+                            FieldContainsText(bill.StatementName, singleSearchString)
+                            )
+                        {
+                            return true;
+                        }
                     }
                 }
 
@@ -260,11 +303,11 @@ namespace LeasingDatabase.Models
         {
             foreach (var component in comp.SystemGroups.SelectMany(n=> n.Components))
             {
-                if (date.Month == component.BeginDate.Month && date.Year == component.BeginDate.Year)
+                if (component.BillingData.Any(n => n.BeginDate.ToDateTime().Month == date.Month) && component.BillingData.Any(n => n.BeginDate.ToDateTime().Year == date.Year))
                 {
                     return true;
                 }
-                else if (date.Month == component.EndDate.Month && date.Year == component.EndDate.Year)
+                else if (component.BillingData.Any(n => n.EndDate.ToDateTime().Month == date.Month) && component.BillingData.Any(n => n.EndDate.ToDateTime().Year == date.Year))
                 {
                     return true;
                 }
@@ -308,16 +351,10 @@ namespace LeasingDatabase.Models
 
         public string SerialNumber { get; set; }
         public string LeaseTag { get; set; }
-        public string StatementName { get; set; }
         public string DepartmentName { get; set; }
-        public string FOP { get; set; }
         public string RateLevel { get; set; }
         public int Term { get; set; }
-        public string ContractNumber { get; set; }
         public string Notes { get; set; }
-
-        
-
 
         public string OrderNumber { get; set; }
 
@@ -325,9 +362,10 @@ namespace LeasingDatabase.Models
         public bool InstallSoftware { get; set; }
         public bool Renewal { get; set; }
 
-        public DateTime BeginDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public long ReturnDate { get; set; }
 
         public decimal MonthlyCharge { get; set; }
+
+        public IEnumerable<ComponentBillingModel> BillingData { get; set; }
     }
 }

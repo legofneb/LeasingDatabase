@@ -40,6 +40,8 @@ namespace LeasingDatabase.API
             {
                 UpdateComponent(db, groupModel);
             }
+
+            db.SaveChanges();
         }
 
         private void UpdateComponent(AuleaseEntities db, NGOrderSystemGroupByPOModel systemGroupModel)
@@ -53,7 +55,7 @@ namespace LeasingDatabase.API
             foreach (var lease in group.Leases)
             {
                 lease.StatementName = systemGroupModel.StatementName;
-                lease.Department = FindOrCreateDepartment(db, systemGroupModel.FOP, systemGroupModel.DepartmentName);
+                lease.Department = FindOrCreateDepartment(db, systemGroupModel.FOP);
                 lease.Component.OrderNumber = systemGroupModel.OrderNumber;
                 lease.Component.InstallHardware = systemGroupModel.InstallHardware;
                 lease.Component.InstallSoftware = systemGroupModel.InstallSoftware;
@@ -63,11 +65,31 @@ namespace LeasingDatabase.API
                 {
                     lease.Overhead = FindOverhead(db, systemGroupModel.RateLevel, systemGroupModel.Term.Value);
                 }
+
+                if (!String.IsNullOrWhiteSpace(systemGroupModel.OperatingSystem) && (lease.Component.Type.Name == "CPU" || lease.Component.Type.Name == "Laptop"))
+                {
+                    Property OldProperty = lease.Component.Properties.Where(n => n.Key == "Operating System").SingleOrDefault();
+
+                    if (OldProperty != null)
+                    {
+                        lease.Component.Properties.Remove(OldProperty);
+                    }
+
+                    string os = systemGroupModel.OperatingSystem.Trim();
+                    Property NewOS = db.Properties.Where(n => n.Key == "Operating System" && n.Value == os).Single();
+
+                    lease.Component.Properties.Add(NewOS);
+                }
             }
 
             for (int i = 0; i < group.Leases.Select(n => n.Component).Count(); i++)
             {
-                Component comp = group.Leases.Select(n => n.Component).Skip(i).Take(1).Single();
+                if (systemGroupModel.Components.First().SerialNumber == null)
+                {
+                    continue;
+                }
+
+                Component comp = group.Leases.Select(n => n.Component).OrderBy(n => n.TypeId).Skip(i).Take(1).Single();
                 comp.SerialNumber = systemGroupModel.Components.Skip(i).Take(1).Single().SerialNumber;
                 comp.LeaseTag = systemGroupModel.Components.Skip(i).Take(1).Single().LeaseTag;
             }
@@ -94,7 +116,7 @@ namespace LeasingDatabase.API
             }
         }
 
-        private Department FindOrCreateDepartment(AuleaseEntities db, string FOP, string DepartmentName)
+        private Department FindOrCreateDepartment(AuleaseEntities db, string FOP)
         {
             string Fund;
             string Org;
@@ -129,7 +151,7 @@ namespace LeasingDatabase.API
             }
             else
             {
-                return new Department() { Fund = Fund, Org = Org, Program = Program, Name = DepartmentName };
+                return new Department() { Fund = Fund, Org = Org, Program = Program };
             }
         }
 
@@ -151,6 +173,7 @@ namespace LeasingDatabase.API
                         Component NewComponent = comp.Clone();
 
                         NewLease.Component = NewComponent;
+                        NewComponent.Leases.Add(NewLease);
 
                         group.Leases.Add(NewLease);
                     }
@@ -182,13 +205,16 @@ namespace LeasingDatabase.API
 
         private Model FindOrCreateModel(AuleaseEntities db, Make make, string model)
         {
-            if (db.Models.Any(n => n.Make.Id == make.Id && n.Name == model))
+            if (db.Models.Any(n => n.Make.Name == make.Name && n.Name == model))
             {
-                return db.Models.Where(n => n.Make.Id == make.Id && n.Name == model).Single();
+                return db.Models.Where(n => n.Make.Name == make.Name && n.Name == model).Single();
             }
             else
             {
-                return new Model() { Make = make, Name = model };
+                Model NewModel = new Model() { Make = make, Name = model };
+                make.Models.Add(NewModel);
+                db.Models.Add(NewModel);
+                return NewModel;
             }
         }
 
@@ -200,7 +226,9 @@ namespace LeasingDatabase.API
             }
             else
             {
-                return new Make() { Name = make };
+                Make NewMake = new Make() { Name = make };
+                db.Makes.Add(NewMake);
+                return NewMake;
             }
         }
 
@@ -215,6 +243,7 @@ namespace LeasingDatabase.API
             {
                 UserObject = new User();
                 UserObject.GID = userName;
+                db.Users.Add(UserObject);
             }
 
             return UserObject;
@@ -245,9 +274,102 @@ namespace LeasingDatabase.API
         {
         }
 
-        // DELETE api/newordersbypo/5
-        public void Delete(int id)
+        // DELETE api/newordersbypo/?action={SR, SystemGroup}&id={5}
+        public void Delete(string action, int id)
         {
+            AuleaseEntities db = new AuleaseEntities();
+
+            if (action == "SR")
+            {
+                PO SinglePO = db.POes.Where(n => n.Id == id).Single();
+                List<Order> orders = SinglePO.SystemGroups.Select(n => n.Order).ToList();
+
+                foreach (var systemGroup in SinglePO.SystemGroups)
+                {
+                    foreach (var comp in systemGroup.Leases.Select(n => n.Component).Distinct())
+                    {
+                        List<Lease> leases = comp.Leases.ToList();
+                        List<Charge> Charges = leases.SelectMany(n => n.Charges).ToList();
+                        int OrderID = leases.Select(n => n.SystemGroup).SingleOrDefault().OrderId;
+                        int? POID = leases.Select(n => n.SystemGroup).SingleOrDefault().POId.HasValue ? (int?)leases.Select(n => n.SystemGroup).Single().POId.Value : null;
+
+                        foreach (var charge in Charges)
+                        {
+                            db.Entry(charge).State = EntityState.Deleted;
+                        }
+
+                        foreach (var lease in leases)
+                        {
+                            db.Entry(lease).State = EntityState.Deleted;
+                        }
+
+                        List<Property> props = comp.Properties.ToList();
+                        foreach (var prop in props)
+                        {
+                            comp.Properties.Remove(prop);
+                        }
+
+                        db.Entry(comp).State = EntityState.Deleted;
+                    }
+
+                    if (systemGroup.Leases.Count == 0)
+                    {
+                        db.Entry(systemGroup).State = EntityState.Deleted;
+                    }
+                }
+
+                if (SinglePO.SystemGroups.Count == 0)
+                {
+                    db.Entry(SinglePO).State = EntityState.Deleted;
+                }
+
+                foreach (var order in orders)
+                {
+                    if (order.SystemGroups.Count == 0)
+                    {
+                        db.Entry(order).State = EntityState.Deleted;
+                    }
+                }
+
+                db.SaveChanges();
+            }
+            else if (action == "SystemGroup")
+            {
+                SystemGroup group = db.SystemGroups.Where(n => n.Id == id).Single();
+
+                foreach (var comp in group.Leases.Select(n => n.Component).Distinct())
+                {
+                    List<Lease> leases = comp.Leases.ToList();
+                    List<Charge> Charges = leases.SelectMany(n => n.Charges).ToList();
+                    int OrderID = leases.Select(n => n.SystemGroup).SingleOrDefault().OrderId;
+                    int? POID = leases.Select(n => n.SystemGroup).SingleOrDefault().POId.HasValue ? (int?)leases.Select(n => n.SystemGroup).Single().POId.Value : null;
+
+                    foreach (var charge in Charges)
+                    {
+                        db.Entry(charge).State = EntityState.Deleted;
+                    }
+
+                    foreach (var lease in leases)
+                    {
+                        db.Entry(lease).State = EntityState.Deleted;
+                    }
+
+                    List<Property> props = comp.Properties.ToList();
+                    foreach (var prop in props)
+                    {
+                        comp.Properties.Remove(prop);
+                    }
+
+                    db.Entry(comp).State = EntityState.Deleted;
+                }
+
+                if (group.Leases.Count == 0)
+                {
+                    db.Entry(group).State = EntityState.Deleted;
+                }
+
+                db.SaveChanges();
+            }
         }
     }
 }

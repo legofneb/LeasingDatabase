@@ -31,10 +31,9 @@
 
 
           <div ng-repeat="order in vm.orders" ng-show="!vm.loading()">
-            <a href="" class="list-group-item" ng-click="vm.setSelectedOrder(order, $index)">
+            <a href="" class="list-group-item" ng-click="vm.setSelectedOrder(order, $index)" ng-class="{active: $index == vm.selected}">
               <h4 class="list-group-item-heading">
-                {{ order.SR }}
-                <span ng-class="{'hidden': vm.cart.indexOf(order) == -1}"><i class="fa fa-check"></i></span>
+                {{ order.SR }} <span class="badge">{{order.SystemGroups.length}}</span>
                 <small>
                   <span ng-repeat="component in order.Configuration">
                     <i ng-if="component.Type == 'Laptop'" class="fa fa-laptop"></i>

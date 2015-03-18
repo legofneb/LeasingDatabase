@@ -26,7 +26,7 @@ namespace LeasingDatabase.API
 
             DateTime SearchDate = DateTime.Now.AddMonths(-36);
 
-            IEnumerable<Make> Makes = db.Orders.Where(n => n.Date >= SearchDate).SelectMany(n => n.SystemGroups).SelectMany(n => n.Leases).Select(n => n.Component).Where(n => n.MakeId != null).Select(n => n.Make).Distinct();
+            IEnumerable<Make> Makes = db.Orders.Where(n => n.Date >= SearchDate).SelectMany(n => n.SystemGroups).SelectMany(n => n.Leases).Select(n => n.Component).Where(n => n.MakeId != null).Select(n => n.Make).Distinct().OrderByDescending(n => n.Components.Count);
 
             // Get Makes from the last 36 months
             //IEnumerable<Make> Makes = db.Leases.Where(n => n.MonthlyCharge !=null && n.EndDate.HasValue && n.EndDate.Value > SearchDate).Select(n => n.Component).Select(n => n.Make).Distinct().ToList();

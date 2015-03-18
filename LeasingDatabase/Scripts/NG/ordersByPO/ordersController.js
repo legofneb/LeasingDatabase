@@ -21,7 +21,7 @@
   var self = this;
   initialize();
 
-  self.setSelectedOrder = function (order, index) {
+  self.setSelectedOrder = function (order) {
     self.editingOrder = false;
     self.selectedSystem = undefined;
     self.selectedRow = undefined;
@@ -32,7 +32,6 @@
 
     self.selectedOrder = angular.copy(order);
     self.backupOrder = angular.copy(order);
-    self.selected = index;
   }
 
   self.editOrder = function () {
@@ -45,24 +44,42 @@
   self.saveOrder = function () {
     self.editingOrder = false;
 
+    var selectedOrderId = self.selectedOrder.id;
+    var selectedSystemId = -1;
+    if (angular.isDefined(self.selectedSystem) && angular.isDefined(self.selectedSystem.id)) {
+      selectedSystemId = self.selectedSystem.id;
+    }
+     
+
+
+    var currentPath = $location.path();
+
     $http.post(rootUrl + 'api/NewOrdersByPO', self.selectedOrder).
       success(function (data, status, headers, config) {
-        alert("yaaaa");
+      
+        $http.get(rootUrl + 'api/NewOrdersByPO').success(function (data) {
+          self.orders = data;
+          setDefaults();
+
+          var orderIndex = -1;
+
+          angular.forEach(self.orders, function (order) {
+            if (order.id == selectedOrderId) {
+              self.setSelectedOrder(order);
+            }
+          });
+
+          if (currentPath == "/System") {
+            angular.forEach(self.selectedOrder.SystemGroups, function (systemGroup) {
+              if (systemGroup.id == selectedSystemId) {
+                self.setSelectedSystem(systemGroup);
+              }
+            });
+          }
+        });
       }).
       error(function (data, status, headers, config) {
       })
-
-    var ind = -1;
-    angular.forEach(self.orders, function (value, key) {
-      if (value.id == self.selectedOrder.id) {
-        ind = self.orders.indexOf(value);
-      }
-    });
-
-    if (ind >= 0) {
-      self.orders[ind] = angular.copy(self.selectedOrder);
-      self.setSelectedOrder(self.orders[ind], ind);
-    }
   }
 
   self.cancelOrder = function () {
@@ -71,6 +88,7 @@
     self.users = self.backupUsers;
     self.depts = self.backupDepts;
     self.$apply;
+    $location.path('/');
   }
 
   self.setSelectedSystem = function (system) {
@@ -79,14 +97,24 @@
   }
 
   self.setOrderNumber = function () {
-    angular.forEach(self.selectedOrder.SystemGroups, function (systemGroup, key) {
-      systemGroup.OrderNumber = self.globalOrderNumber;
-    });
+    $timeout(function () {
+      angular.forEach(self.selectedOrder.SystemGroups, function (systemGroup, key) {
+        systemGroup.OrderNumber = self.globalOrderNumber;
+      });
+    }, 0);
   }
 
   self.setFOP = function () {
+    $timeout(function () {
+      angular.forEach(self.selectedOrder.SystemGroups, function (systemGroup, key) {
+        systemGroup.FOP = self.globalFOP;
+      });
+    }, 0);
+  }
+
+  self.setRateLevel = function (rateLevel) {
     angular.forEach(self.selectedOrder.SystemGroups, function (systemGroup, key) {
-      systemGroup.FOP = self.globalFOP;
+      systemGroup.RateLevel = rateLevel;
     });
   }
 
@@ -94,6 +122,10 @@
     angular.forEach(self.selectedOrder.SystemGroups, function (systemGroup, key) {
       systemGroup.DepartmentName = self.globalDepartmentName;
     });
+  }
+
+  self.changeFOPForSystem = function () {
+    self.selectedSystem.DepartmentName = "";
   }
 
   self.AddEOL = function () {
@@ -222,6 +254,30 @@
     }
   }
 
+  self.incrementSystem = function () {
+    var currentIndex = self.selectedOrder.SystemGroups.indexOf(self.selectedSystem);
+    currentIndex++;
+    if (currentIndex >= self.selectedOrder.SystemGroups.length) {
+      currentIndex = 0;
+    }
+
+    self.selectedSystem = self.selectedOrder.SystemGroups[currentIndex];
+  }
+
+  self.decrementSystem = function () {
+    var currentIndex = self.selectedOrder.SystemGroups.indexOf(self.selectedSystem);
+    currentIndex--;
+    if (currentIndex < 0) {
+      currentIndex = self.selectedOrder.SystemGroups.length - 1;
+    }
+
+    self.selectedSystem = self.selectedOrder.SystemGroups[currentIndex];
+  }
+
+  self.setSystem = function (index) {
+    self.selectedSystem = self.selectedOrder.SystemGroups[index];
+  }
+
   self.usePreviousBillingRate = function () {
     self.billingRate = "previous";
   }
@@ -278,6 +334,10 @@
   }
 
   self.confirmBilling = function () {
+    if (!angular.isDefined(self.suppressEmail)) {
+      self.suppressEmail = false;
+    }
+
     var billingData = {
       SR: self.selectedOrder.SR,
       useCurrentRates: self.billingRate == "current",
@@ -292,7 +352,7 @@
     };
 
     $http.post(rootUrl + 'api/Billing', billingData).success(function (data) {
-      alert("TODO: Remove This billing data from FrontEnd array");
+      initialize();
       $location.path("/");
     })
     .error(function (data) {
@@ -310,38 +370,44 @@
   }
 
   self.navigateToBilling = function () {
-    self.billingIndex = 0;
-    self.billingRate = "current";
-    self.costList = [];
-    self.insurance = 0.00;
-    self.warrantyOrShipping = 0.00;
-    self.billingNotes = undefined;
-    self.suppressEmail = false;
-    self.beginBillDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-    self.incrementBillDate();
-    $location.path("/Billing");
+    var billingCheckPassed = true;
 
-    getBillingRates();
+    angular.forEach(self.selectedOrder.SystemGroups, function (group) {
+      if (group.FOP == null || group.RateLevel == null || group.Term == null || group.FOP.length < 2 || group.RateLevel.length < 2) {
+        billingCheckPassed = false;
+      }
+
+      angular.forEach(group.Components, function(component) {
+        if (component.SerialNumber == null || component.LeaseTag == null || component.SerialNumber.length < 2 || component.LeaseTag < 2) {
+          billingCheckPassed = false;
+        }
+      });
+      
+    })
+
+    if (billingCheckPassed) {
+      self.billingIndex = 0;
+      self.billingRate = "current";
+      self.costList = [];
+      self.insurance = 0.00;
+      self.warrantyOrShipping = 0.00;
+      self.billingNotes = undefined;
+      self.suppressEmail = self.suppressEmail;
+      if (new Date().getMonth() == 11) {
+        self.beginBillDate = new Date(new Date().getFullYear() + 1, 0, 1);
+      } else {
+        self.beginBillDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1);
+      }
+      $location.path("/Billing");
+
+      getBillingRates();
+    } else {
+      alert("There are missing fields necessary for billing.");
+    }
   }
 
   self.cancelBilling = function () {
     $location.path("/");
-  }
-
-  self.incrementBillDate = function () {
-    if (self.beginBillDate.getMonth() < 11) {
-      self.beginBillDate = new Date(self.beginBillDate.getFullYear(), self.beginBillDate.getMonth() + 1, 1);
-    } else {
-      self.beginBillDate = new Date(self.beginBillDate.getFullYear() + 1, 0, 1);
-    }
-  }
-
-  self.decrementBillDate = function () {
-    if (self.beginBillDate.getMonth() > 0) {
-      self.beginBillDate = new Date(self.beginBillDate.getFullYear(), self.beginBillDate.getMonth() - 1, 1);
-    } else {
-      self.beginBillDate = new Date(self.beginBillDate.getFullYear() - 1, 11, 1);
-    }
   }
 
   self.indexForFiltered = function () {
@@ -378,23 +444,37 @@
     return hasAllSerials;
   }
 
+  self.deleteSR = function () {
+    $http.delete(rootUrl + 'api/NewOrdersByPO/?action=SR&id=' + vm.selectedOrder.id).
+      success(function () {
+
+      }).
+      error(function () {
+
+      });
+  }
+
+  self.deleteSystem = function () {
+    $http.delete(rootUrl + 'api/NewOrdersByPO/?action=SystemGroup&id=' + vm.selectedSystemf.id).
+      success(function () {
+
+      }).
+      error(function () {
+
+      });
+  }
+
+  self.getForm = function (SR) {
+    window.location.href = rootUrl + "SR/Index?SRs=" + SR;
+  }
+
   function initialize() {
-    $http.get(rootUrl + 'api/NewOrdersByPO').success(function (data) {
-      self.orders = data;
-    });
+    getOrders();
+    getStaticData();
+    setDefaults();
+  };
 
-    $http.get(rootUrl + 'api/make').success(function (data) {
-      self.makes = data;
-    });
-
-    $http.get(rootUrl + 'api/type').success(function (data) {
-      self.types = data;
-    });
-
-    $http.get(rootUrl + 'api/model').success(function (data) {
-      self.models = data;
-    });
-
+  function setDefaults() {
     self.rateLevels = [{ Name: 'Base' }, { Name: 'Support' }];
     self.terms = [{ Name: 24 }, { Name: 36 }];
 
@@ -407,7 +487,32 @@
     self.addEOLSystem = { text: undefined };
 
     $location.path("/");
-  };
+  }
+
+  function getOrders() {
+    $http.get(rootUrl + 'api/NewOrdersByPO').success(function (data) {
+      self.orders = data;
+    });
+  }
+
+  function getStaticData() {
+    // This data is not expected to change during the course of day-to-ady activities.
+    $http.get(rootUrl + 'api/make').success(function (data) {
+      self.makes = data;
+    });
+
+    $http.get(rootUrl + 'api/type').success(function (data) {
+      self.types = data;
+    });
+
+    $http.get(rootUrl + 'api/model').success(function (data) {
+      self.models = data;
+    });
+
+    $http.get(rootUrl + 'api/operatingsystem').success(function (data) {
+      self.operatingSystems = data;
+    });
+  }
 
   function getBillingRates() {
     $http.get(rootUrl + 'api/BillingRates').success(function (data) {
@@ -477,6 +582,7 @@ function OrderContains(order, searchTerm) {
 
     if (angular.isDefined(order.SystemGroups)) {
       angular.forEach(order.SystemGroups, function (group) {
+        fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(group.OrdererFirstName, searchArray[i]) || Contains(group.OrdererLastName, searchArray[i]);
         fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(group.OrdererGID, searchArray[i]) || Contains(group.OrdererBuilding, searchArray[i]) || Contains(group.OrdererRoom, searchArray[i]);
         fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(group.StatementName, searchArray[i]) || Contains(group.GID, searchArray[i]) || Contains(group.DepartmentName, searchArray[i]);
         fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(group.FOP, searchArray[i]) || Contains(group.RateLevel, searchArray[i]) || Contains(group.Term, searchArray[i]);
@@ -507,6 +613,7 @@ function OrderContains(order, searchTerm) {
 function groupMatches(group, searchArray) {
   var fuzzySearchFindsMatch = false;
   for (var i = 0; i < searchArray.length; i++) {
+    fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(group.FirstName, searchArray[i]) || Contains(group.LastName, searchArray[i]);
     fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(group.OrdererGID, searchArray[i]) || Contains(group.OrdererBuilding, searchArray[i]) || Contains(group.OrdererRoom, searchArray[i]);
     fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(group.StatementName, searchArray[i]) || Contains(group.GID, searchArray[i]) || Contains(group.DepartmentName, searchArray[i]);
     fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(group.FOP, searchArray[i]) || Contains(group.RateLevel, searchArray[i]) || Contains(group.Term, searchArray[i]);

@@ -10,6 +10,8 @@ namespace LeasingDatabase.Models
         public int id { get; set; }
         public string Date { get; set; }
         public string OrderNumber { get; set; }
+        public string OrdererFirstName { get; set; }
+        public string OrdererLastName { get; set; }
         public string OrdererGID { get; set; }
         public string OrdererBuilding { get; set; }
         public string OrdererRoom { get; set; }
@@ -24,6 +26,8 @@ namespace LeasingDatabase.Models
     {
         public int id { get; set; }
         public string StatementName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string GID { get; set; }
         public string DepartmentName { get; set; }
         public string FOP { get; set; }
@@ -35,6 +39,7 @@ namespace LeasingDatabase.Models
         public string Phone { get; set; }
         public string Room { get; set; }
         public string Building { get; set; }
+        public string OperatingSystem { get; set; }
         public IEnumerable<NGComponentModel> Components { get; set; }
         public IEnumerable<NGComponentModel> EOLComponents { get; set; }
 

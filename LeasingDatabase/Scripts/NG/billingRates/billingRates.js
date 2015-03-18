@@ -22,13 +22,33 @@
       rate.CurrentRate.Rate = 0.00;
     });
 
+    self.action = "New";
+
     self.editing = true;
   }
 
   self.editing = false;
 
   self.editCurrentRate = function () {
+    self.modifyRates = angular.copy(self.billingRates);
+    self.action = "Modify";
+    self.editing = true;
+  }
 
+  self.save = function () {
+    if (self.action = "New") {
+      $http.post(rootUrl + 'api/BillingRates', self.modifyRates).success(function (data) {
+        getRates();
+      });
+    } else if (self.action = "Modify") {
+      $http.put(rootUrl + 'api/BillingRates', self.modifyRates).success(function (data) {
+        getRates();
+      });
+    }
+  }
+
+  self.cancelEditing = function () {
+    self.editing = false;
   }
 
   function getRates() {

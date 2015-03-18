@@ -15,6 +15,8 @@ namespace LeasingDatabase.Controllers
         // GET: /Home/
         public ActionResult Index()
         {
+            return RedirectToAction("Index", "NG");
+
 			AuleaseEntities db = new AuleaseEntities();
             ViewData["NewOrders"] = db.SystemGroups.Where(n => n.PO == null).Select(n => n.Order).ToList();
 			ViewData["Repairs"] = db.Repairs.Where(n => n.Status.Id != Status.CompletedRepair).Count();

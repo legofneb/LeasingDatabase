@@ -23,7 +23,7 @@ namespace LeasingDatabase.API
         {
             AuleaseEntities db = new AuleaseEntities();
 
-            IEnumerable<TypeViewModel> Types = db.Types.Select(n => new TypeViewModel { Id = n.Id, Name = n.Name });
+            IEnumerable<TypeViewModel> Types = db.Types.ToList().Where(n => n.isNonFinanceType()).OrderBy(n => n.Id).Select(n => new TypeViewModel { Id = n.Id, Name = n.Name });
             return Types;
         }
     }

@@ -23,7 +23,7 @@ namespace LeasingDatabase.API
         public decimal warrantyOrShipping { get; set; }
         public DateTime beginBillDate { get; set; }
         public string billingNotes { get; set; }
-        public bool? suppressEmail { get; set; }
+        public bool suppressEmail { get; set; }
         public bool confirmed { get; set; }
     }
 
@@ -64,10 +64,77 @@ namespace LeasingDatabase.API
                                                              .SetSystemGroup(SystemGroup);
 
                 Builder.Build();
+
+                if (billingData.confirmed)
+                {
+                    Builder.Apply();
+                }
+
                 Summaries.Add(Builder.GetBillingSummary());
             }
 
+            if (billingData.confirmed && !billingData.suppressEmail)
+            {
+                SendEmail(db.VendorEmails, SR, billingData.billingNotes);
+            }
+
             return Summaries;
+        }
+
+        private void SendEmail(IEnumerable<VendorEmail> VendorEmails, PO SR, string billingNotes)
+        {
+            Email email = new Email();
+            foreach (var mail in VendorEmails)
+            {
+                email.AddTo(mail.EmailAddress);
+            }
+
+            email.From("aulease@auburn.edu");
+            email.HTML = true;
+            string message = "<p>" + billingNotes + "</p><br /><br /><table border\"1\" bgcolor=\"#ffffff\" cellspacing=\"5\"><caption><b>ECOA</b></caption><thead><tr>"
+                            + "<th bgcolor=\"#c0c0c0\" bordercolor=\"#000000\"><font style=\"FONT-SIZE:11pt\" face=\"Calibri\" color=\"#000000\">PO#</font></th>"
+                            + "<th bgcolor=\"#c0c0c0\" bordercolor=\"#000000\"><font style=\"FONT-SIZE:11pt\" face=\"Calibri\" color=\"#000000\">Serial Number</font></th>"
+                            + "<th bgcolor=\"#c0c0c0\" bordercolor=\"#000000\"><font style=\"FONT-SIZE:11pt\" face=\"Calibri\" color=\"#000000\">Component Type</font></th>"
+                            + "<th bgcolor=\"#c0c0c0\" bordercolor=\"#000000\"><font style=\"FONT-SIZE:11pt\" face=\"Calibri\" color=\"#000000\">Order Number</font></th>"
+                            + "<th bgcolor=\"#c0c0c0\" bordercolor=\"#000000\"><font style=\"FONT-SIZE:11pt\" face=\"Calibri\" color=\"#000000\">igfTerm</font></th>"
+                            + "<th bgcolor=\"#c0c0c0\" bordercolor=\"#000000\"><font style=\"FONT-SIZE:11pt\" face=\"Calibri\" color=\"#000000\">Manufacturer</font></th>"
+                            + "<th bgcolor=\"#c0c0c0\" bordercolor=\"#000000\"><font style=\"FONT-SIZE:11pt\" face=\"Calibri\" color=\"#000000\">Component Cost</font></th>"
+                            + "</tr></thead><tbody>";
+
+            foreach (var group in SR.SystemGroups)
+            {
+                foreach (var comp in group.Leases.Select(n => n.Component))
+                {
+                    decimal ComponentCost;
+
+                    try
+                    {
+                        ComponentCost = comp.Leases.OrderBy(n => n.EndDate).FirstOrDefault().Charges.Where(n => n.Type.Id == comp.Type.Id).Single().Price;
+                    }
+                    catch
+                    {
+                        ComponentCost = 0.00M;
+                    }
+
+                    message += "<tr valign=\"TOP\">"
+                                    + "<td bordercolor=\"#d0d7e5\"><font style=\"FONT-SIZE:11pt\" face=\"Calibri\" color=\"#000000\">" + comp.Leases.First().SystemGroup.PO.PONumber + "</font></td>"
+                                    + "<td bordercolor=\"#d0d7e5\"><font style=\"FONT-SIZE:11pt\" face=\"Calibri\" color=\"#000000\">" + comp.SerialNumber + "</font></td>"
+                                    + "<td bordercolor=\"#d0d7e5\"><font style=\"FONT-SIZE:11pt\" face=\"Calibri\" color=\"#000000\">" + comp.Type.Name + "</font></td>"
+                                    + "<td bordercolor=\"#d0d7e5\"><font style=\"FONT-SIZE:11pt\" face=\"Calibri\" color=\"#000000\">" + comp.OrderNumber + "</font></td>"
+                                    + "<td bordercolor=\"#d0d7e5\"><font style=\"FONT-SIZE:11pt\" face=\"Calibri\" color=\"#000000\">" + (comp.Leases.First().Overhead.Term + 1).ToString() + "</font></td>"
+                                    + "<td bordercolor=\"#d0d7e5\"><font style=\"FONT-SIZE:11pt\" face=\"Calibri\" color=\"#000000\">" + comp.Make.Name + "</font></td>"
+                                    + "<td bordercolor=\"#d0d7e5\"><font style=\"FONT-SIZE:11pt\" face=\"Calibri\" color=\"#000000\">" + ComponentCost + "</font></td>"
+                                    + "</tr>";
+                }
+            }
+
+            message += "</tbody><tfoot></tfoot></table>";
+
+            email.Subject = "AUBURN UNIVERSITY 0639915 COA " + SR.PONumber;
+            email.Body = message;
+            email.AddCC("aulease@auburn.edu");
+
+            email.Send();
         }
     }
 }

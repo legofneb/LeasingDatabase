@@ -3,14 +3,14 @@
   Layout = "~/Views/Shared/_NGLayout.cshtml";
 }
 <!DOCTYPE html>
-<html ng-app="billingRates">
+<html ng-app="overheadRates">
 <head>
-  <title>New Orders</title>
+  <title>Overhead Rates</title>
 
   @Html.Partial("~/Views/Shared/_NGStyles.cshtml")
   @Html.Partial("~/Views/Shared/_NGScripts.cshtml")
   <script type="text/javascript">
-    angular.module("billingRates", ["bfApp", "ngRoute"]).constant('rootUrl', "@Url.Content("~/")");
+    angular.module("overheadRates", ["bfApp", "ngRoute"]).constant('rootUrl', "@Url.Content("~/")");
   </script>
 
 </head>
@@ -18,14 +18,14 @@
 
   @Html.Partial("~/Views/Shared/_NGMenu.cshtml")
 
-  <div class="container-fluid" ng-controller="billingRatesController as vm">
+  <div class="container-fluid" ng-controller="overheadRatesController as vm">
     <div class="row">
       <div class="col-sm-12">
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="row">
               <h3 class="text-center"><i class="fa fa-usd fa-2x"></i></h3>
-              <h3 class="text-center">Billing Rates</h3>
+              <h3 class="text-center">Overhead Rates</h3>
             </div>
             <hr />
 
@@ -54,7 +54,7 @@
                 <thead>
                   <tr>
                     <th></th>
-                    <th class="text-center" ng-repeat="rates in vm.billingRates">
+                    <th class="text-center" ng-repeat="rates in vm.overheadRates">
                       {{rates.Type}}<br />{{rates.Term}}
                     </th>
                   </tr>
@@ -62,19 +62,19 @@
                 <tbody>
                   <tr>
                     <td class="text-center"><strong>Effective Date</strong></td>
-                    <td class="text-center" ng-repeat="rates in vm.billingRates" ng-if="vm.billingRate == 'current'">
+                    <td class="text-center" ng-repeat="rates in vm.overheadRates" ng-if="vm.overheadRate == 'current'">
                       {{rates.CurrentRate.Month}}<br />{{rates.CurrentRate.Year}}
                     </td>
-                    <td class="text-center" ng-repeat="rates in vm.billingRates" ng-if="vm.billingRate == 'previous'">
+                    <td class="text-center" ng-repeat="rates in vm.overheadRates" ng-if="vm.overheadRate == 'previous'">
                       {{rates.PreviousRate.Month}}<br />{{rates.PreviousRate.Year}}
                     </td>
                   </tr>
                   <tr>
                     <td class="text-center"><strong>Rate</strong></td>
-                    <td class="text-center" ng-repeat="rates in vm.billingRates" ng-if="vm.billingRate == 'current'">
+                    <td class="text-center" ng-repeat="rates in vm.overheadRates" ng-if="vm.overheadRate == 'current'">
                       ${{rates.CurrentRate.Rate}}
                     </td>
-                    <td class="text-center" ng-repeat="rates in vm.billingRates" ng-if="vm.billingRate == 'previous'">
+                    <td class="text-center" ng-repeat="rates in vm.overheadRates" ng-if="vm.overheadRate == 'previous'">
                       ${{rates.PreviousRate.Rate}}
                     </td>
                   </tr>
@@ -82,8 +82,8 @@
               </table>
             </div>
             <div class="btn-group">
-              <button type="button" class="btn btn-default" ng-class="{active: vm.billingRate == 'previous'}" ng-click="vm.usePreviousBillingRate()">Previous Rate</button>
-              <button type="button" class="btn btn-default" ng-class="{active: vm.billingRate == 'current'}" ng-click="vm.useCurrentBillingRate()">Current Rate</button>
+              <button type="button" class="btn btn-default" ng-class="{active: vm.overheadRate == 'previous'}" ng-click="vm.usePreviousOverheadRate()">Previous Rate</button>
+              <button type="button" class="btn btn-default" ng-class="{active: vm.overheadRate == 'current'}" ng-click="vm.useCurrentOverheadRate()">Current Rate</button>
             </div>
           </div>
 
@@ -101,7 +101,7 @@
                 <tr>
                   <td class="text-center"><strong>Rate</strong></td>
                   <td class="text-center" ng-repeat="rates in vm.modifyRates">
-                    <input type="text" class="form-control" ng-model="rates.CurrentRate.Rate"/>
+                    <input type="text" class="form-control" ng-model="rates.CurrentRate.Rate" />
                   </td>
                 </tr>
               </tbody>
@@ -112,6 +112,6 @@
     </div>
   </div>
 
-  <script src="~/Scripts/NG/billingRates/billingRates.js"></script>
+  <script src="~/Scripts/NG/overheadRates/overheadRates.js"></script>
 </body>
 </html>

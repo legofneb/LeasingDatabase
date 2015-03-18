@@ -8,7 +8,8 @@
     <button class="btn btn-inverse dropdown-toggle" type="button" data-toggle="dropdown">Order Actions <i class="fa fa-caret-down"></i></button>
     <ul class="dropdown-menu dropdown-menu-inverse" role="menu">
       <li><a href="javascript:;" ng-click="vm.editOrder()">Edit Mode</a></li>
-      <li><a href="javascript:;">Print SR Form</a></li>
+      <li><a href="javascript:;" ng-click="vm.getForm(vm.selectedOrder.SR)">Print SR Form</a></li>
+      <li><a href="javascript:;" confirmed-click="vm.unfinalizeOrder(vm.selectedOrder.id)" ng-confirm-click="Are you sure you want to Unfinalize this order?">Unfinalize</a></li>
     </ul>
   </div>
 
@@ -16,103 +17,304 @@
 <hr />
 
 <div class="col-lg-12">
-  <h4>System Groups</h4>
 
-  <div class="panel panel-default" ng-repeat="systemGroup in vm.selectedOrder.SystemGroups">
-    <div class="panel-heading">
-      <h3 class="panel-title">System #{{ $index + 1 }}</h3>
-    </div>
-    <div class="panel-body">
+  <div class="col-lg-12" ng-if="vm.editingOrder">
+    <h4 ng-if="vm.editingOrder">SR Actions <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTarget">Show Actions</button></h4>
+    <div class="collapse" id="collapseTarget" ng-if="vm.editingOrder">
       <div class="row">
-        <div class="col-sm-2 col-sm-offset-1">
-          <p class="text-silver">GID</p>
+        <div class="col-md-2">
+          <p class="text-silver">Set Contract Number For Order</p>
         </div>
-        <div class="col-sm-3">
-          <p>{{systemGroup.GID}}</p>
+        <div class="col-md-3">
+          <input type="text" class="form-control" ng-model="vm.globalContractNumber" placeholder="Contract Number"/>
         </div>
-
-        <div class="col-sm-2 col-sm-offset-1">
-          <p class="text-silver">Orderer GID</p>
-        </div>
-        <div class="col-sm-3">
-          <p>{{systemGroup.OrdererGID}}</p>
+        <div class="col-md-2">
+          <button type="button" class="btn btn-primary" ng-click="vm.setContractNumber(vm.selectedOrder, vm.globalContractNumber)">Set Contract Number</button>
         </div>
       </div>
-
-      <div class="row">
-        <div class="col-sm-2 col-sm-offset-1">
-          <p class="text-silver">Phone</p>
-        </div>
-        <div class="col-sm-3">
-          <p>{{systemGroup.Phone}}</p>
-        </div>
-
-        <div class="col-sm-2 col-sm-offset-1">
-          <p class="text-silver">Orderer Phone</p>
-        </div>
-        <div class="col-sm-3">
-          <p>{{systemGroup.OrdererPhone}}</p>
-        </div>
+      <br />
+      <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-primary active" ng-click="vm.setBillingAction('FOP')">
+          <input type="radio" ng-checked="vm.globalBillingAction == 'FOP'"> Change FOP
+        </label>
+        <label class="btn btn-primary" ng-click="vm.setBillingAction('BuyOut')">
+          <input type="radio" ng-checked="vm.globalBillingAction == 'BuyOut'"> Buy Out Lease
+        </label>
+        <label class="btn btn-primary" ng-click="vm.setBillingAction('Extend')">
+          <input type="radio" ng-checked="vm.globalBillingAction == 'Extend'"> Extend Lease
+        </label>
       </div>
 
-      <div class="row">
-        <div class="col-sm-2 col-sm-offset-1">
-          <p class="text-silver">Building</p>
+      <div ng-show="vm.globalBillingAction == 'FOP'">
+        <h6>Change FOP:</h6>
+        <div class="row">
+          <div class="col-md-2">
+            <p class="text-silver">FOP: </p>
+          </div>
+          <div class="col-md-3">
+            <input type="text" class="form-control" ng-keyup="vm.setOrderNumber()" ng-paste="vm.setOrderNumber()" ng-model="vm.globalFOP" placeholder="Enter FOP" />
+          </div>
         </div>
-        <div class="col-sm-3">
-          <p>{{systemGroup.Building}}</p>
+        <div class="row">
+          <div class="col-md-2">
+            <p class="text-silver">Effective Date: </p>
+          </div>
+          <div class="col-md-3">
+            <edit-date start-day="1" ng-model="vm.globalChangeFOPDate"></edit-date>
+          </div>
         </div>
-
-        <div class="col-sm-2 col-sm-offset-1">
-          <p class="text-silver">Orderer Building</p>
-        </div>
-        <div class="col-sm-3">
-          <p>{{systemGroup.OrdererBuilding}}</p>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-sm-2 col-sm-offset-1">
-          <p class="text-silver">Room</p>
-        </div>
-        <div class="col-sm-3">
-          <p>{{systemGroup.Room}}</p>
-        </div>
-
-        <div class="col-sm-2 col-sm-offset-1">
-          <p class="text-silver">Orderer Room</p>
-        </div>
-        <div class="col-sm-3">
-          <p>{{systemGroup.OrdererRoom}}</p>
+        <div class="col-md-3 col-md-offset-2">
+          <button type="button" class="btn btn-primary btn-block" ng-click="vm.changeFOPForOrder(vm.selectedOrder, vm.globalFOP, vm.globalChangeFOPDate)">Change FOP</button>
         </div>
       </div>
-
-      <div class="row">
-        <h6>&nbsp;Components</h6>
-        <table class="table table-striped table-bordered table-hover">
-          <thead>
-            <tr>
-              <th>Statement Name</th>
-              <th>Type</th>
-              <th>Make</th>
-              <th>Model</th>
-              <th>Serial Number</th>
-              <th>Lease Tag</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="cursor: pointer;" ng-repeat="component in systemGroup.Components" ng-click="vm.setSelectedComponent(component)" ng-class="{'info': vm.componentMatches(component)}">
-              <td>{{component.StatementName}}</td>
-              <td>{{component.Type}}</td>
-              <td>{{component.Make}}</td>
-              <td>{{component.Model}}</td>
-              <td>{{component.SerialNumber}}</td>
-              <td>{{component.LeaseTag}}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div ng-show="vm.globalBillingAction == 'BuyOut'">
+        <h6>Buy Out:</h6>
+        <div class="row">
+          <div class="col-md-2">
+            <p class="text-silver">Last Lease Billed Date: </p>
+          </div>
+          <div class="col-md-3">
+            <edit-date start-day="0" ng-model="vm.globalBuyOutEndLeaseDate"></edit-date>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <p class="text-silver">Buy Out Date: </p>
+          </div>
+          <div class="col-md-3">
+            <edit-date start-day="1" ng-model="vm.globalBuyOutDate"></edit-date>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <p class="text-silver">Buy Out Amount: </p>
+          </div>
+          <div class="col-md-3">
+            <input type="text" class="form-control" ng-model="vm.globalBuyOutAmount" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <p class="text-silver">Enter a FOP (optional): </p>
+          </div>
+          <div class="col-md-3">
+            <input type="text" class="form-control" ng-model="vm.globalFOP" placeholder="Enter FOP" />
+          </div>
+        </div>
+        <div class="col-md-3 col-md-offset-2">
+          <button type="button" class="btn btn-primary btn-block" ng-click="vm.buyOutOrder(vm.selectedOrder, vm.globalBuyOutAmount, vm.globalBuyOutEndLeaseDate, vm.globalBuyOutDate, vm.globalFOP)">Buy Out</button>
+        </div>
       </div>
+      <div ng-show="vm.globalBillingAction == 'Extend'">
+        <h6>Extend:</h6>
+        <div class="row">
+          <div class="col-md-2">
+            <p class="text-silver">Months To Extend: </p>
+          </div>
+          <div class="col-md-3">
+            <input type="text" class="form-control" ng-model="vm.globalExtendMonths" />
+          </div>
+        </div>
+        <div class="col-md-3 col-md-offset-2">
+          <button type="button" class="btn btn-primary btn-block" ng-click="vm.extendOrder(vm.selectedOrder, vm.globalExtendMonths)">Extend</button>
+        </div>
+      </div>
+      <br></br>
+      <hr />
     </div>
   </div>
+<hr />
+
+<h4>System Groups</h4>
+
+<div class="panel panel-default" ng-repeat="systemGroup in vm.selectedOrder.SystemGroups">
+  <div class="panel-heading">
+    <h3 class="panel-title">System #{{ $index + 1 }}</h3>
+  </div>
+  <div class="panel-body">
+    <h4 ng-if="vm.editingOrder">System Actions <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{$index}}">Show Actions</button></h4>
+    <div class="collapse" id="collapse{{$index}}" ng-if="vm.editingOrder">
+      <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-primary active" ng-click="vm.setBillingAction('FOP')" ng-class="{'active': vm.isBillingAction('FOP')}">
+          <input type="radio" ng-checked="vm.globalBillingAction == 'FOP'"> Change FOP
+        </label>
+        <label class="btn btn-primary" ng-click="vm.setBillingAction('BuyOut')" ng-class="{'active': vm.isBillingAction('BuyOut')}">
+          <input type="radio" ng-checked="vm.globalBillingAction == 'BuyOut'"> Buy Out Lease
+        </label>
+        <label class="btn btn-primary" ng-click="vm.setBillingAction('Extend')" ng-class="{'active': vm.isBillingAction('Extend')}">
+          <input type="radio" ng-checked="vm.globalBillingAction == 'Extend'"> Extend Lease
+        </label>
+      </div>
+
+      <div ng-show="vm.globalBillingAction == 'FOP'">
+        <h6>Change FOP:</h6>
+        <div class="row">
+          <div class="col-md-2">
+            <p class="text-silver">FOP: </p>
+          </div>
+          <div class="col-md-3">
+            <input type="text" class="form-control" ng-keyup="vm.setOrderNumber()" ng-paste="vm.setOrderNumber()" ng-model="vm.globalFOP" placeholder="Enter FOP" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <p class="text-silver">Effective Date: </p>
+          </div>
+          <div class="col-md-3">
+            <edit-date start-day="1" ng-model="vm.globalChangeFOPDate"></edit-date>
+          </div>
+        </div>
+        <div class="col-md-3 col-md-offset-2">
+          <button type="button" class="btn btn-primary btn-block" ng-click="vm.changeFOPForSystem(systemGroup, vm.globalFOP, vm.globalChangeFOPDate)">Change FOP</button>
+        </div>
+      </div>
+      <div ng-show="vm.globalBillingAction == 'BuyOut'">
+        <h6>Buy Out:</h6>
+        <div class="row">
+          <div class="col-md-2">
+            <p class="text-silver">Last Lease Billed Date: </p>
+          </div>
+          <div class="col-md-3">
+            <edit-date start-day="0" ng-model="vm.globalBuyOutEndLeaseDate"></edit-date>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <p class="text-silver">Buy Out Date: </p>
+          </div>
+          <div class="col-md-3">
+            <edit-date start-day="1" ng-model="vm.globalBuyOutDate"></edit-date>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <p class="text-silver">Buy Out Amount: </p>
+          </div>
+          <div class="col-md-3">
+            <input type="text" class="form-control" ng-model="vm.globalBuyOutAmount" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <p class="text-silver">Enter a FOP (optional): </p>
+          </div>
+          <div class="col-md-3">
+            <input type="text" class="form-control" ng-model="vm.globalFOP" placeholder="Enter FOP" />
+          </div>
+        </div>
+        <div class="col-md-3 col-md-offset-2">
+          <button type="button" class="btn btn-primary btn-block" ng-click="vm.buyOutSystem(systemGroup, vm.globalBuyOutAmount, vm.globalBuyOutEndLeaseDate, vm.globalBuyOutDate, vm.globalFOP)">Buy Out</button>
+        </div>
+      </div>
+      <div ng-show="vm.globalBillingAction == 'Extend'">
+        <h6>Extend:</h6>
+        <div class="row">
+          <div class="col-md-2">
+            <p class="text-silver">Months To Extend: </p>
+          </div>
+          <div class="col-md-3">
+            <input type="text" class="form-control" ng-model="vm.globalExtendMonths" />
+          </div>
+        </div>
+        <div class="col-md-3 col-md-offset-2">
+          <button type="button" class="btn btn-primary btn-block" ng-click="vm.extendSystem(systemGroup, vm.globalExtendMonths)">Extend</button>
+        </div>
+      </div>
+      <br></br>
+      <hr />
+    </div>
+    <br />
+
+    <div class="row">
+      <div class="col-sm-2 col-sm-offset-1">
+        <p class="text-silver">GID</p>
+      </div>
+      <div class="col-sm-3">
+        <p><edit-input editing="vm.editingOrder" ng-model="systemGroup.GID"></edit-input></p>
+      </div>
+
+      <div class="col-sm-2 col-sm-offset-1">
+        <p class="text-silver">Orderer GID</p>
+      </div>
+      <div class="col-sm-3">
+        <p>{{systemGroup.OrdererGID}}</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-2 col-sm-offset-1">
+        <p class="text-silver">Phone</p>
+      </div>
+      <div class="col-sm-3">
+        <p><edit-input editing="vm.editingOrder" ng-model="systemGroup.Phone"></edit-input></p>
+      </div>
+
+      <div class="col-sm-2 col-sm-offset-1">
+        <p class="text-silver">Orderer Phone</p>
+      </div>
+      <div class="col-sm-3">
+        <p>{{systemGroup.OrdererPhone}}</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-2 col-sm-offset-1">
+        <p class="text-silver">Building</p>
+      </div>
+      <div class="col-sm-3">
+        <p><edit-input editing="vm.editingOrder" ng-model="systemGroup.Building"></edit-input></p>
+      </div>
+
+      <div class="col-sm-2 col-sm-offset-1">
+        <p class="text-silver">Orderer Building</p>
+      </div>
+      <div class="col-sm-3">
+        <p>{{systemGroup.OrdererBuilding}}</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-2 col-sm-offset-1">
+        <p class="text-silver">Room</p>
+      </div>
+      <div class="col-sm-3">
+        <p><edit-input editing="vm.editingOrder" ng-model="systemGroup.Room"></edit-input></p>
+      </div>
+
+      <div class="col-sm-2 col-sm-offset-1">
+        <p class="text-silver">Orderer Room</p>
+      </div>
+      <div class="col-sm-3">
+        <p>{{systemGroup.OrdererRoom}}</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <h6>&nbsp;Components</h6>
+      <table class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Statement Name</th>
+            <th>Type</th>
+            <th>Make</th>
+            <th>Model</th>
+            <th>Serial Number</th>
+            <th>Lease Tag</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="cursor: pointer;" ng-repeat="component in systemGroup.Components" ng-click="vm.setSelectedComponent(component)" ng-class="{'info': vm.componentMatches(component)}">
+            <td>{{component.BillingData[0].StatementName}}</td>
+            <td>{{component.Type}}</td>
+            <td>{{component.Make}}</td>
+            <td>{{component.Model}}</td>
+            <td>{{component.SerialNumber}}</td>
+            <td>{{component.LeaseTag}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
 </div>

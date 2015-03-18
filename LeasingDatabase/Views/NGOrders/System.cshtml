@@ -1,4 +1,15 @@
 ﻿<h4><small><a style="cursor: pointer;" class="text-asbestos" ng-click="vm.backToMain()"><i class="fa fa-long-arrow-left"></i> Back To Systems</a></small></h4>
+<div class="pagination">
+  <ul>
+    <li class="previous cursor-pointer">
+      <a class="fui-arrow-left" ng-click="vm.decrementSystem()"></a>
+    </li>
+    <li ng-class="{active: $index == vm.selectedOrder.Components.indexOf(vm.selectedSystem)}" ng-repeat="system in vm.selectedOrder.Components" ng-click="vm.setSystem($index)"><a>{{$index + 1}}</a></li>
+    <li class="next cursor-pointer">
+      <a class="fui-arrow-right" ng-click="vm.incrementSystem()"></a>
+    </li>
+  </ul>
+</div>
 
 <div class="row">
   <div class="col-md-3">
@@ -34,10 +45,20 @@
 </div>
 <div class="row">
   <div class="col-md-3">
+    <p class="text-silver">Operating System</p>
+  </div>
+  <div class="col-md-4">
+    <span ng-show="!vm.editingOrder">{{vm.selectedSystem.OperatingSystem}}</span>
+    <edit-select ng-show="vm.editingOrder" ng-list="vm.operatingSystems" ng-model="vm.selectedSystem.OperatingSystem"></edit-select>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3">
     <p class="text-silver">RateLevel</p>
   </div>
   <div class="col-md-4">
-    <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.RateLevel"></edit-input>
+    <span ng-show="!vm.editingOrder">{{vm.selectedSystem.RateLevel}}</span>
+    <edit-select ng-show="vm.editingOrder" ng-list="vm.rateLevels" ng-model="vm.selectedSystem.RateLevel"></edit-select>
   </div>
 </div>
 <div class="row">
@@ -45,7 +66,8 @@
     <p class="text-silver">Term</p>
   </div>
   <div class="col-md-4">
-    <edit-input editing="vm.editingOrder" ng-model="vm.selectedSystem.Term"></edit-input>
+    <span ng-show="!vm.editingOrder">{{vm.selectedSystem.Term}}</span>
+    <edit-select ng-show="vm.editingOrder" ng-list="vm.terms" ng-model="vm.selectedSystem.Term"></edit-select>
   </div>
 </div>
 <div class="row">
@@ -72,3 +94,21 @@
     <edit-checkbox editing="vm.editingOrder" ng-model="vm.selectedSystem.Renewal"></edit-checkbox>
   </div>
 </div>
+<div class="row">
+  <div class="col-md-3">
+    <p class="text-silver">Notes</p>
+  </div>
+  <div class="col-md-4">
+    <edit-textarea rows="3" editing="vm.editingOrder" ng-model="vm.selectedSystem.Notes"></edit-textarea>
+  </div>
+</div>
+
+<div class="row" ng-show="vm.editingOrder">
+  <div class="col-md-3">
+  </div>
+  <div class="col-md-4">
+    <button type="button" class="btn btn-default btn-danger" ng-click="vm.removeSystem(vm.selectedSystem)">Delete System</button>
+  </div>
+</div>
+
+<h4><small><a style="cursor: pointer;" class="text-asbestos" ng-click="vm.backToMain()"><i class="fa fa-long-arrow-left"></i> Back To Systems</a></small></h4>

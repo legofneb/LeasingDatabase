@@ -56,7 +56,7 @@ namespace aulease.Entities
             lease.BeginDate = this.BeginDate;
             lease.EndDate = this.EndDate;
             lease.StatementName = this.StatementName;
-            lease.Timestamp = this.Timestamp;
+            lease.Timestamp = DateTime.Now;
             lease.ContractNumber = this.ContractNumber;
             lease.Department = this.Department;
             lease.MonthlyCharge = this.MonthlyCharge;

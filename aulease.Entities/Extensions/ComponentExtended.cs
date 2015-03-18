@@ -24,7 +24,7 @@ namespace aulease.Entities
 		{
 			get
 			{
-				bool hasOS = this.Properties.Where(n => n.Key == "OS").Count() > 0;
+				bool hasOS = this.Properties.Where(n => n.Key == "Operating System").Count() > 0;
 
 				if (!hasOS)
 				{
@@ -32,7 +32,7 @@ namespace aulease.Entities
 				}
 				else
 				{
-					return this.Properties.Where(n => n.Key == "OS").Select(n => n.Value).FirstOrDefault();
+					return this.Properties.Where(n => n.Key == "Operating System").Select(n => n.Value).FirstOrDefault();
 				}
 			}
 		}
@@ -123,6 +123,7 @@ namespace aulease.Entities
             comp.InstallHardware = this.InstallHardware;
             comp.Note = this.Note;
             comp.Renewal = this.Renewal;
+            comp.Status = this.Status;
 
             return comp;
         }

@@ -555,7 +555,8 @@ namespace LeasingDatabase.Controllers
                                                                        n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("SA Assessment and Strategic Plan") ||
                                                                        n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Student Conduct") ||
                                                                        n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Admissions and Records") ||
-                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Student Counseling Services")
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Student Counseling Services") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Technology Fee Tuition")
                                                                   ).ToList();
             for (int i = 0; i < ComponentsForDavidAndUrsula.Count(); i++)
             {

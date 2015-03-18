@@ -162,6 +162,9 @@
     <Compile Include="API\NewOrdersByPOController.cs" />
     <Compile Include="API\NewOrdersController.cs" />
     <Compile Include="API\NewOrdersEOLController.cs" />
+    <Compile Include="API\NewOrdersPreScanController.cs" />
+    <Compile Include="API\OperatingSystemController.cs" />
+    <Compile Include="API\OverheadRatesController.cs" />
     <Compile Include="API\ParseIGFController.cs" />
     <Compile Include="API\POController.cs" />
     <Compile Include="API\RepairsController.cs" />
@@ -223,6 +226,7 @@
     <Compile Include="Controllers\NGLeaseReportController.cs" />
     <Compile Include="Controllers\NGOrdersByPOController.cs" />
     <Compile Include="Controllers\NGOrdersController.cs" />
+    <Compile Include="Controllers\NGOverheadRatesController.cs" />
     <Compile Include="Controllers\NGParseIGFController.cs" />
     <Compile Include="Controllers\NGRepairController.cs" />
     <Compile Include="Controllers\NGScanController.cs" />
@@ -246,9 +250,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BootstrapExtensions.cs" />
+    <Compile Include="Helpers\DateTimeJavascript.cs" />
     <Compile Include="Helpers\Options.cs" />
     <Compile Include="Models\BillingCoordinatorModel.cs" />
     <Compile Include="Models\BillingModel.cs" />
+    <Compile Include="Models\ComponentBillingModel.cs" />
     <Compile Include="Models\ComponentModel.cs" />
     <Compile Include="Models\NGComponentModel.cs" />
     <Compile Include="Models\NGComponentsModel.cs" />
@@ -530,6 +536,7 @@
     <Content Include="Scripts\NG\eol\eolController.js" />
     <Content Include="Scripts\NG\ordersByPO\ordersController.js" />
     <Content Include="Scripts\NG\orders\ordersController.js" />
+    <Content Include="Scripts\NG\overheadRates\overheadRates.js" />
     <Content Include="Scripts\NG\parseIGF\parseIGF.js" />
     <Content Include="Scripts\NG\repairs\repairsController.js" />
     <Content Include="Scripts\NG\scan\scanController.js" />
@@ -688,6 +695,8 @@
     <Content Include="Views\NGLeaseReport\Index.cshtml" />
     <Content Include="Views\NGBillingRates\Index.cshtml" />
     <Content Include="Views\NGDatabaseReport\Index.cshtml" />
+    <Content Include="Views\NGOverheadRates\Index.cshtml" />
+    <Content Include="Views\NGComponents\BillingActions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

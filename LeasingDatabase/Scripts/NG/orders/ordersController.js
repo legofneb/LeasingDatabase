@@ -42,21 +42,24 @@
     }
   }
 
-  self.setSelectedOrder = function (order, index) {
+  self.setSelectedOrder = function (order) {
     self.selectedOrder = angular.copy(order);
     self.backupOrder = angular.copy(order); // meant to denote a "backup" of the selectedOrder
     self.backToMain();
-    self.selected = index;
   }
 
   self.createNewOrder = function () {
+    if (self.editingOrder) {
+      return;
+    }
+
     newComponent = {
       Configuration: [{ Type: null, Make: null, Model: null}],
       Components: []
     };
 
     self.selectedOrder = pushElementOnArray(newComponent, self.orders);
-    self.selected = self.orders.length - 1;
+    self.backupOrder = null;
     self.editingOrder = true;
   }
 
@@ -71,8 +74,25 @@
       });
   }
 
+  self.removeSystem = function (system) {
+    self.selectedOrder.Components.splice(self.selectedOrder.Components.indexOf(system), 1);
+    self.backToMain();
+  }
+
   self.addToCart = function (order) {
-    self.cart.push(order.id);
+    var fieldCheck = true;
+
+    angular.forEach(self.selectedOrder.Components, function (component) {
+      if (component.RateLevel == null || component.FOP == null || component.Term == null || component.RateLevel.length < 1 || component.FOP.length < 1) {
+        fieldCheck = false;
+      }
+    });
+
+    if (fieldCheck) {
+      self.cart.push(order.id);
+    } else {
+      alert("The order must have RateLevel, FOP, and Term before adding to an SR.");
+    }
   }
 
   self.clearCart = function () {
@@ -87,47 +107,66 @@
   }
 
   self.saveOrder = function () {
+    self.editingOrder = false;
+
+    var selectedOrderId = self.selectedOrder.id;
+    var selectedSystemId = self.selectedSystem.id;
+    var currentPath = $location.path();
+
     $http.post(rootUrl + 'api/NewOrders', self.selectedOrder).
       success(function (data, status, headers, config) {
-        alert("yaaaa");
+
+        $http.get(rootUrl + 'api/NewOrders').success(function (data) {
+          self.orders = data;
+          setDefaults();
+
+          var orderIndex = -1;
+          if (selectedOrderId == undefined || selectedOrderId == null) {
+          } else {
+            angular.forEach(self.orders, function (order) {
+              if (order.id == selectedOrderId) {
+                self.setSelectedOrder(order);
+                orderIndex = self.orders.indexOf(order);
+              }
+            });
+
+            if (currentPath == "/System" && orderIndex >= 0) {
+              angular.forEach(self.selectedOrder.Components, function (component) {
+                if (component.id == selectedSystemId) {
+                  self.componentDetails(component);
+                }
+              });
+            }
+          }
+        });
       }).
       error(function (data, status, headers, config) {
       });
-
-    console.log(self.selectedOrder);
-    self.editingOrder = false;
-    var ind = -1;
-    angular.forEach(self.orders, function (value, key) {
-      if (value.id == self.selectedOrder.id) {
-        ind = self.orders.indexOf(value);
-      }
-    });
-    
-    if (ind >= 0) {
-      self.orders[ind] = angular.copy(self.selectedOrder);
-      self.setSelectedOrder(self.orders[ind], ind);
-    }
 
   }
 
   self.cancelOrder = function () {
     self.editingOrder = false;
-    self.selectedOrder = self.backupOrder;
     self.$apply;
 
     if (self.collapseSidebar) { self.toggleSidebar(); }
 
     if (!angular.isDefined(self.selectedOrder) || (!angular.isDefined(self.selectedOrder.id))) {
-      self.orders.pop(); self.selected = -1;
+      self.orders.pop();
+      self.selectedOrder = null;
+    }
+    else
+    {
+      self.selectedOrder = self.backupOrder;
     }
 
     $location.path("/");
   }
 
   self.deleteOrder = function () {
-    $http.delete(rootUrl + 'api/NewOrders/' + vm.selectedOrder.id).
+    $http.delete(rootUrl + 'api/NewOrders/' + self.selectedOrder.id).
       success(function () {
-
+        initialize();
       }).
       error(function () {
 
@@ -137,7 +176,7 @@
   self.addNewComponent = function (selectedOrder) {
     if (selectedOrder.Configuration.length == 0 || selectedOrder.Configuration[0].Type == null) {
       if (selectedOrder.Configuration.length == 0) {
-        selectedOrder.Configuration.push({})
+        selectedOrder.Configuration.push({ Type: "", Make: "", Model: "" });
       }
 
       selectedOrder.Configuration[0].Type = "Monitor";
@@ -153,8 +192,7 @@
   }
 
   self.addNewSystem = function (selectedOrder) { 
-    self.selectedSystem = pushElementOnArray({}, self.selectedOrder.Components);
-    $location.path("/System");
+    self.componentDetails(pushElementOnArray({}, self.selectedOrder.Components));
   }
 
   self.generateSR = function () {
@@ -167,12 +205,50 @@
     console.log(id);
     if ($("#" + id).find('.highlighted').length == 0) {
       var value = $("#" + id).find('input[type="text"]').val();
-      self.makes.push({ Name: value });
+
+      var found = false;
+      angular.forEach(self.makes, function (make) {
+        if (make.Name == value) {
+          found = true;
+        }
+      });
+      if (!found) {
+        self.makes.push({ Name: value })
+      }
+
       self.$apply;
       $timeout(function () {
 
         $("#" + id + " select").val(value);
         $(".componentType").trigger('chosen:updated'); // Proposed Performance improvement: should limit this to just id Type on update
+        $("#" + id + " select").trigger('chosen:close');
+
+      }, 0);
+    }
+  }
+
+  self.addValueToModel = function (id) {
+    if ($("#" + id).find('.highlighted').length == 0) {
+      var value = $("#" + id).find('input[type="text"]').val();
+      //alert(value);
+
+      var found = false;
+      angular.forEach(self.models, function (model) {
+        if (model.Name == value) {
+          found = true;
+        }
+      });
+      if (!found) {
+        self.models.push({ Name: value })
+      }
+
+
+      //alert(id);
+      self.$apply;
+      $timeout(function () {
+
+        $("#" + id + " select").val(value);
+        $(".componentType").trigger('chosen:updated'); // Performance improvement: should limit this to just id Type on update
         $("#" + id + " select").trigger('chosen:close');
 
       }, 0);
@@ -200,6 +276,52 @@
     return ind;
   }
 
+  self.incrementSystem = function () {
+    var currentIndex = self.selectedOrder.Components.indexOf(self.selectedSystem);
+    currentIndex++;
+    if (currentIndex >= self.selectedOrder.Components.length) {
+      currentIndex = 0;
+    }
+
+    self.selectedSystem = self.selectedOrder.Components[currentIndex];
+  }
+
+  self.decrementSystem = function () {
+    var currentIndex = self.selectedOrder.Components.indexOf(self.selectedSystem);
+    currentIndex--;
+    if (currentIndex < 0) {
+      currentIndex = self.selectedOrder.Components.length - 1;
+    }
+
+    self.selectedSystem = self.selectedOrder.Components[currentIndex];
+  }
+
+  self.setSystem = function (index) {
+    self.selectedSystem = self.selectedOrder.Components[index];
+  }
+
+  self.setFOP = function () {
+    $timeout(function () {
+      angular.forEach(self.selectedOrder.Components, function (system) {
+        system.FOP = self.globalFOP;
+      })
+    }, 0);
+  }
+
+  self.setNotes = function () {
+    $timeout(function () {
+      angular.forEach(self.selectedOrder.Components, function (system) {
+        system.Notes = self.selectedOrder.Notes;
+      })
+    }, 0);
+  }
+
+  self.setRateLevel = function (rateLevel) {
+    angular.forEach(self.selectedOrder.Components, function (system) {
+      system.RateLevel = rateLevel;
+    })
+  }
+
   function pushElementOnArray(element, arr) {
     arr.push(element);
     return arr[arr.length - 1];
@@ -212,6 +334,7 @@
 
     $http.get(rootUrl + 'api/make').success(function (data) {
       self.makes = data;
+      console.log(self.makes);
     });
 
     $http.get(rootUrl + 'api/type').success(function (data) {
@@ -222,14 +345,27 @@
       self.models = data;
     });
 
+    $http.get(rootUrl + 'api/operatingsystem').success(function (data) {
+      self.operatingSystems = data;
+    });
+
+    setDefaults();
+  };
+
+  function setDefaults() {
+    self.rateLevels = [{ Name: 'Base' }, { Name: 'Support' }];
+    self.terms = [{ Name: 24 }, { Name: 36 }];
+
     $location.path("/");
 
+    self.selectedOrder = undefined;
+    self.backupOrder = undefined;
     self.selected = -1;
     self.editingOrder = false;
     self.cart = [];
     self.collapseSidebar = false;
     self.newSR = "";
-  };
+  }
 
 }])
 .filter('searchOrders', function () {
@@ -269,11 +405,11 @@ function OrderContains(order, searchTerm) {
 
 
 
-    var fuzzySearchFindsMatch = Contains(order.OrdererGID, searchArray[i]) || Contains(order.OrdererGID, searchArray[i]) || Contains(order.OrdererBuilding, searchArray[i]) || Contains(order.OrdererRoom, searchArray[i]);
+    var fuzzySearchFindsMatch = Contains(order.OrdererGID, searchArray[i]) || Contains(order.OrdererGID, searchArray[i]) || Contains(order.OrdererBuilding, searchArray[i]) || Contains(order.OrdererRoom, searchArray[i]) || Contains(order.OrdererFirstName, searchArray[i]) || Contains(order.OrdererLastName, searchArray[i]);
 
     if (angular.isDefined(order.Components)) {
       angular.forEach(order.Components, function (component) {
-        fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(component.GID, searchArray[i]) || Contains(component.StatementName, searchArray[i]) || Contains(component.DepartmentName, searchArray[i]);
+        fuzzySearchFindsMatch = fuzzySearchFindsMatch || Contains(component.FirstName, searchArray[i]) || Contains(component.LastName, searchArray[i]) || Contains(component.GID, searchArray[i]) || Contains(component.StatementName, searchArray[i]) || Contains(component.DepartmentName, searchArray[i]);
       });
     }
 

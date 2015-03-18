@@ -25,11 +25,15 @@
       $http.get(rootUrl + 'api/BillingCoordinatorByFOP/?FOP=' + encodeURIComponent(self.searchTerm)).success(function (data) {
         $location.path('/FOP');
         self.FOP = data;
+      }).error(function (data) {
+        alert("No FOP found.")
       });
     } else if (self.searchType == "GID") {
       $http.get(rootUrl + 'api/BillingCoordinatorByGID/?GID=' + encodeURIComponent(self.searchTerm)).success(function (data) {
         $location.path('/GID');
         self.GID = data;
+      }).error(function (data) {
+        alert("No GID found.");
       });
     } else {
       alert("You must select a search type");
@@ -47,13 +51,15 @@
 
   self.saveMode = function () {
     if ($location.path() == "/FOP") {
-      $http.post(rootUrl + 'api/BillingCoordinatorByFOP', self.FOP);
+      $http.post(rootUrl + 'api/BillingCoordinatorByFOP', self.FOP).success(function (data) {
+        self.startSearch();
+      });
     } else if ($location.path() == "/GID") {
-      $http.post(rootUrl + 'api/BillingCoordinatorByGID', self.GID);
+      $http.post(rootUrl + 'api/BillingCoordinatorByGID', self.GID).success(function (data) {
+        self.startSearch();
+      });
     }
-
     self.edit = false;
-    self.startSearch();
   }
 
   self.addToFOP = function () {
