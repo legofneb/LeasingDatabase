@@ -11,6 +11,14 @@ namespace LeasingDatabaseTest
         [TestMethod]
         public void TestMethod1()
         {
+<<<<<<< HEAD
+=======
+            //AuleaseEntities db = new AuleaseEntities();
+            //int count = db.Components.Count();
+
+            //Assert.AreEqual(count, 0);
+
+>>>>>>> adding NGSRController
         }
     }
 }
