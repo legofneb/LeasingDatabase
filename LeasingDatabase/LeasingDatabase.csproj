@@ -231,12 +231,11 @@
     <Compile Include="Controllers\NGParseIGFController.cs" />
     <Compile Include="Controllers\NGRepairController.cs" />
     <Compile Include="Controllers\NGScanController.cs" />
-<<<<<<< HEAD
+
     <Compile Include="Controllers\NGStatementManagementController.cs" />
     <Compile Include="Controllers\NGVendorEmailController.cs" />
-=======
     <Compile Include="Controllers\NGSRController.cs" />
->>>>>>> adding NGSRController
+
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\OverheadRateController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
