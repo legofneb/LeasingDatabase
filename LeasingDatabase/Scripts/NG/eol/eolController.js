@@ -50,7 +50,7 @@
 
     self.timer = $timeout(function () {
       getEOL();
-    }, 500);
+    }, 200);
 
     getEOL();
   }
@@ -64,12 +64,12 @@
     
     self.timer = $timeout(function () {
       getEOL()
-    }, 500);
+    }, 200);
   }
 
   self.editArray = [];
   self.EOLDate = new Date();
-  self.decrementEOLDate();
+  self.incrementEOLDate();
 
 }]);
 

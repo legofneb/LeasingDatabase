@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="369cd36a9a5746348cb3f877a0fc9050" Name="Diagram1" ZoomLevel="89">
+      <Diagram DiagramId="369cd36a9a5746348cb3f877a0fc9050" Name="Diagram1" ZoomLevel="66">
         <EntityTypeShape EntityType="aulease.Entities.Coordinator" Width="1.5" PointX="4.625" PointY="2.125" IsExpanded="true" />
         <EntityTypeShape EntityType="aulease.Entities.Charge" Width="1.5" PointX="6.625" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="aulease.Entities.Component" Width="1.5" PointX="6.625" PointY="7.125" IsExpanded="true" />

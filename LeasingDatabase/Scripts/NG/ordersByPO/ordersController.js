@@ -17,7 +17,7 @@
     templateUrl: rootUrl + "NGOrdersByPO/Home"
   });
 })
-.controller('SRController', ['rootUrl', '$http', '$timeout','$location', 'searchOrdersByPOFilter', function (rootUrl, $http, $timeout, $location, searchOrdersByPOFilter) {
+.controller('SRController', ['rootUrl', '$http', '$timeout','$location', 'searchOrdersByPOFilter', '$scope', function (rootUrl, $http, $timeout, $location, searchOrdersByPOFilter, $scope) {
   var self = this;
   initialize();
 
@@ -56,6 +56,7 @@
 
     $http.post(rootUrl + 'api/NewOrdersByPO', self.selectedOrder).
       success(function (data, status, headers, config) {
+        alert("The Order has been saved!");
       
         $http.get(rootUrl + 'api/NewOrdersByPO').success(function (data) {
           self.orders = data;
@@ -79,6 +80,7 @@
         });
       }).
       error(function (data, status, headers, config) {
+        alert("An error has occurred");
       })
   }
 
@@ -135,6 +137,11 @@
   self.AddComponent = function () {
     self.selectedOrder.Configuration.push({ Type: "Monitor", Make: "Dell", Model: "P2414" });
     console.log(self.selectedOrder);
+  }
+
+  self.removeComponent = function (component) {
+    var ind = self.selectedOrder.Configuration.indexOf(component);
+    self.selectedOrder.Configuration.splice(ind, 1);
   }
 
   self.AddEOLComponent = function () {
@@ -200,6 +207,9 @@
         $(".componentType").trigger('chosen:updated'); // Performance improvement: should limit this to just id Type on update
         $("#" + id + " select").trigger('chosen:close');
 
+        var index = parseInt(id.replace("Make", ""));
+        self.selectedOrder.Configuration[index].Make = value;
+
       }, 0);
     }
   }
@@ -227,9 +237,14 @@
         $("#" + id + " select").val(value);
         $(".componentType").trigger('chosen:updated'); // Performance improvement: should limit this to just id Type on update
         $("#" + id + " select").trigger('chosen:close');
+        
+        var index = parseInt(id.replace("Model", ""));
+        self.selectedOrder.Configuration[index].Model = value;
 
       }, 0);
     }
+
+    
   }
 
   self.generateSR = function () {
@@ -302,10 +317,12 @@
 
   self.transferSystemPOST = function () {
     $http.post(rootUrl + 'api/Transfer', self.transfer).success(function (data) {
-      alert("yay");
+      alert("The system has been transfered");
+      initialize();
+      $location.path('/');
     })
     .error(function (data) {
-      alert("boo");
+      alert("An error has occurred");
     })
   }
 
@@ -352,6 +369,7 @@
     };
 
     $http.post(rootUrl + 'api/Billing', billingData).success(function (data) {
+      alert("Billing has been sent!");
       initialize();
       $location.path("/");
     })
@@ -447,20 +465,22 @@
   self.deleteSR = function () {
     $http.delete(rootUrl + 'api/NewOrdersByPO/?action=SR&id=' + vm.selectedOrder.id).
       success(function () {
-
+        initialize();
+        $location.path('/');
       }).
       error(function () {
-
+        alert("An error has occurred");
       });
   }
 
   self.deleteSystem = function () {
     $http.delete(rootUrl + 'api/NewOrdersByPO/?action=SystemGroup&id=' + vm.selectedSystemf.id).
       success(function () {
-
+        initialize();
+        $location.path('/');
       }).
       error(function () {
-
+        alert("An error has occurred");
       });
   }
 

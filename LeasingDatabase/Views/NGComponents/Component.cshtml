@@ -9,7 +9,7 @@
     <ul class="dropdown-menu dropdown-menu-inverse" role="menu">
       <li><a ng-click="vm.editOrder()" href="javascript:;">Edit Mode</a></li>
       <li><a ng-click="vm.transferSystem()" href="javascript:;">SR Transfer</a></li>
-      <li><a href="javascript:;">More Details</a></li>
+      <li><a ng-click="vm.moreDetails(vm.selectedComponent.id)" href="javascript:;">More Details</a></li>
       <li><a href="#">Delete System</a></li>
     </ul>
   </div>
@@ -161,7 +161,9 @@
       <p class="text-silver">Return Date</p>
     </div>
     <div class="col-md-4">
-      <span ng-show="!vm.editingOrder">{{vm.selectedComponent.ReturnDate | date:'longDate'}}</span><span ng-show="vm.editingOrder"><edit-date start-day="0" ng-model="vm.selectedComponent.ReturnDate"></edit-date></span>
+      <div ng-if="vm.selectedComponent.ReturnDate != null">
+        <span ng-show="!vm.editingOrder">{{vm.selectedComponent.ReturnDate | date:'longDate'}}</span><span ng-show="vm.editingOrder"><edit-date start-day="0" ng-model="vm.selectedComponent.ReturnDate"></edit-date></span>
+      </div>
     </div>
   </div>
 
@@ -201,7 +203,7 @@
         </div>
       </div>
       <div class="col-md-3 col-md-offset-2">
-        <button type="button" class="btn btn-primary btn-block" ng-click="vm.changeFOPForComponent(vm.selectedComponent.BillingData, vm.globalFOP, vm.globalChangeFOPDate)">Change FOP</button>
+        <button type="button" class="btn btn-primary btn-block" ng-click="vm.changeFOPForComponent(vm.selectedComponent, vm.globalFOP, vm.globalChangeFOPDate)">Change FOP</button>
       </div>
     </div>
     <div ng-show="vm.globalBillingAction == 'BuyOut'">
@@ -219,7 +221,7 @@
           <p class="text-silver">Buy Out Date: </p>
         </div>
         <div class="col-md-3">
-          <edit-date start-day="1" ng-model="vm.globalBuyOutDate"></edit-date>
+          <edit-date start-day="0" ng-model="vm.globalBuyOutDate"></edit-date>
         </div>
       </div>
       <div class="row">
@@ -239,7 +241,7 @@
         </div>
       </div>
       <div class="col-md-3 col-md-offset-2">
-        <button type="button" class="btn btn-primary btn-block" ng-click="vm.buyOutComponent(vm.selectedComponent.BillingData, vm.globalBuyOutAmount, vm.globalBuyOutEndLeaseDate, vm.globalBuyOutDate, vm.globalFOP)">Buy Out</button>
+        <button type="button" class="btn btn-primary btn-block" ng-click="vm.buyOutComponent(vm.selectedComponent, vm.globalBuyOutAmount, vm.globalBuyOutEndLeaseDate, vm.globalBuyOutDate, vm.globalFOP)">Buy Out</button>
       </div>
     </div>
     <div ng-show="vm.globalBillingAction == 'Extend'">
@@ -253,7 +255,7 @@
         </div>
       </div>
       <div class="col-md-3 col-md-offset-2">
-        <button type="button" class="btn btn-primary btn-block" ng-click="vm.extendComponent(vm.selectedComponent.BillingData, vm.globalExtendMonths)">Extend</button>
+        <button type="button" class="btn btn-primary btn-block" ng-click="vm.extendComponent(vm.selectedComponent, vm.globalExtendMonths)">Extend</button>
       </div>
     </div>
     <br></br>

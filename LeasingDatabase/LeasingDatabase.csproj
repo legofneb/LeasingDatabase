@@ -214,8 +214,6 @@
     <Compile Include="Controllers\FoldersController.cs" />
     <Compile Include="Controllers\FormsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\NewOrdersController.cs" />
-    <Compile Include="Controllers\NewSRsController.cs" />
     <Compile Include="Controllers\NGBillingCoordinatorController.cs" />
     <Compile Include="Controllers\NGBillingRatesController.cs" />
     <Compile Include="Controllers\NGBillingReportController.cs" />
@@ -230,23 +228,17 @@
     <Compile Include="Controllers\NGOverheadRatesController.cs" />
     <Compile Include="Controllers\NGParseIGFController.cs" />
     <Compile Include="Controllers\NGRepairController.cs" />
+    <Compile Include="Controllers\NGReportsController.cs" />
     <Compile Include="Controllers\NGScanController.cs" />
-
     <Compile Include="Controllers\NGStatementManagementController.cs" />
     <Compile Include="Controllers\NGVendorEmailController.cs" />
-    <Compile Include="Controllers\NGSRController.cs" />
-
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\OverheadRateController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SignatureController.cs" />
     <Compile Include="Controllers\SingleChargeController.cs" />
     <Compile Include="Controllers\SRController.cs" />
-    <Compile Include="Controllers\TableHeader.cs" />
     <Compile Include="Controllers\TaskController.cs" />
-    <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="Controllers\UnContractedComponentController.cs" />
-    <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\VendorRateController.cs" />
     <Compile Include="Core\Billing.cs" />
     <Compile Include="Core\Scan.cs" />
@@ -290,7 +282,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Query.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-forms.css" />
@@ -445,6 +436,7 @@
       <LastGenOutput>backup.cs</LastGenOutput>
     </Content>
     <Content Include="Content\AULeaseForm.pdf" />
+    <Compile Include="API\ReconcileAgainstInvoiceController.cs" />
     <None Include="Properties\PublishProfiles\oitappsmigr.pubxml" />
     <Content Include="Scripts\dist\css\flat-ui.css.map" />
     <Content Include="Scripts\dist\fonts\glyphicons\flat-ui-icons-regular.eot" />
@@ -614,7 +606,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Component\Index.cshtml" />
     <Content Include="Views\VendorRate\Index.cshtml" />
-    <Content Include="Views\Upload\Index.cshtml" />
     <Content Include="Views\Billing\Index.cshtml" />
     <Content Include="Views\Billing\SerialNumber.cshtml" />
     <Content Include="Views\Reports\GenerateBilling.cshtml" />
@@ -642,13 +633,11 @@
     <Content Include="Views\Component\UnFinalizePage.cshtml" />
     <Content Include="Views\OverheadRate\Index.cshtml" />
     <Content Include="Views\SR\Page.cshtml" />
-    <Content Include="Views\UnContractedComponent\Index.cshtml" />
     <Content Include="Views\Email\Vendor.cshtml" />
     <Content Include="Views\Email\CreateEmail.cshtml" />
     <Content Include="Views\Email\EditEmail.cshtml" />
     <Content Include="Views\Signature\Index.cshtml" />
     <Content Include="Views\Signature\Sign.cshtml" />
-    <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Signature\Select.cshtml" />
     <Content Include="Views\Signature\Save.cshtml" />
     <Content Include="Views\Signature\SavePage.cshtml" />
@@ -662,12 +651,6 @@
     <Content Include="Views\SingleCharge\Create.cshtml" />
     <Content Include="Views\SingleCharge\Edit.cshtml" />
     <Content Include="Views\SingleCharge\Excel.cshtml" />
-    <Content Include="Views\NewOrders\Index.cshtml" />
-    <Content Include="Views\NewOrders\OrderDetails.cshtml" />
-    <Content Include="Views\NewOrders\SystemDetails.cshtml" />
-    <Content Include="Views\NewOrders\ChangeConfiguration.cshtml" />
-    <Content Include="Views\NewSRs\Index.cshtml" />
-    <Content Include="Views\NewSRs\SRDetails.cshtml" />
     <Content Include="Views\NGOrders\Index.cshtml" />
     <Content Include="Views\Shared\_NGLayout.cshtml" />
     <Content Include="Views\NGOrdersByPO\Index.cshtml" />
@@ -676,7 +659,6 @@
     <Content Include="Views\NGScan\Home.cshtml" />
     <Content Include="Views\NGScan\Scanning.cshtml" />
     <Content Include="Views\NGScan\Summary.cshtml" />
-    <Content Include="Views\Test\Test.cshtml" />
     <Content Include="Views\NGRepair\Home.cshtml" />
     <Content Include="Views\Shared\_NGMenu.cshtml" />
     <Content Include="Views\Common\Type.cshtml" />
@@ -710,6 +692,9 @@
     <Content Include="Views\NGDatabaseReport\Index.cshtml" />
     <Content Include="Views\NGOverheadRates\Index.cshtml" />
     <Content Include="Views\NGComponents\BillingActions.cshtml" />
+    <Content Include="Views\Reports\Test.cshtml" />
+    <Content Include="Views\NGReports\TSMReport.cshtml" />
+    <Content Include="Views\NGReports\ReconcileAgainstInvoice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -177,6 +177,7 @@ namespace LeasingDatabase.Billing
             {
                 lease.BeginDate = _begBillDate;
                 lease.EndDate = _endBillDate;
+                lease.Component.ReturnDate = new DateTime(lease.EndDate.Value.Year, lease.EndDate.Value.Month, 1).AddMonths(2).AddDays(-1); // Setting the return date 1 month after end date.
                 CreateChargesForLease(lease, _ListOfComponentCosts.Count == ComponentCosts.Count());
             }
 

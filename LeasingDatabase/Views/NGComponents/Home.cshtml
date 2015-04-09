@@ -82,15 +82,15 @@
             <p class="text-silver">Buy Out Date: </p>
           </div>
           <div class="col-md-3">
-            <edit-date start-day="1" ng-model="vm.globalBuyOutDate"></edit-date>
+            <edit-date start-day="0" ng-model="vm.globalBuyOutDate"></edit-date>
           </div>
         </div>
-        <div class="row">
+        <div class="row" ng-repeat="comp in vm.selectedOrder.SystemGroups[0].Components">
           <div class="col-md-2">
-            <p class="text-silver">Buy Out Amount: </p>
+            <p class="text-silver">Buy Out Amount for {{comp.Type}}: </p>
           </div>
           <div class="col-md-3">
-            <input type="text" class="form-control" ng-model="vm.globalBuyOutAmount" />
+            <input type="text" class="form-control" ng-model="vm.globalBuyOutArray[$index]" />
           </div>
         </div>
         <div class="row">
@@ -102,7 +102,7 @@
           </div>
         </div>
         <div class="col-md-3 col-md-offset-2">
-          <button type="button" class="btn btn-primary btn-block" ng-click="vm.buyOutOrder(vm.selectedOrder, vm.globalBuyOutAmount, vm.globalBuyOutEndLeaseDate, vm.globalBuyOutDate, vm.globalFOP)">Buy Out</button>
+          <button type="button" class="btn btn-primary btn-block" ng-click="vm.buyOutOrder(vm.selectedOrder, vm.globalBuyOutArray, vm.globalBuyOutEndLeaseDate, vm.globalBuyOutDate, vm.globalFOP)">Buy Out</button>
         </div>
       </div>
       <div ng-show="vm.globalBillingAction == 'Extend'">
@@ -183,15 +183,15 @@
             <p class="text-silver">Buy Out Date: </p>
           </div>
           <div class="col-md-3">
-            <edit-date start-day="1" ng-model="vm.globalBuyOutDate"></edit-date>
+            <edit-date start-day="0" ng-model="vm.globalBuyOutDate"></edit-date>
           </div>
         </div>
-        <div class="row">
+        <div class="row" ng-repeat="comp in systemGroup.Components">
           <div class="col-md-2">
-            <p class="text-silver">Buy Out Amount: </p>
+            <p class="text-silver">Buy Out Amount for {{comp.Type}}: </p>
           </div>
           <div class="col-md-3">
-            <input type="text" class="form-control" ng-model="vm.globalBuyOutAmount" />
+            <input type="text" class="form-control" ng-model="vm.globalBuyOutArray[$index]" />
           </div>
         </div>
         <div class="row">
@@ -203,7 +203,7 @@
           </div>
         </div>
         <div class="col-md-3 col-md-offset-2">
-          <button type="button" class="btn btn-primary btn-block" ng-click="vm.buyOutSystem(systemGroup, vm.globalBuyOutAmount, vm.globalBuyOutEndLeaseDate, vm.globalBuyOutDate, vm.globalFOP)">Buy Out</button>
+          <button type="button" class="btn btn-primary btn-block" ng-click="vm.buyOutSystem(systemGroup, vm.globalBuyOutArray, vm.globalBuyOutEndLeaseDate, vm.globalBuyOutDate, vm.globalFOP)">Buy Out</button>
         </div>
       </div>
       <div ng-show="vm.globalBillingAction == 'Extend'">

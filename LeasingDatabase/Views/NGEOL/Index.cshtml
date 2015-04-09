@@ -60,46 +60,54 @@
             </div>
             <br />
 
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Short Serial Number</th>
-                  <th>Serial Number</th>
-                  <th>Lease Tag</th>
-                  <th>Type</th>
-                  <th>Make</th>
-                  <th>Model</th>
-                  <th>Statement Name</th>
-                  <th>GID</th>
-                  <th>End Billing Date</th>
-                  <th>Return Date</th>
-                  <th>Damages</th>
-                  <th>Decommissioned</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="model in vm.models | filter:vm.searchTerm">
-                  <td>{{model.ShortSerialNumber}}</td>
-                  <td>{{model.SerialNumber}}</td>
-                  <td>{{model.LeaseTag}}</td>
-                  <td>{{model.Type}}</td>
-                  <td>{{model.Make}}</td>
-                  <td>{{model.Model}}</td>
-                  <td>{{model.StatementName}}</td>
-                  <td>{{model.GID}}</td>
-                  <td>{{model.EndBillingDate | date:'longDate'}}</td>
-                  <td>{{model.ReturnDate | date:'longDate'}}</td>
-                  <td>{{model.Damages}}</td>
-                  <td><edit-checkbox editing="vm.editingModel(model)" ng-model="model.Decommissioned"></edit-checkbox></td>
-                  <td>
-                    <button type="button" class="btn btn-link" ng-if="!vm.editingModel(model)" ng-click="vm.editModel(model)">Edit</button>
-                    <button type="button" class="btn btn-link" ng-if="vm.editingModel(model)" ng-click="vm.saveModel(model)">Save</button>
-                    <button type="button" class="btn btn-link" ng-if="vm.editingModel(model)" ng-click="vm.cancelModel(model)">Cancel</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="col-sm-12">
+              <div class="table-responsive" style="overflow-x:auto;">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Serial Number</th>
+                      <th>Lease Tag</th>
+                      <th>Type</th>
+                      <th>Make</th>
+                      <th>Model</th>
+                      <th>Statement Name</th>
+                      <th>Department Name</th>
+                      <th>End Billing Date</th>
+                      <th>Return Date</th>
+                      <th>Inbounded</th>
+                      <th>Damages</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="model in vm.models | filter:vm.searchTerm">
+                      <td>{{model.SerialNumber}}</td>
+                      <td>{{model.LeaseTag}}</td>
+                      <td>{{model.Type}}</td>
+                      <td>{{model.Make}}</td>
+                      <td>{{model.Model}}</td>
+                      <td>{{model.StatementName}}</td>
+                      <td>{{model.DepartmentName}}</td>
+                      <td>{{model.EndBillingDate | date:'longDate'}}</td>
+                      <td>{{model.ReturnDate | date:'longDate'}}</td>
+                      <td>
+                        <span ng-show="!vm.editingModel(model)">
+                          <span ng-if="model.Decommissioned" class="glyphicon glyphicon-ok">
+                          </span>
+                        </span>
+                        <span ng-show="vm.editingModel(model)"><input type="checkbox" ng-model="model.Decommissioned" /></span>
+                      </td>
+                      <td><edit-input editing="vm.editingModel(model)" ng-model="model.Damages"></edit-input></td>
+                      <td>
+                        <button type="button" class="btn btn-link" ng-if="!vm.editingModel(model)" ng-click="vm.editModel(model)">Edit</button>
+                        <button type="button" class="btn btn-link" ng-if="vm.editingModel(model)" ng-click="vm.saveModel(model)">Save</button>
+                        <button type="button" class="btn btn-link" ng-if="vm.editingModel(model)" ng-click="vm.cancelModel(model)">Cancel</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>

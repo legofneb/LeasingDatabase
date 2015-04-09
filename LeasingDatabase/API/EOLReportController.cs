@@ -79,6 +79,7 @@ namespace LeasingDatabase.API
                 ws1.Cells[RowIndex, 15].Value = model.EndBillingDate;
                 ws1.Cells[RowIndex, 16].Value = model.ReturnDate;
                 ws1.Cells[RowIndex, 17].Value = model.Damages;
+                ws1.Cells[RowIndex, 18].Value = (model.Decommissioned ? "Yes" : "No");
             }
 
             AutofitColumns(ws1);
@@ -98,7 +99,7 @@ namespace LeasingDatabase.API
 
         private static void AutofitColumns(ExcelWorksheet ws)
         {
-            for (int i = 1; i <= 17; i++)
+            for (int i = 1; i <= 18; i++)
             {
                 ws.Column(i).AutoFit();
             }
@@ -106,30 +107,12 @@ namespace LeasingDatabase.API
 
         private static void CreateHeadingsForWorksheet(ExcelWorksheet ws)
         {
-            for (int colIndex = 1; colIndex <= 12; colIndex++)
+            for (int colIndex = 1; colIndex <= 18; colIndex++)
             {
                 var fill = ws.Cells[1, colIndex].Style.Fill;
                 fill.PatternType = ExcelFillStyle.Solid;
                 fill.BackgroundColor.SetColor(Color.LightGray);
             }
-
-            //ws.Cells[1, 1].Value = "SN";
-            //ws.Cells[1, 2].Value = "LeaseTag";
-            //ws.Cells[1, 3].Value = "Term";
-            //ws.Cells[1, 4].Value = "Monthly Charge";
-            //ws.Cells[1, 5].Value = "SR";
-            //ws.Cells[1, 6].Value = "Serial Number";
-            //ws.Cells[1, 7].Value = "Type";
-            //ws.Cells[1, 8].Value = "Make";
-            //ws.Cells[1, 9].Value = "Model";
-            //ws.Cells[1, 10].Value = "Department Name";
-            //ws.Cells[1, 11].Value = "FOP";
-            //ws.Cells[1, 12].Value = "Rate Level";
-            //ws.Cells[1, 13].Value = "Statement Name";
-            //ws.Cells[1, 14].Value = "GID";
-            //ws.Cells[1, 15].Value = "End Billing Date";
-            //ws.Cells[1, 16].Value = "Return Date";
-            //ws.Cells[1, 17].Value = "Damages";
 
             ws.Cells[1, 1].Value = "SN";
             ws.Cells[1, 2].Value = "SR";
@@ -148,6 +131,7 @@ namespace LeasingDatabase.API
             ws.Cells[1, 15].Value = "End Billing Date";
             ws.Cells[1, 16].Value = "Return Date";
             ws.Cells[1, 17].Value = "Damages";
+            ws.Cells[1, 18].Value = "In Shop";
 
             ws.Column(12).Style.Numberformat.Format = "##";
             ws.Column(13).Style.Numberformat.Format = "#,##0.00";

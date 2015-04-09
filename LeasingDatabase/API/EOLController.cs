@@ -36,13 +36,14 @@ namespace LeasingDatabase.API
                 Type = n.Type.Name,
                 Make = n.Make.Name,
                 Model = n.Model.Name,
-                StatementName = n.Leases.OrderByDescending(o => o.Timestamp).FirstOrDefault().StatementName,
-                GID = n.Leases.OrderByDescending(o => o.Timestamp).FirstOrDefault().SystemGroup.User.GID,
+                StatementName = n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().StatementName,
+                DepartmentName = n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name,
+                GID = n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().SystemGroup.User.GID,
                 EndBillingDate = n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().EndDate.Value,
                 ReturnDate = n.ReturnDate.Value,
                 Damages = n.Damages ?? "",
                 Decommissioned = (n.Status.Name == "Ready to Ship")
-            });
+            }).OrderBy(n => n.DepartmentName).ThenBy(n => n.StatementName).ThenBy(n => n.Type);
 
             return models;
         }

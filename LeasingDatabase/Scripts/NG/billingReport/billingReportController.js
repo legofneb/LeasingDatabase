@@ -37,6 +37,4 @@
 
   self.FOP = "101002 155301 7000";
   self.BillDate = new Date(new Date().getFullYear(), new Date().getMonth(), 15)
-  self.incrementBillDate();
-
 }]);

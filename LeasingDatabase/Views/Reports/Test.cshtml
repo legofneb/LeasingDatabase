@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Test";
+}
+
+<h2>Test</h2>
+<ul>
+  @foreach (aulease.Entities.Component item in ViewBag.Components)
+  {
+    <li>@item.SerialNumber</li>
+  }
+</ul>

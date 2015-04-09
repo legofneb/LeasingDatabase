@@ -58,7 +58,7 @@ namespace LeasingDatabase.API
             {
                 BillingBuilder Builder = new BillingBuilder().SetComponentCosts(billingData.costList)
                                                              .SetDatabase(db)
-                                                             .SetDateRange(billingData.beginBillDate, billingData.beginBillDate.AddMonths(SystemGroup.Leases.FirstOrDefault().Overhead.Term + 1))
+                                                             .SetDateRange(billingData.beginBillDate, billingData.beginBillDate.AddMonths(SystemGroup.Leases.FirstOrDefault().Overhead.Term).AddDays(-1))
                                                              .SetInsuranceCost(billingData.insurance)
                                                              .SetShippingCost(billingData.warrantyOrShipping)
                                                              .SetSystemGroup(SystemGroup);

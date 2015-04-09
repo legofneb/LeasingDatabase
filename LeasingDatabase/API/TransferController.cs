@@ -36,6 +36,8 @@ namespace LeasingDatabase.API
             SystemGroup group = db.SystemGroups.First(n => n.Id == model.id);
 
             group.PO = FindOrCreatePO(db, model.newSR);
+
+            db.SaveChanges();
         }
 
         private PO FindOrCreatePO(AuleaseEntities db, string SR)

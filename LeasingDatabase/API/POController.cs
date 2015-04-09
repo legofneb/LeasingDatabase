@@ -37,7 +37,7 @@ namespace LeasingDatabase.API
 
             AuleaseEntities db = new AuleaseEntities();
 
-            string LatestSR = db.POes.OrderByDescending(n => n.PONumber).FirstOrDefault().PONumber;
+            string LatestSR = db.POes.Where(n => n.PONumber.StartsWith("SR")).Where(n => n.SystemGroups.Select(o => o.Leases).Count() > 0).OrderByDescending(n => n.PONumber).FirstOrDefault().PONumber;
             string NewSR = IncrementPOByOne(LatestSR);
 
             return NewSR;

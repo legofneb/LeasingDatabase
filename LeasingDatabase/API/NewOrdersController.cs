@@ -202,7 +202,9 @@ namespace LeasingDatabase.API
                 SystemGroup group = new SystemGroup();
                 Lease lease = new Lease();
                 Component comp = new Component();
-                comp.StatusId = 1;
+                Status status = db.Status.Where(n => n.Id == 2).Single();
+                status.Components.Add(comp);
+                comp.Status = status;
                 comp.Leases.Add(lease);
                 lease.Component = comp;
                 lease.Timestamp = DateTime.Now;
@@ -220,7 +222,41 @@ namespace LeasingDatabase.API
 
             foreach (var group in SystemGroupsToDelete)
             {
+                List<Component> components = group.Leases.Select(n => n.Component).Distinct().ToList();
+                foreach (var comp in components)
+                {
+                    List<Lease> leases = comp.Leases.ToList();
+                    List<Charge> Charges = leases.SelectMany(n => n.Charges).ToList();
+                    int OrderID = leases.Select(n => n.SystemGroup).SingleOrDefault().OrderId;
+                    int? POID = leases.Select(n => n.SystemGroup).SingleOrDefault().POId.HasValue ? (int?)leases.Select(n => n.SystemGroup).Single().POId.Value : null;
+
+                    foreach (var charge in Charges)
+                    {
+                        db.Entry(charge).State = EntityState.Deleted;
+                    }
+
+                    foreach (var lease in leases)
+                    {
+                        db.Entry(lease).State = EntityState.Deleted;
+                    }
+
+                    List<Property> props = comp.Properties.ToList();
+                    foreach (var prop in props)
+                    {
+                        comp.Properties.Remove(prop);
+                        prop.Components.Remove(comp);
+                    }
+
+                    db.Entry(comp).State = EntityState.Deleted;
+                }
+
                 order.SystemGroups.Remove(group);
+                
+
+                if (group.Leases.Count == 0)
+                {
+                    db.Entry(group).State = EntityState.Deleted;
+                }
             }
 
             foreach (SystemGroup group in order.SystemGroups)
@@ -248,9 +284,20 @@ namespace LeasingDatabase.API
                     while(group.Leases.Select(n => n.Component).Count() > config.Count())
                     {
                         Component comp = group.Leases.Select(n => n.Component).OrderBy(n => n.TypeId.HasValue).ThenBy(n => n.TypeId).ThenBy(n => n.ModelId.HasValue).ThenBy(n => n.ModelId).Last();
+                        
+                        foreach (var prop in comp.Properties.ToList())
+                        {
+                            prop.Components.Remove(comp);
+                            comp.Properties.Remove(prop);
+                        }
+
+                        Status status = comp.Status;
+                        status.Components.Remove(comp);
                         Lease lease = comp.Leases.Single();
 
                         group.Leases.Remove(lease);
+
+                        
 
                         db.Entry(lease).State = EntityState.Deleted;
                         db.Entry(comp).State = EntityState.Deleted;
@@ -359,8 +406,20 @@ namespace LeasingDatabase.API
             List<Component> EOLComponents = Order.SystemGroups.SelectMany(n => n.EOLComponents).ToList();
             List<SystemGroup> SystemGroups = Order.SystemGroups.ToList();
 
+            
+
             foreach (var comp in Components)
             {
+                Status status = comp.Status;
+                status.Components.Remove(comp);
+
+                List<Property> props = comp.Properties.ToList();
+                foreach (var prop in props)
+                {
+                    prop.Components.Remove(comp);
+                    comp.Properties.Remove(prop);
+                }
+
                 foreach (var lease in Leases)
                 {
                     comp.Leases.Remove(lease);

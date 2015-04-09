@@ -66,7 +66,7 @@ namespace LeasingDatabase.API
                     DBComponent.Renewal = comp.Renewal;
                     DBComponent.LeaseTag = comp.LeaseTag;
                     DBComponent.SerialNumber = comp.SerialNumber;
-                    DBComponent.ReturnDate = new DateTime(comp.ReturnDate);
+                    DBComponent.ReturnDate = comp.ReturnDate != null ? new DateTime(comp.ReturnDate.Value) : (DateTime?)null;
                     DBComponent.OrderNumber = comp.OrderNumber;
                     DBComponent.Note = comp.Notes;
 
@@ -87,6 +87,7 @@ namespace LeasingDatabase.API
                         lease.ContractNumber = changes.ContractNumber;
                         lease.Department = FindOrCreateDepartment(db, changes.FOP);
                         lease.MonthlyCharge = changes.MonthlyCharge;
+                        lease.StatementName = changes.StatementName;
 
                         index++;
                     }

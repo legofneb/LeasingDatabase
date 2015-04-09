@@ -394,7 +394,7 @@ namespace LeasingDatabase.Controllers
             return View();
         }
 
-        public ActionResult GetIGFReport()
+        public ActionResult GetIDFReport()
         {
             AuleaseEntities db = new AuleaseEntities();
 
@@ -556,7 +556,11 @@ namespace LeasingDatabase.Controllers
                                                                        n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Student Conduct") ||
                                                                        n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Admissions and Records") ||
                                                                        n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Student Counseling Services") ||
-                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Technology Fee Tuition")
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Technology Fee Tuition") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Enrollment-Services Operations") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Office of Enrollment Services") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Office of University Recruitment") ||
+                                                                       n.Leases.OrderByDescending(o => o.EndDate).FirstOrDefault().Department.Name.Contains("Office of University Scholarships")
                                                                   ).ToList();
             for (int i = 0; i < ComponentsForDavidAndUrsula.Count(); i++)
             {
@@ -644,5 +648,18 @@ namespace LeasingDatabase.Controllers
             return View();
         }
 
+        public ActionResult Test()
+        {
+            AuleaseEntities db = new AuleaseEntities();
+
+            List<Component> Components = db.Components.Where(n => n.ReturnDate < n.Leases.OrderByDescending(o=> o.EndDate).FirstOrDefault().EndDate).ToList();
+
+            ViewBag.Components = Components;
+
+
+            db.SaveChanges();
+
+            return View();
+        }
     }
 }

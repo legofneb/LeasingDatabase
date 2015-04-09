@@ -70,7 +70,7 @@
         self.selectedOrder = undefined;
       }).
       error(function (data, status, headers, config) {
-
+        alert("An error has occurred");
       });
   }
 
@@ -110,11 +110,16 @@
     self.editingOrder = false;
 
     var selectedOrderId = self.selectedOrder.id;
-    var selectedSystemId = self.selectedSystem.id;
+
+    var selectedSystemId = -1;
+    if (angular.isDefined(self.selectedSystem) && angular.isDefined(self.selectedSystem.id)) {
+      selectedSystemId = self.selectedSystem.id;
+    }
     var currentPath = $location.path();
 
     $http.post(rootUrl + 'api/NewOrders', self.selectedOrder).
       success(function (data, status, headers, config) {
+        alert("The Order has been saved!");
 
         $http.get(rootUrl + 'api/NewOrders').success(function (data) {
           self.orders = data;
@@ -141,6 +146,7 @@
         });
       }).
       error(function (data, status, headers, config) {
+        alert("An error has occurred");
       });
 
   }
@@ -166,10 +172,11 @@
   self.deleteOrder = function () {
     $http.delete(rootUrl + 'api/NewOrders/' + self.selectedOrder.id).
       success(function () {
+        alert("The order has been deleted");
         initialize();
       }).
       error(function () {
-
+        alert("An error has occurred");
       });
   }
 
@@ -223,6 +230,9 @@
         $(".componentType").trigger('chosen:updated'); // Proposed Performance improvement: should limit this to just id Type on update
         $("#" + id + " select").trigger('chosen:close');
 
+        var index = parseInt(id.replace("Make", ""));
+        self.selectedOrder.Configuration[index].Make = value
+
       }, 0);
     }
   }
@@ -250,6 +260,9 @@
         $("#" + id + " select").val(value);
         $(".componentType").trigger('chosen:updated'); // Performance improvement: should limit this to just id Type on update
         $("#" + id + " select").trigger('chosen:close');
+
+        var index = parseInt(id.replace("Model", ""));
+        self.selectedOrder.Configuration[index].Model = value
 
       }, 0);
     }

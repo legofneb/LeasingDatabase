@@ -90,8 +90,11 @@ namespace LeasingDatabase.API
                 }
 
                 Component comp = group.Leases.Select(n => n.Component).OrderBy(n => n.TypeId).Skip(i).Take(1).Single();
-                comp.SerialNumber = systemGroupModel.Components.Skip(i).Take(1).Single().SerialNumber;
-                comp.LeaseTag = systemGroupModel.Components.Skip(i).Take(1).Single().LeaseTag;
+                if (systemGroupModel.Components.Count() > i)
+                {
+                    comp.SerialNumber = systemGroupModel.Components.Skip(i).Take(1).Single().SerialNumber;
+                    comp.LeaseTag = systemGroupModel.Components.Skip(i).Take(1).Single().LeaseTag;
+                }
             }
 
             foreach (var eolComp in systemGroupModel.EOLComponents)

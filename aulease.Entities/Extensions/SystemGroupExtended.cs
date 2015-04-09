@@ -45,7 +45,7 @@ namespace aulease.Entities {
 		{
 			get
 			{
-				return this.ActiveLeases.Count();
+                return this.Leases.Select(n => n.Component).Distinct().Count();
 			}
 		}
 
@@ -69,6 +69,11 @@ namespace aulease.Entities {
         public override string ToString()
         {
             string finalString = "";
+
+            if (this.Leases.Count == 0)
+            {
+                return "";
+            }
 
             if (this.GetPrimaryLease().Component.Make == null)
             {

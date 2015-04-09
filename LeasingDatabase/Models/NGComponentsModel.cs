@@ -13,9 +13,15 @@ namespace LeasingDatabase.Models
     /// <summary>
     /// Class that represents the collection of SRs and their attributes.
     /// Important to note, this is very different from the NGComponent which describes a single system component.
+    /// Used in the classes API/Components
     /// </summary>
     public class NGComponentsModel
     {
+        /// <summary>
+        /// Private Method that returns the Components for a given collections of POs
+        /// </summary>
+        /// <param name="POs">The collection of POs</param>
+        /// <returns>A Collection of NGComponentsModel</returns>
         private static IEnumerable<NGComponentsModel> GetComponentsFromFilteredQuery(IEnumerable<PO> POs)
         {
             return POs.Select(n => new NGComponentsModel
@@ -58,9 +64,9 @@ namespace LeasingDatabase.Models
                             InstallHardware = p.InstallHardware,
                             InstallSoftware = p.InstallSoftware,
                             Renewal = p.Renewal,
-                            ReturnDate = p.ReturnDate.HasValue ? p.ReturnDate.Value.ToJavaScriptMilliseconds() : new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1).ToJavaScriptMilliseconds(),
+                            ReturnDate = p.ReturnDate.HasValue ? p.ReturnDate.Value.ToJavaScriptMilliseconds() : (long?)null,
                             MonthlyCharge = p.Leases.OrderByDescending(r => r.EndDate).FirstOrDefault().MonthlyCharge.Value,
-                            BillingData = p.Leases.Select(r => new ComponentBillingModel
+                            BillingData = p.Leases.OrderByDescending(r => r.EndDate).Select(r => new ComponentBillingModel
                                 {
                                     id = r.Id,
                                     BeginDate = r.BeginDate.Value.ToJavaScriptMilliseconds(),
@@ -76,6 +82,11 @@ namespace LeasingDatabase.Models
                 });
         }
 
+        /// <summary>
+        /// Factory Method class that returns the Components for All POs
+        /// </summary>
+        /// <param name="db">AULeaseEntities Context</param>
+        /// <returns>A Collection of NGComponentsModel</returns>
         public static IEnumerable<NGComponentsModel> GetPostBillingComponents(AuleaseEntities db)
         {
             DateTime CutOffDate = DateTime.Now.AddMonths(-6);
@@ -85,6 +96,12 @@ namespace LeasingDatabase.Models
             return GetComponentsFromFilteredQuery(POs);
         }
 
+        /// <summary>
+        /// Factory Method class that returns a collection of NGComponentsModel that match any of the text in filteredTerm
+        /// </summary>
+        /// <param name="db">AuleaseEntities Context</param>
+        /// <param name="filteredTerm">The search string entered by the user</param>
+        /// <returns></returns>
         public static IEnumerable<NGComponentsModel> GetPostBillingComponents(AuleaseEntities db, string filteredTerm)
         {
             filteredTerm = filteredTerm.ToUpper();
@@ -97,9 +114,14 @@ namespace LeasingDatabase.Models
                                                 : new string[] { element })  // Keep the entire item
                                             .SelectMany(element => element).ToList();
 
-            DateTime CutOffDate = DateTime.Now.AddMonths(-6);
+            DateTime CutOffDate = DateTime.Now.AddMonths(-4);
 
-            IQueryable<Lease> leases = db.Leases.Where(n => n.MonthlyCharge != null).Where(n => n.EndDate > CutOffDate);
+            IQueryable<Lease> leases = db.Leases.Where(n => n.MonthlyCharge != null );
+
+            if (!SearchTerms.Contains("NOCUTOFF"))
+            {
+                leases = leases.Where(n => n.EndDate > CutOffDate);
+            }
 
             string POSearchTerm = "";
             bool filterByPO = true;
@@ -152,9 +174,9 @@ namespace LeasingDatabase.Models
                 {
                     leases = leases.Where(n => n.Department.Name.Contains(searchTerm));
                 }
-                else if (db.Departments.Any(n => n.Fund.Contains(searchTerm) || n.Org.Contains(searchTerm) || n.Program.Contains(searchTerm)))
+                else if (db.Departments.Any(n => (n.Fund + n.Org + n.Program).Contains(searchTerm)))
                 {
-                    leases = leases.Where(n => n.Department.Fund.Contains(searchTerm) || n.Department.Org.Contains(searchTerm) || n.Department.Program.Contains(searchTerm));
+                    leases = leases.Where(n => (n.Department.Fund + n.Department.Org + n.Department.Program).Contains(searchTerm));
                 }
             }
 
@@ -170,7 +192,7 @@ namespace LeasingDatabase.Models
             IEnumerable<NGComponentsModel> Components = GetComponentsFromFilteredQuery(POs.ToList()).ToList();
 
             List<NGComponentsModel> FilteredComponents = new List<NGComponentsModel>();
-            SearchTerms = SearchTerms.Where(n => n != "UNCONTRACTED").ToList();
+            SearchTerms = SearchTerms.Where(n => n != "UNCONTRACTED" && n !="NOCUTOFF").ToList();
 
             if (SearchTerms.Count == 0)
             {
@@ -190,6 +212,12 @@ namespace LeasingDatabase.Models
             return FilteredComponents.OrderByDescending(n => n.SR);
         }
 
+        /// <summary>
+        /// Checks if a NGComponentsModel has any matches in a list of Search Terms
+        /// </summary>
+        /// <param name="comp">A single NGComponentsModel</param>
+        /// <param name="SearchTerms">The list of search terms entered by the user</param>
+        /// <returns>A boolean representing whether any searchterm matches within the NGComponentsModel</returns>
         private static bool FuzzySearchMatch(NGComponentsModel comp, List<string> SearchTerms)
         {
             bool match = false;
@@ -206,6 +234,12 @@ namespace LeasingDatabase.Models
             return match;
         }
 
+        /// <summary>
+        /// Checks if a NGComponentsModel match a string in the same manner as FuzzySearchMatch.
+        /// </summary>
+        /// <param name="comp"></param>
+        /// <param name="singleSearchString"></param>
+        /// <returns></returns>
         private static bool FuzzyStringMatch(NGComponentsModel comp, string singleSearchString)
         {
             if (FieldContainsText(comp.SR, singleSearchString))
@@ -362,7 +396,7 @@ namespace LeasingDatabase.Models
         public bool InstallSoftware { get; set; }
         public bool Renewal { get; set; }
 
-        public long ReturnDate { get; set; }
+        public long? ReturnDate { get; set; }
 
         public decimal MonthlyCharge { get; set; }
 

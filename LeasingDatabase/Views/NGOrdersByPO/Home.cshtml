@@ -55,6 +55,11 @@
           <au-select ng-if="vm.editingOrder" id="Model{{$index}}" ng-enter="vm.addValueToModel('Model{{$index}}')" ng-list="vm.models" ng-model="component.Model"></au-select>
         </div>
       </div>
+      <div class="row" ng-if="vm.editingOrder">
+        <div class="col-md-offset-3 col-md-9">
+          <button type="button" class="btn btn-link" ng-click="vm.removeComponent(component)">Remove Component</button>
+        </div>
+      </div>
     </div>
 
     <div ng-if="component.Type == null && !vm.editingOrder">

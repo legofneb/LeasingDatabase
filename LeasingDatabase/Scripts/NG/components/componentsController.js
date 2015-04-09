@@ -26,8 +26,9 @@
 
     self.globalChangeFOPDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
     self.globalBuyOutEndLeaseDate = new Date(EndDate.getFullYear(), EndDate.getMonth(), 0);
-    self.globalBuyOutDate = new Date(EndDate.getFullYear(), EndDate.getMonth(), 1);
+    self.globalBuyOutDate = new Date(EndDate.getFullYear(), EndDate.getMonth(), 0);
     self.globalBuyOutAmount = 0;
+    self.globalBuyOutArray = [];
     self.globalExtendMonths = 1;
     self.globalFOP = "";
     self.globalCharge = "";
@@ -136,23 +137,23 @@
     })
   }
 
-  self.changeFOPForComponent = function (billingData, FOP, EffectiveDate) {
-    billingData.unshift({
+  self.changeFOPForComponent = function (component, FOP, EffectiveDate) {
+    component.BillingData.unshift({
       BeginDate: EffectiveDate,
-      EndDate: billingData[0].EndDate,
-      StatementName: billingData[0].StatementName,
-      ContractNumber: billingData[0].ContractNumber,
+      EndDate: component.BillingData[0].EndDate,
+      StatementName: component.BillingData[0].StatementName,
+      ContractNumber: component.BillingData[0].ContractNumber,
       FOP: FOP,
-      RateLevel: billingData[0].RateLevel,
-      MonthlyCharge: billingData[0].MonthlyCharge
+      RateLevel: component.BillingData[0].RateLevel,
+      MonthlyCharge: component.BillingData[0].MonthlyCharge
     });
 
-    billingData[1].EndDate = new Date(EffectiveDate.getFullYear(), EffectiveDate.getMonth(), 0);
+    component.BillingData[1].EndDate = new Date(EffectiveDate.getFullYear(), EffectiveDate.getMonth(), 0);
   }
 
   self.changeFOPForSystem = function (system, FOP, EffectiveDate) {
     system.Components.forEach(function (component) {
-      self.changeFOPForComponent(component.BillingData, FOP, EffectiveDate);
+      self.changeFOPForComponent(component, FOP, EffectiveDate);
     })
   }
 
@@ -162,25 +163,27 @@
     });
   }
   
-  self.buyOutComponent = function (billingData, buyOutAmount, lastLeaseDate, buyOutDate, FOP) {
+  self.buyOutComponent = function (component, buyOutAmount, lastLeaseDate, buyOutDate, FOP) {
 
-    billingData[0].EndDate = lastLeaseDate;
+    component.BillingData[0].EndDate = lastLeaseDate;
 
-    billingData.unshift({
+    component.BillingData.unshift({
       BeginDate: new Date(buyOutDate.getFullYear(), buyOutDate.getMonth(), 1),
       EndDate: buyOutDate,
-      StatementName: billingData[0].StatementName,
-      ContractNumber: billingData[0].ContractNumber,
-      FOP: (FOP != null && FOP.length > 5) ? FOP : billingData[0].FOP,
-      RateLevel: billingData[0].RateLevel,
+      StatementName: component.BillingData[0].StatementName,
+      ContractNumber: component.BillingData[0].ContractNumber,
+      FOP: (FOP != null && FOP.length > 5) ? FOP : component.BillingData[0].FOP,
+      RateLevel: component.BillingData[0].RateLevel,
       MonthlyCharge: buyOutAmount
     });
+
+    component.ReturnDate = null;
   }
 
   self.buyOutSystem = function (system, buyOutAmount, lastLeaseDate, buyOutDate, FOP) {
-    system.Components.forEach(function (component) {
-      self.buyOutComponent(component.BillingData, buyOutAmount, lastLeaseDate, buyOutDate, FOP);
-    })
+    for (var i = 0; i < system.Components.length; i++) {
+      self.buyOutComponent(system.Components[i], buyOutAmount[i], lastLeaseDate, buyOutDate, FOP)
+    }
   }
 
   self.buyOutOrder = function (order, buyOutAmount, lastLeaseDate, buyOutDate, FOP) {
@@ -189,24 +192,26 @@
     });
   }
 
-  self.extendComponent = function(billingData, ExtendByMonths) {
+  self.extendComponent = function(component, ExtendByMonths) {
     var years = Math.floor(ExtendByMonths/ 12 );
     var months = ExtendByMonths % 12;
 
-    billingData.unshift({
-      BeginDate: billingData[0].BeginDate.getMonth() < 11 ? new Date(billingData[0].EndDate.getFullYear(), billingData[0].EndDate.getMonth()+ 1, 1) : new Date(billingData[0].EndDate.getFullYear() + 1, 0, 1),
-      EndDate: billingData[0].EndDate.getMonth() + months < 12 ? new Date(billingData[0].EndDate.getFullYear() + years, billingData[0].EndDate.getMonth() + 1 + months, 0) : new Date(billingData[0].EndDate.getFullYear() + 1 + years, months + billingData[0].EndDate.getMonth() - 11, 0),
-      StatementName: billingData[0].StatementName,
-      ContractNumber: billingData[0].ContractNumber,
-      FOP: billingData[0].FOP,
-      RateLevel: billingData[0].RateLevel,
-      MonthlyCharge: billingData[0].MonthlyCharge
+    component.BillingData.unshift({
+      BeginDate: component.BillingData[0].BeginDate.getMonth() < 11 ? new Date(component.BillingData[0].EndDate.getFullYear(), component.BillingData[0].EndDate.getMonth()+ 1, 1) : new Date(component.BillingData[0].EndDate.getFullYear() + 1, 0, 1),
+      EndDate: component.BillingData[0].EndDate.getMonth() + months < 12 ? new Date(component.BillingData[0].EndDate.getFullYear() + years, component.BillingData[0].EndDate.getMonth() + 1 + months, 0) : new Date(component.BillingData[0].EndDate.getFullYear() + 1 + years, months + component.BillingData[0].EndDate.getMonth() - 11, 0),
+      StatementName: component.BillingData[0].StatementName,
+      ContractNumber: component.BillingData[0].ContractNumber,
+      FOP: component.BillingData[0].FOP,
+      RateLevel: component.BillingData[0].RateLevel,
+      MonthlyCharge: component.BillingData[0].MonthlyCharge
     });
+
+    component.ReturnDate = component.BillingData[0].EndDate.getMonth() < 10 ? new Date(component.BillingData[0].EndDate.getFullYear(), component.BillingData[0].EndDate.getMonth() + 2, 0) : new Date(component.BillingData[0].EndDate.getFullYear() + 1, component.BillingData[0].EndDate.getMonth() - 10  , 0)
   }
 
   self.extendSystem = function (system, ExtendByMonths) {
     system.Components.forEach(function (component) {
-      self.extendComponent(component.BillingData, ExtendByMonths);
+      self.extendComponent(component, ExtendByMonths);
     })
   }
 
@@ -228,6 +233,11 @@
     window.location.href = rootUrl + "SR/Index?SRs=" + SR;
   }
 
+  self.moreDetails = function (id) {
+    var URL = rootUrl + 'Component/BillingPopUp' + "?Id=" + id;
+    window.open(URL, "Summary", 'height=500,width=500');
+  }
+
   self.retrieveNextPage = function () {
     if (self.requestInAction == 0) {
       self.requestInAction = 1;
@@ -245,6 +255,9 @@
   self.requestInAction = 0;
 
   self.searchForComponents = function () {
+    self.editingOrder = false;
+    self.selectedOrder = undefined;
+
     if (self.requestInAction == 0) {
       self.orders = undefined;
       self.requestInAction = 1;
@@ -307,10 +320,15 @@
       data.forEach(function (SR) {
         SR.SystemGroups.forEach(function (group) {
           group.Components.forEach(function (component) {
-            component.ReturnDate = new Date(component.ReturnDate);
+            if (component.ReturnDate != null) {
+              var returnDate = new Date(component.ReturnDate);
+              component.ReturnDate = new Date(returnDate.getFullYear(), returnDate.getMonth(), returnDate.getDate()); // trying to ignore UTC variations
+            }
             component.BillingData.forEach(function (bill) {
-              bill.BeginDate = new Date(bill.BeginDate);
-              bill.EndDate = new Date(bill.EndDate);
+              var beginDate = new Date(bill.BeginDate)
+              bill.BeginDate = new Date(beginDate.getFullYear(), beginDate.getMonth(), beginDate.getDate());
+              var endDate = new Date(bill.EndDate);
+              bill.EndDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
             });
           });
         });
@@ -326,7 +344,9 @@
 
     returnOrder.SystemGroups.forEach(function (group) {
       group.Components.forEach(function (component) {
-        component.ReturnDate = (component.ReturnDate.getTime() * 10000) + 621355968000000000;
+        if (component.ReturnDate != null) {
+          component.ReturnDate = (component.ReturnDate.getTime() * 10000) + 621355968000000000;
+        }
         component.BillingData.forEach(function (bill) {
           bill.BeginDate = (bill.BeginDate.getTime() * 10000) + 621355968000000000; // https://stackoverflow.com/questions/7966559/how-to-convert-javascript-date-object-to-ticks
           bill.EndDate = (bill.EndDate.getTime() * 10000) + 621355968000000000;
