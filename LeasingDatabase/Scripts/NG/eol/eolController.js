@@ -71,6 +71,11 @@
   self.EOLDate = new Date();
   self.incrementEOLDate();
 
+  // After the 21st of each month, switch to the next month
+  if (new Date().getDate() < 21) {
+    self.decrementEOLDate();
+  }
+
 }]);
 
 function decrementDate(date) {
